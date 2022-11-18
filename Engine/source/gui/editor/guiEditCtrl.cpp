@@ -2892,7 +2892,7 @@ class GuiEditorRuler : public GuiControl
                      start = 4;
                   if(!(pos % 100))
                      start = 1;
-                  GFX->getDrawUtil()->drawLine(x, offset.y + start, x, offset.y + 10, ColorI::BLACK);
+                  GFX->getDrawUtil()->drawLine(x, offset.y + start, x, offset.y + 10, ColorI::LIGHT);
                }
             }
          }
@@ -2910,7 +2910,7 @@ class GuiEditorRuler : public GuiControl
                      start = 4;
                   if(!(pos % 100))
                      start = 1;
-                  GFX->getDrawUtil()->drawLine(offset.x + start, y, offset.x + 10, y, ColorI::BLACK);
+                  GFX->getDrawUtil()->drawLine(offset.x + start, y, offset.x + 10, y, ColorI::LIGHT);
                }
             }
          }
