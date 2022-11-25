@@ -21,10 +21,10 @@ $guiContent = new GuiControl() {
       Profile = "ToolsGuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209
-         SPC getWord(EditorGuiToolbar.extent, 1) - 1;
-      Extent = "210 213";
-      MinExtent = "210 114";
+      Position = getWord($pref::Video::mode, 0) - 360
+         SPC getWord(EditorGuiToolbar.extent, 1) + 6;
+      Extent = "360 180";
+      MinExtent = "300 180";
       canSave = "1";
       Visible = "0";
       tooltipprofile = "ToolsGuiToolTipProfile";

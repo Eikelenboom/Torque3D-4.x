@@ -47,10 +47,10 @@ new VPathEditor(EVPathEditor) {
       Profile = "GuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209
-         SPC getWord(EditorGuiToolbar.extent, 1) - 1;
-      Extent = "210 167";
-      MinExtent = "210 100";
+      Position = getWord($pref::Video::mode, 0) - 360
+         SPC getWord(EditorGuiToolbar.extent, 1) + 6;
+      Extent = "360 167";
+      MinExtent = "300 100";
       canSave = "1";
       Visible = "1";
       tooltipprofile = "GuiToolTipProfile";
@@ -191,10 +191,10 @@ new VPathEditor(EVPathEditor) {
       Profile = "GuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209
+      Position = getWord($pref::Video::mode, 0) - 360
          SPC getWord(EditorGuiToolbar.extent, 1) + getWord(VPathEditorTreeWindow.extent, 1) - 2;
-      Extent = "210 530";
-      MinExtent = "210 298";
+      Extent = "360 530";
+      MinExtent = "300 298";
       canSave = "1";
       Visible = "1";
       tooltipprofile = "GuiToolTipProfile";
@@ -401,7 +401,7 @@ new VPathEditor(EVPathEditor) {
          Profile = "GuiInspectorFieldInfoMLTextProfile";
          HorizSizing = "width";
          VertSizing = "top";
-         Position = "1 485";
+         position = "8" SPC getWord(VPathEditorOptionsWindow.extent, 1) - 38;
          Extent = "202 42";
          MinExtent = "8 2";
          canSave = "1";

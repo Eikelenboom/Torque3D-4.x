@@ -390,4 +390,3 @@ function Tools::LoadResources( %path )
 //This lets us fast-load the editor from the menu
 GlobalActionMap.bind(keyboard, "F11", fastLoadWorldEdit);
 GlobalActionMap.bind(keyboard, "F10", fastLoadGUIEdit);
-

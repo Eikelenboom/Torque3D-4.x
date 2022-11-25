@@ -75,7 +75,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             canSaveDynamicFields = "0";
 
             new GuiBitmapButtonCtrl(GHWorldEditor) {
-               bitmapAsset = "ToolsModule:world_image";
+               bitmapAsset = "ToolsModule:world_n_image";
                bitmapMode = "Stretched";
                autoFitExtents = "0";
                groupNum = "0";
@@ -97,7 +97,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                canSaveDynamicFields = "0";
             };
             new GuiBitmapButtonCtrl(GHGuiEditor) {
-               bitmapAsset = "ToolsModule:gui_image";
+               bitmapAsset = "ToolsModule:gui_n_image";
                bitmapMode = "Stretched";
                autoFitExtents = "0";
                groupNum = "0";
@@ -997,7 +997,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                         Profile = "GuiInspectorFieldInfoMLTextProfile";
                         HorizSizing = "width";
                         VertSizing = "top";
-                        position = "0 349";
+                        position = "8 349";
                         Extent = "213 13";
                         MinExtent = "8 2";
                         canSave = "1";
@@ -1303,7 +1303,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                         Profile = "GuiInspectorFieldInfoMLTextProfile";
                         HorizSizing = "width";
                         VertSizing = "top";
-                        position = "0 349";
+                        position = "8" SPC getWord(GuiEditorSidebar.extent, 1) - 38;
                         Extent = "213 13";
                         MinExtent = "8 2";
                         canSave = "1";

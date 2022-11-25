@@ -35,11 +35,12 @@ $guiContent = new ForestEditorCtrl(ForestEditorGui,EditorGuiGroup) {
    canSaveDynamicFields = "1";
 
    new GuiWindowCollapseCtrl(ForestEditorPalleteWindow) {
+      canCollapse = "0";
       CollapseGroup = "-1";
       CollapseGroupNum = "-1";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
+      canMove = "0";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";
@@ -56,10 +57,10 @@ $guiContent = new ForestEditorCtrl(ForestEditorGui,EditorGuiGroup) {
       Profile = "ToolsGuiWindowCollapseProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209 
-         SPC getWord(EditorGuiToolbar.extent, 1)-1;
-      Extent = "210 252";
-      MinExtent = "210 100";
+      Position = getWord($pref::Video::mode, 0) - 360
+         SPC getWord(EditorGuiToolbar.extent, 1) + 6;
+      Extent = "360 300";
+      MinExtent = "300 100";
       canSave = "1";
       Visible = "1";
       tooltipprofile = "ToolsGuiToolTipProfile";
@@ -420,11 +421,12 @@ $guiContent = new ForestEditorCtrl(ForestEditorGui,EditorGuiGroup) {
       };
    };
    new GuiWindowCollapseCtrl(ForestEditorPropertiesWindow) {
+      canCollapse = "0";
       CollapseGroup = "-1";
       CollapseGroupNum = "-1";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
+      canMove = "0";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";
@@ -441,10 +443,10 @@ $guiContent = new ForestEditorCtrl(ForestEditorGui,EditorGuiGroup) {
       Profile = "ToolsGuiWindowCollapseProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209
-         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(ForestEditorPalleteWindow.extent, 1) - 2;
-      Extent = "210 460";
-      MinExtent = "210 50";
+      Position = getWord($pref::Video::mode, 0) - 360
+         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(ForestEditorPalleteWindow.extent, 1) + 6;
+      Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(ForestEditorPalleteWindow.extent, 1) - getWord(EditorGuiToolbar.extent, 1) - 65;
+      MinExtent = "300 50";
       canSave = "1";
       Visible = "1";
       tooltipprofile = "ToolsGuiToolTipProfile";

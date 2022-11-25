@@ -18,7 +18,7 @@ function AssetBrowser::addToolbarButton(%this)
 		tooltipprofile = "ToolsGuiToolTipProfile";
 		ToolTip = "Asset Browser";
 		hovertime = "750";
-		bitmapAsset = "ToolsModule:menuGrid_n_image";
+		bitmapAsset = "ToolsModule:assetBrowser_n_image";
 		bitmapMode = "Stretched";
 		buttonType = "PushButton";
 		groupNum = "0";
@@ -68,11 +68,18 @@ function AssetBrowser::initialize(%this)
 
 function AssetBrowser::onAdd(%this)
 {
+
 }
 
 function AssetBrowser::onWake(%this)
 {
    %this.initialize();
+   
+   // Make the window fit next to the side panel
+   // We do a simple resize so that we don't have to redo the whole GUI layout
+   %newWidth = getWord($pref::Video::mode, 0) - 360;
+   %vertPos = getWord($pref::Video::mode, 1) - 360 - 33;
+   AssetBrowserWindow.resize("0", %vertPos, %newWidth, "360");
 }
 
 function AssetBrowser::onDialogPop(%this)

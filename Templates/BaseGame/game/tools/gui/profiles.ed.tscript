@@ -304,7 +304,7 @@ new GuiControlProfile( ToolsGuiTextEditProfile )
    hasBitmapArray = true; 
    border = -2; // fix to display textEdit img
    //borderWidth = "1";  // fix to display textEdit img
-   //borderColor = "100 100 100";
+   borderColor = " 38 38 38 255";
    fillColor = EditorSettings.value("Theme/fieldBGColor");
    fillColorHL = "75 75 75 255";
    fillColorSEL = EditorSettings.value("Theme/fieldBGSELColor");
@@ -560,7 +560,7 @@ new GuiControlProfile( ToolsGuiPopUpMenuProfile : ToolsGuiPopUpMenuDefault )
    textOffset         = "6 4";
    bitmapAsset             = "ToolsModule:dropDown_image";
    hasBitmapArray     = true;
-   border             = 1;
+   border             = 0;
    profileForChildren = ToolsGuiPopUpMenuDefault;
    category = "Tools";
 };

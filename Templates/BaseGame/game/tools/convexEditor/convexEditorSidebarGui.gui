@@ -21,10 +21,10 @@ $guiContnt = new GuiControl(ConvexEditorOptions)
       anchorBottom = "0";
       anchorLeft = "1";
       anchorRight = "0";
-      Position = Canvas.extent.x - 209
+      Position = getWord($pref::Video::mode, 0) - 360
             SPC getWord(EditorGuiToolbar.extent, 1) - 2;
-      Extent = "210 550";
-      minExtent = "210 298";
+      Extent = "360 550";
+      minExtent = "300 298";
       horizSizing = "windowRelative";
       vertSizing = "windowRelative";
       profile = "ToolsGuiWindowProfile";

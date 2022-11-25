@@ -253,3 +253,64 @@ function PE_TabBook::onTabSelected( %this, %text, %idx )
    else
       ParticleEditor.openParticlePane();
 }
+
+//------------------------------------------------------------------------------
+// PE Window
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+
+function ParticleEditor::maxSize(%this, %window)
+{
+   // Resize the windows to the max height
+   // and force these to the right side if set
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
+   {  
+      %top = EditorGuiToolbar.extent.y + 6;
+      %bottom = %top + 65 - 6;
+      %maxHeight = Canvas.extent.y - %top - %bottom;
+      
+      // --- Fixed window (top) ------------------------------------------------
+      // put it back if it moved
+      %window.position.x = Canvas.extent.x - %window.extent.x;
+      %window.position.y = %top;
+      
+      // don't go beyond the canvas
+      %window.extent.y = %maxHeight + 42;
+
+      %position = %window.position.x SPC %window.position.y;
+      %extent = %window.extent.x SPC %window.extent.y;
+      %window.resize(%position.x, %position.y, %extent.x, %extent.y);
+      
+      // ready for a next event (add a tiny delay if it's still too demanding)
+      %this.resizing = false;
+   }
+}
+
+function PE_Window::onMouseDragged(%this)
+{
+   %parent = ParticleEditor;
+   
+   if(%parent.resizing == false)
+   {
+      %parent.resizing = true;
+      %parent.maxSize(%this);
+   }
+}
+
+function ParticleEditor::onResize(%this, %newPosition, %newExtent)
+{
+   // Window to focus on (mostly the fluid window)
+   %window = PE_Window;
+   
+   if(%this.resizing == false)
+   {  
+      // Only resize once
+      %this.resizing = true;
+      %this.maxSize(%window);
+   }
+   
+   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+}
+
+//------------------------------------------------------------------------------

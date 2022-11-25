@@ -43,10 +43,10 @@ $guiContent = new GuiNavEditorCtrl(NavEditorGui, EditorGuiGroup) {
       Profile = "ToolsGuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209
-         SPC getWord(EditorGuiToolbar.extent, 1) - 1;
-      Extent = "210 167";
-      MinExtent = "210 100";
+      Position = getWord($pref::Video::mode, 0) - 360
+         SPC getWord(EditorGuiToolbar.extent, 1) + 6;
+      Extent = "360 180";
+      MinExtent = "300 120";
       canSave = "1";
       isDecoy = "0";
       Visible = "1";
@@ -156,10 +156,10 @@ $guiContent = new GuiNavEditorCtrl(NavEditorGui, EditorGuiGroup) {
       Profile = "ToolsGuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
-      Position = getWord($pref::Video::mode, 0) - 209 
-         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(NavEditorTreeWindow.extent, 1) - 2;
-      Extent = "210 530";
-      MinExtent = "210 300";
+      Position = getWord($pref::Video::mode, 0) - 360
+         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(NavEditorTreeWindow.extent, 1) + 6;
+      Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(NavEditorTreeWindow.extent, 1) - getWord(EditorGuiToolbar.extent, 1) - 65;
+      MinExtent = "300 300";
       canSave = "1";
       Visible = "1";
       tooltipprofile = "GuiToolTipProfile";
@@ -836,7 +836,7 @@ $guiContent = new GuiNavEditorCtrl(NavEditorGui, EditorGuiGroup) {
          Profile = "GuiInspectorFieldInfoMLTextProfile";
          HorizSizing = "width";
          VertSizing = "top";
-         Position = "1 485";
+         position = "8" SPC getWord(NavEditorOptionsWindow.extent, 1) - 38;
          Extent = "202 42";
          MinExtent = "8 2";
          canSave = "1";
