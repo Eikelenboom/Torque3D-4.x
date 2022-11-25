@@ -68,6 +68,8 @@ IMPLEMENT_CALLBACK( GuiWindowCtrl, onRestore, void, (), (),
    "Called when the window is restored from minimized, maximized, or collapsed state." );
 IMPLEMENT_CALLBACK(GuiWindowCtrl, onResize, void, (S32 posX, S32 posY, S32 width, S32 height), (0, 0, 0, 0),
    "Called when the window is resized in a regular manner by mouse manipulation.");
+IMPLEMENT_CALLBACK(GuiWindowCtrl, onMouseDragged, void, (), (),
+   "Called when the height has changed.");
 
 
 //-----------------------------------------------------------------------------
@@ -1018,6 +1020,9 @@ void GuiWindowCtrl::onMouseDragged(const GuiEvent &event)
    }
    else // Normal window sizing functionality
       resize(newPosition, newExtent);
+
+   // Add a callback for the GUI scripts
+   onMouseDragged_callback();
 }
 
 //-----------------------------------------------------------------------------
