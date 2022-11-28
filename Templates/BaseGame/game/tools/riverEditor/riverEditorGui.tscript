@@ -25,6 +25,83 @@ $River::wireframe = true;
 $River::showSpline = true;
 $River::showRiver = true;
 $River::showWalls = true;
+
+//-----------------------------------------------------------------------------
+
+function RiverEditorGui::maxSize(%this, %window)
+{
+   // Resize the windows to the max height
+   // and force these to the right side if set
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
+   {  
+      // prevent onResize after a resize
+      %this.resizing = false;
+      
+      %fixedWindow = RiverEditorTreeWindow;
+      %fluidWindow = RiverEditorOptionsWindow;
+      %top = EditorGuiToolbar.extent.y + 6;
+      %bottom = %top + 65 - 6;
+      %maxHeight = Canvas.extent.y - %top - %bottom;
+      
+      // --- Fixed window (top) ------------------------------------------------
+      // put it back if it moved
+      %fixedWindow.position.x = Canvas.extent.x - %fixedWindow.extent.x;
+      %fixedWindow.position.y = %top;
+      
+      // don't go beyond the canvas
+      if(%fixedWindow.extent.y > %maxHeight)
+         %fixedWindow.extent.y = %maxHeight - %fluidWindow.extent.y;
+
+      %position = %fixedWindow.position.x SPC %fixedWindow.position.y;
+      %extent = %window.extent.x SPC %fixedWindow.extent.y;
+      %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+      
+      // --- Fluid window (bottom) ---------------------------------------------
+      // position is relative to the top window
+      %position = %fixedWindow.position.x SPC %fixedWindow.extent.y + %top;
+      %extent = %window.extent.x SPC Canvas.extent.y - %fixedWindow.extent.y - %bottom;
+      %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   }
+}
+
+function RiverEditorTreeWindow::onMouseDragged(%this)
+{
+   %parent = RiverEditorGui;
+   
+   if(%parent.resizing == false)
+   {
+      %parent.resizing = true;
+      %parent.maxSize(%this);
+   }
+}
+
+function RiverEditorOptionsWindow::onMouseDragged(%this)
+{
+   %parent = RiverEditorGui;
+   
+   if(%parent.resizing == false)
+   {
+      %parent.resizing = true;
+      %parent.maxSize(%this);
+   }
+}
+
+function RiverEditorGui::onResize(%this, %newPosition, %newExtent)
+{
+   // Window to focus on (mostly the fluid window)
+   %window = RiverEditorOptionsWindow;
+   
+   if(%this.resizing == false)
+   {  
+      // Only resize once
+      %this.resizing = true;
+      %this.maxSize(%window);
+   }
+   
+   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+}
+
+//-----------------------------------------------------------------------------
    
 function RiverEditorGui::onEditorActivated( %this )
 {   

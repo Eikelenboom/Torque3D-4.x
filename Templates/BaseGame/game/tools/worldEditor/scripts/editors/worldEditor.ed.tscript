@@ -302,7 +302,6 @@ function WorldEditor::resetTransforms(%this)
    }
 }
 
-
 function WorldEditorToolbarDlg::init(%this)
 {
    WorldEditorInspectorCheckBox.setValue( WorldEditorToolFrameSet.isMember( "EditorToolInspectorGui" ) );
@@ -377,7 +376,8 @@ function WorldEditor::doFileDropProcessing(%this)
    ImportAssetWindow.refresh();
 }
 
-//
+//------------------------------------------------------------------------------
+
 
 function Inspector::onInspectorFieldModified( %this, %object, %fieldName, %arrayIndex, %oldValue, %newValue )
 {

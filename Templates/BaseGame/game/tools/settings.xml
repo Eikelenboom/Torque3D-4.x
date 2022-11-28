@@ -344,7 +344,7 @@
         <Setting
             name="tabsColor">40 40 40 255</Setting>
         <Setting
-            name="tabsHLColor">180 180 180 255</Setting>
+            name="tabsHLColor">100 100 100 255</Setting>
         <Setting
             name="tabsSELColor">100 110 120 255</Setting>
         <Setting

@@ -43,6 +43,9 @@ function NavEditorGui::maxSize(%this, %window)
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
    {  
+      // prevent onResize after a resize
+      %this.resizing = false;
+      
       %fixedWindow = NavEditorTreeWindow;
       %fluidWindow = NavEditorOptionsWindow;
       %top = EditorGuiToolbar.extent.y + 6;
@@ -67,9 +70,6 @@ function NavEditorGui::maxSize(%this, %window)
       %position = %fixedWindow.position.x SPC %fixedWindow.extent.y + %top;
       %extent = %window.extent.x SPC Canvas.extent.y - %fixedWindow.extent.y - %bottom;
       %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
-      
-      // ready for a next event (add a tiny delay if it's still too demanding)
-      %this.resizing = false;
    }
 }
 

@@ -20,9 +20,7 @@
 // IN THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-
-function MissionAreaEditorGui::maxSize(%this, %window)
+function EVPathEditor::maxSize(%this, %window)
 {
    // Resize the windows to the max height
    // and force these to the right side if set
@@ -31,8 +29,8 @@ function MissionAreaEditorGui::maxSize(%this, %window)
       // prevent onResize after a resize
       %this.resizing = false;
       
-      %fixedWindow = MissionAreaEditorTerrainWindow;
-      %fluidWindow = MissionAreaEditorPropertiesWindow;
+      %fixedWindow = VPathEditorTreeWindow;
+      %fluidWindow = VPathEditorOptionsWindow;
       %top = EditorGuiToolbar.extent.y + 6;
       %bottom = %top + 65 - 6;
       %maxHeight = Canvas.extent.y - %top - %bottom;
@@ -58,9 +56,9 @@ function MissionAreaEditorGui::maxSize(%this, %window)
    }
 }
 
-function MissionAreaEditorTerrainWindow::onMouseDragged(%this)
+function VPathEditorTreeWindow::onMouseDragged(%this)
 {
-   %parent = MissionAreaEditorGui;
+   %parent = EVPathEditor;
    
    if(%parent.resizing == false)
    {
@@ -69,9 +67,9 @@ function MissionAreaEditorTerrainWindow::onMouseDragged(%this)
    }
 }
 
-function MissionAreaEditorPropertiesWindow::onMouseDragged(%this)
+function VPathEditorOptionsWindow::onMouseDragged(%this)
 {
-   %parent = MissionAreaEditorGui;
+   %parent = EVPathEditor;
    
    if(%parent.resizing == false)
    {
@@ -80,10 +78,10 @@ function MissionAreaEditorPropertiesWindow::onMouseDragged(%this)
    }
 }
 
-function MissionAreaEditorGui::onResize(%this, %newPosition, %newExtent)
+function EVPathEditor::onResize(%this, %newPosition, %newExtent)
 {
    // Window to focus on (mostly the fluid window)
-   %window = MissionAreaEditorPropertiesWindow;
+   %window = RoadEditorOptionsWindow;
    
    if(%this.resizing == false)
    {  
@@ -93,69 +91,4 @@ function MissionAreaEditorGui::onResize(%this, %newPosition, %newExtent)
    }
    
    FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
-}
-
-//------------------------------------------------------------------------------
-   
-function MissionAreaEditorGui::onEditorActivated( %this )
-{
-   EWorldEditor.clearSelection();
-   
-   %ma = getMissionAreaServerObject();
-   if( isObject( %ma ) )
-   {
-      EWorldEditor.selectObject( %ma );
-      EWorldEditor.syncGui();
-      MissionAreaEditorTerrainEditor.updateTerrain();
-      %this.setSelectedMissionArea( %ma );
-      %this.onMissionAreaSelected( %this.getSelectedMissionArea() );   
-   }
-}
-
-function MissionAreaEditorGui::onEditorDeactivated( %this )
-{
-}
-
-function MissionAreaEditorGui::onMissionAreaSelected( %this, %missionArea )
-{
-   %this.missionArea = %missionArea;
-   MissionAreaEditorTerrainEditor.setMissionArea( %missionArea );
-   MissionAreaInspector.inspect( %missionArea );  
-}
-
-//-----------------------------------------------------------------------------
-
-function MissionAreaEditorTerrainEditor::onMissionAreaModified( %this )
-{
-   MissionAreaInspector.refresh();
-}
-
-function MissionAreaEditorTerrainEditor::onUndo( %this )
-{
-   MissionAreaInspector.refresh();
-}
-
-//-----------------------------------------------------------------------------
-
-function MissionAreaInspector::inspect( %this, %obj )
-{
-   %name = "";
-   if ( isObject( %obj ) )
-      %name = %obj.getName();   
-   else
-      MissionAreaFieldInfoControl.setText( "" );
-   
-   //RiverInspectorNameEdit.setValue( %name );
-   Parent::inspect( %this, %obj );  
-}
-
-function MissionAreaInspector::onInspectorFieldModified( %this, %object, %fieldName, %arrayIndex, %oldValue, %newValue )
-{
-   // Same work to do as for the regular WorldEditor Inspector.
-   Inspector::onInspectorFieldModified( %this, %object, %fieldName, %arrayIndex, %oldValue, %newValue );   
-}
-
-function MissionAreaInspector::onFieldSelected( %this, %fieldName, %fieldTypeStr, %fieldDoc )
-{
-   MissionAreaFieldInfoControl.setText( "<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " NL "<font:Arial:14>" @ %fieldDoc );
 }

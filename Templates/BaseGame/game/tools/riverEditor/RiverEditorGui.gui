@@ -40,6 +40,8 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
    HoverNodeColor = "255 255 255 255";
 
    new GuiWindowCollapseCtrl(RiverEditorTreeWindow) {
+      canCollapse = "0";
+      canMove = "0";
       internalName = "";
       canSaveDynamicFields = "0";
       Enabled = "1";
@@ -64,7 +66,6 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       AnchorRight = "0";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";
@@ -192,6 +193,8 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       };
    };
    new GuiWindowCollapseCtrl(RiverEditorOptionsWindow) {
+      canCollapse = "0";
+      canMove = "0";
       internalName = "Window";
       canSaveDynamicFields = "0";
       Enabled = "1";
@@ -200,8 +203,8 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
       Position = getWord($pref::Video::mode, 0) - 360
-         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(RiverEditorTreeWindow.extent, 1) - 2;
-      Extent = "360 530";
+         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(RiverEditorTreeWindow.extent, 1) + 6;
+      Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(RiverEditorTreeWindow.extent, 1) - getWord(EditorGuiToolbar.extent, 1) - 65;
       MinExtent = "300 300";
       canSave = "1";
       Visible = "1";
@@ -215,7 +218,6 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       AnchorRight = "0";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";

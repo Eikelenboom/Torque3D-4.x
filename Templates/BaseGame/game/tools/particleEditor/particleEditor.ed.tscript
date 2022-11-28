@@ -266,6 +266,9 @@ function ParticleEditor::maxSize(%this, %window)
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
    {  
+      // prevent onResize after a resize
+      %this.resizing = false;
+      
       %top = EditorGuiToolbar.extent.y + 6;
       %bottom = %top + 65 - 6;
       %maxHeight = Canvas.extent.y - %top - %bottom;
@@ -281,9 +284,6 @@ function ParticleEditor::maxSize(%this, %window)
       %position = %window.position.x SPC %window.position.y;
       %extent = %window.extent.x SPC %window.extent.y;
       %window.resize(%position.x, %position.y, %extent.x, %extent.y);
-      
-      // ready for a next event (add a tiny delay if it's still too demanding)
-      %this.resizing = false;
    }
 }
 

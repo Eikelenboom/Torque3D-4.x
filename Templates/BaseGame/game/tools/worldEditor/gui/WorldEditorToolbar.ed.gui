@@ -696,3 +696,5 @@ new GuiMouseEventCtrl(softSnapSizeSliderCtrlContainer, EditorGuiGroup) {
       value = "0";
    };
 };
+
+

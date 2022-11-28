@@ -14,6 +14,8 @@ $guiContent = new GuiControl() {
    hovertime = "1000";
 
    new GuiWindowCollapseCtrl(EWTreeWindow) {
+      canCollapse = "0";
+      canMove = "0";
       canSaveDynamicFields = "0";
       internalName = "TreeWindow";
       Enabled = "1";
@@ -36,7 +38,6 @@ $guiContent = new GuiControl() {
       AnchorRight = "0";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";
@@ -208,7 +209,7 @@ $guiContent = new GuiControl() {
          Profile = "ToolsGuiButtonProfile";
          HorizSizing = "left";
          VertSizing = "bottom";
-         Position = "225 23";
+         Position = "280 23";
          Extent = "16 16";
          MinExtent = "8 2";
          canSave = "1";
@@ -232,7 +233,7 @@ $guiContent = new GuiControl() {
          Profile = "ToolsGuiButtonProfile";
          HorizSizing = "left";
          VertSizing = "bottom";
-         Position = "250 23";
+         Position = "305 23";
          Extent = "16 16";
          MinExtent = "8 2";
          canSave = "1";
@@ -256,7 +257,7 @@ $guiContent = new GuiControl() {
          Profile = "ToolsGuiButtonProfile";
          HorizSizing = "left";
          VertSizing = "bottom";
-         Position = "275 23";
+         Position = "330 23";
          Extent = "16 16";
          MinExtent = "8 2";
          canSave = "1";
@@ -271,6 +272,54 @@ $guiContent = new GuiControl() {
          text = "";
          useMouseEvents = "0";
       };
+      
+      new GuiBitmapButtonCtrl(EWorldEditor_UnDockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "EWorldEditor::releaseSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Detach Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_undock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      
+      new GuiBitmapButtonCtrl(EWorldEditor_DockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "EWorldEditor::dockSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Dock Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_dock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      }; 
    };
 };
 //--- OBJECT WRITE END ---

@@ -383,9 +383,27 @@ function EditorGui::addToToolsToolbar( %this, %pluginName, %internalName, %image
       }
    }
    
-   // Remove some words from the internal name so we can use it for the tooltip
-   %tooltipText = strreplace( %internalName, "Palette", "" );
-   %tooltipText = strreplace( %tooltipText, "Inspector", "" );
+   // when the tooltip isn't defined let's use the internal name
+   if(%tooltip !$="")
+   {
+      // Don't show function keys markers if no key is set
+      %tooltipText = strreplace( %tooltip, "()", "" );
+      // Remove any trailing whitespace
+      %tooltipText = rtrim(%tooltipText);
+   }
+   else
+   {
+      // Remove some words from the internal name so we can use it for the tooltip
+      %tooltipText = strreplace( %internalName, "Palette", "" );
+      %tooltipText = strreplace( %tooltipText, "Inspector", "" );
+      
+      %tooltipText = strreplace( %tooltipText, "_", " " );
+      
+      // Remove any trailing whitespace
+      %tooltipText = rtrim(%tooltipText);
+   }
+   
+   %tooltip = %tooltipText;
       
    if(!%alreadyExists)
    {
@@ -404,7 +422,7 @@ function EditorGui::addToToolsToolbar( %this, %pluginName, %internalName, %image
          Visible = "1";
          Command = "EditorGui.setEditor(" @ %pluginName @ ");";
          tooltipprofile = "ToolsGuiToolTipProfile";
-         ToolTip = %tooltipText;
+         ToolTip = %tooltip;
          hovertime = "750";
          bitmapAsset = %imageAsset;
          buttonType = "RadioButton";
@@ -1461,12 +1479,41 @@ function EWorldEditorAlignPopup::onSelect(%this, %id, %text)
 
 //-----------------------------------------------------------------------------
 
+function EWorldEditor::onWake(%this)
+{   
+   %fixedWindow = EWTreeWindow;
+   %fluidWindow = EWInspectorWindow;
+   
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1)
+   {
+      // Let's dock the side panel to the right side
+      %this.docked = false;
+      %this.resizing = true;
+      %this.dockSidePanel();
+      
+      // The fluid window doesn't want to resize properly when waking up
+      %position = %fluidWindow.position.x SPC %fluidWindow.extent.y;
+      %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y + 50;
+      %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   }
+   else
+   {
+      // Let's release the side panel so it can be moved
+      %this.docked = true;
+      %this.resizing = false;
+      %this.releaseSidePanel();
+   }
+}
+
 function EWorldEditor::maxSize(%this, %window)
-{
+{      
    // Resize the windows to the max height
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
    {  
+      // prevent onResize after a resize
+      %this.resizing = false;
+      
       %fixedWindow = EWTreeWindow;
       %fluidWindow = EWInspectorWindow;
       %top = EditorGuiToolbar.extent.y + 6;
@@ -1491,9 +1538,6 @@ function EWorldEditor::maxSize(%this, %window)
       %position = %fixedWindow.position.x SPC %fixedWindow.extent.y + %top;
       %extent = %window.extent.x SPC Canvas.extent.y - %fixedWindow.extent.y - %bottom;
       %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
-      
-      // ready for a next event (add a tiny delay if it's still too demanding)
-      %this.resizing = false;
    }
 }
 
@@ -1501,7 +1545,7 @@ function EWTreeWindow::onMouseDragged(%this)
 {
    %parent = EWorldEditor;
    
-   if(%parent.resizing == false)
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -1512,7 +1556,7 @@ function EWInspectorWindow::onMouseDragged(%this)
 {
    %parent = EWorldEditor;
    
-   if(%parent.resizing == false)
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -1524,7 +1568,7 @@ function EWorldEditor::onResize(%this, %newPosition, %newExtent)
    // Window to focus on (mostly the fluid window)
    %window = EWInspectorWindow;
    
-   if(%this.resizing == false)
+   if(%this.resizing == false && EWorldEditor.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
@@ -1532,6 +1576,65 @@ function EWorldEditor::onResize(%this, %newPosition, %newExtent)
    }
    
    FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+}
+
+function EWorldEditor::dockSidePanel()
+{
+   %parent = EWorldEditor;
+   %fixedWindow = EWTreeWindow;
+   %fluidWindow = EWInspectorWindow;
+   
+   if(%parent.docked == true)
+      return;
+   
+   // Move and resize the window(s)
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+      
+   %parent.docked = true;
+   %fluidWindow.onMouseDragged();
+
+   // Lock the windows in place
+   %fixedWindow.canCollapse = "0";
+   %fixedWindow.canMove = "0";
+   
+   %fluidWindow.canCollapse = "0";
+   %fluidWindow.canMove = "0";
+   
+   EWorldEditor_UnDockBtn.Visible = "1";
+   EWorldEditor_DockBtn.Visible = "0";
+}
+
+function EWorldEditor::releaseSidePanel()
+{      
+   %parent = EWorldEditor;
+   %fixedWindow = EWTreeWindow;
+   %fluidWindow = EWInspectorWindow;
+   
+   if(%parent.docked == false)
+      return;
+   
+   // Unlock the windows so that be moved
+   %fixedWindow.canCollapse = "1";
+   %fixedWindow.canMove = "1";
+   
+   %fluidWindow.canCollapse = "1";
+   %fluidWindow.canMove = "1";
+   
+   EWorldEditor_UnDockBtn.Visible = "0";
+   EWorldEditor_DockBtn.Visible = "1";
+   
+   // Let's do s small resize so it's visually clear we're undocking
+   %position = %fixedWindow.position.x - 6 SPC %fixedWindow.position.y + 6;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  %fluidWindow.position.x - 6 SPC  %fluidWindow.position.y + 6;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y - 12;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.docked = false;
+   %parent.resizing = false;
 }
 
 //-----------------------------------------------------------------------------

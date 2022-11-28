@@ -40,6 +40,8 @@ new VPathEditor(EVPathEditor) {
     GizmoProfile = "GlobalGizmoProfile";
 
    new GuiWindowCollapseCtrl(VPathEditorTreeWindow) {
+      canCollapse = "0";
+      canMove = "0";
       internalName = "";
       canSaveDynamicFields = "0";
       Enabled = "1";
@@ -63,7 +65,6 @@ new VPathEditor(EVPathEditor) {
       AnchorRight = "0";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";
@@ -184,6 +185,10 @@ new VPathEditor(EVPathEditor) {
       };
    };
    new GuiWindowCollapseCtrl(VPathEditorOptionsWindow) {
+      canCollapse = "0";
+      canMove = "0";
+      canCollapse = "0";
+      canMove = "0";
       internalName = "Window";
       canSaveDynamicFields = "0";
       Enabled = "1";
@@ -192,9 +197,9 @@ new VPathEditor(EVPathEditor) {
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
       Position = getWord($pref::Video::mode, 0) - 360
-         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(VPathEditorTreeWindow.extent, 1) - 2;
-      Extent = "360 530";
-      MinExtent = "300 298";
+         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(VPathEditorTreeWindow.extent, 1) + 6;
+      Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(VPathEditorTreeWindow.extent, 1) - getWord(EditorGuiToolbar.extent, 1) - 65;
+      MinExtent = "300 300";
       canSave = "1";
       Visible = "1";
       tooltipprofile = "GuiToolTipProfile";
@@ -207,7 +212,6 @@ new VPathEditor(EVPathEditor) {
       AnchorRight = "0";
       resizeWidth = "1";
       resizeHeight = "1";
-      canMove = "1";
       canClose = "0";
       canMinimize = "0";
       canMaximize = "0";

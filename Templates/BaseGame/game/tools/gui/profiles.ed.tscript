@@ -475,6 +475,48 @@ new GuiControlProfile( ToolsGuiRadioProfile )
    category = "Tools";
 };
 
+// Red
+if( !isObject( ToolsGuiRadioRedProfile ) )
+new GuiControlProfile( ToolsGuiRadioRedProfile )
+{
+   fontSize = 14;
+   fillColor = EditorSettings.value("Theme/fieldBGColor");
+   fontColor = EditorSettings.value("Theme/fieldTextColor");
+   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+   fixedExtent = true;
+   bitmapAsset = "ToolsModule:radioButton_red_image";
+   hasBitmapArray = true;
+   category = "Tools";
+};
+
+// Green
+if( !isObject( ToolsGuiRadioGreenProfile ) )
+new GuiControlProfile( ToolsGuiRadioGreenProfile )
+{
+   fontSize = 14;
+   fillColor = EditorSettings.value("Theme/fieldBGColor");
+   fontColor = EditorSettings.value("Theme/fieldTextColor");
+   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+   fixedExtent = true;
+   bitmapAsset = "ToolsModule:radioButton_green_image";
+   hasBitmapArray = true;
+   category = "Tools";
+};
+
+// Blue
+if( !isObject( ToolsGuiRadioBlueProfile ) )
+new GuiControlProfile( ToolsGuiRadioBlueProfile )
+{
+   fontSize = 14;
+   fillColor = EditorSettings.value("Theme/fieldBGColor");
+   fontColor = EditorSettings.value("Theme/fieldTextColor");
+   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+   fixedExtent = true;
+   bitmapAsset = "ToolsModule:radioButton_blue_image";
+   hasBitmapArray = true;
+   category = "Tools";
+};
+
 if( !isObject( ToolsGuiScrollProfile ) )
 new GuiControlProfile( ToolsGuiScrollProfile )
 {
