@@ -46,7 +46,7 @@ $guiContent = new GuiControl() {
       EdgeSnap = "1";
       text = "Inspector";
 
-      new GuiContainer() {
+      new GuiContainer(EWInspectorContainer) {
          canSaveDynamicFields = "0";
          Enabled = "1";
          isContainer = "0";
