@@ -407,6 +407,13 @@ new GuiControlProfile( ToolsGuiIconButtonSmallProfile : ToolsGuiIconButtonProfil
    category = "Tools";
 };
 
+if( !isObject( ToolsGuiIconButtonLargeProfile ) )
+new GuiControlProfile( ToolsGuiIconButtonLargeProfile : ToolsGuiIconButtonProfile )
+{
+   bitmapAsset = "ToolsModule:iconbuttonlarge_image";
+   category = "Tools";
+};
+
 if( !isObject( ToolsGuiEditorTabPage ) )
 new GuiControlProfile(ToolsGuiEditorTabPage)
 {

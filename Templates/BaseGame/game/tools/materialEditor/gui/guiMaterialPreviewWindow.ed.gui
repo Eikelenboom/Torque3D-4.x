@@ -225,13 +225,13 @@ $guiContent = new GuiControl() {
       };
       
       new GuiCheckboxCtrl(){
-         position = "108 25";
+         position = "254 25";
          Extent = "98 18";
          HorizSizing = "left";
          profile = "ToolsGuiCheckBoxProfile";
          Variable = "MaterialEditorGui.livePreview";
          Command = "MaterialEditorGui.updateLivePreview($ThisControl.getValue());";
-         text ="Preview in World";
+         text = "Preview in World";
       };
    };
 
