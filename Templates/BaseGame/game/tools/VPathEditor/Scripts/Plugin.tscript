@@ -36,10 +36,10 @@ function VPathEditorPlugin::onWorldEditorStartup( %this )
     //----------------------------------------------------------------------
     
     // Add ourselves to the window menu.
-    %accel = EditorGui.addToEditorsMenu( "Path Editor", "", VPathEditorPlugin );
+    %accel = EditorGui.addToEditorsMenu( "Verve Path Editor", "", VPathEditorPlugin );
 
     // Add ourselves to the ToolsToolbar
-    %tooltip = "Path Editor (" @ %accel @ ")";
+    %tooltip = "Verve Path Editor (" @ %accel @ ")";
     EditorGui.addToToolsToolbar( "VPathEditorPlugin", "VPathEditorPalette", "ToolsModule:btn_VMovie_n_image", %tooltip );
 
     // Find and Store the Button.

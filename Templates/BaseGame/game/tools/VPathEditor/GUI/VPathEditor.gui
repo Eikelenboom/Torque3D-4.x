@@ -46,7 +46,7 @@ new VPathEditor(EVPathEditor) {
       canSaveDynamicFields = "0";
       Enabled = "1";
       isContainer = "1";
-      Profile = "GuiWindowProfile";
+      Profile = "ToolsGuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
       Position = getWord($pref::Video::mode, 0) - 360
@@ -71,7 +71,7 @@ new VPathEditor(EVPathEditor) {
       minSize = "50 50";
       closeCommand = "EditorGui.setEditor( WorldEditorInspectorPlugin );";
       EdgeSnap = "1";
-      text = "Path Editor";
+      text = "Verve  Path Editor";
       
       new GuiContainer(){
          profile = GuiDefaultProfile;
@@ -193,7 +193,7 @@ new VPathEditor(EVPathEditor) {
       canSaveDynamicFields = "0";
       Enabled = "1";
       isContainer = "1";
-      Profile = "GuiWindowProfile";
+      Profile = "ToolsGuiWindowProfile";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
       Position = getWord($pref::Video::mode, 0) - 360
@@ -218,7 +218,7 @@ new VPathEditor(EVPathEditor) {
       minSize = "50 50";
       closeCommand = "EditorGui.setEditor( WorldEditorPlugin );";
       EdgeSnap = "1";
-      text = "Properties";
+      text = "Verve  Path Properties";
 
       new GuiContainer(){ //Node Properties
          isContainer = "1";
@@ -231,7 +231,7 @@ new VPathEditor(EVPathEditor) {
          Margin = "3 3 3 3";
          
          new GuiTextCtrl(){
-            Profile = "GuiDefaultProfile";
+            Profile = "ToolsGuiTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
@@ -239,7 +239,7 @@ new VPathEditor(EVPathEditor) {
             text = "Node Properties";
          };
          new GuiTextCtrl(){
-            Profile = "GuiTextRightProfile";
+            Profile = "ToolsGuiTextRightProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "7 21";
@@ -257,7 +257,7 @@ new VPathEditor(EVPathEditor) {
             AltCommand = "EVPathEditor.setNodePosition( $ThisControl.getValue() );";
          };
          new GuiTextCtrl(){
-            Profile = "GuiTextRightProfile";
+            Profile = "ToolsGuiTextRightProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "7 42";
@@ -275,7 +275,7 @@ new VPathEditor(EVPathEditor) {
             AltCommand = "EVPathEditor.setNodeRotation( $ThisControl.getValue() );";
          };
          new GuiTextCtrl(){
-            Profile = "GuiTextRightProfile";
+            Profile = "ToolsGuiTextRightProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "7 63";
@@ -293,7 +293,7 @@ new VPathEditor(EVPathEditor) {
             AltCommand = "EVPathEditor.setNodeWeight( $ThisControl.getValue() );";
          };
          new GuiTextCtrl(){
-            Profile = "GuiTextRightProfile";
+            Profile = "ToolsGuiTextRightProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "7 84";
@@ -311,7 +311,7 @@ new VPathEditor(EVPathEditor) {
             Command = "OnOrientationChanged();";
          };
          new GuiTextCtrl(){
-            Profile = "GuiTextRightProfile";
+            Profile = "ToolsGuiTextRightProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "7 105";
@@ -340,7 +340,7 @@ new VPathEditor(EVPathEditor) {
          Margin = "0 0 3 3";
          
          new GuiTextCtrl(){
-            Profile = "GuiDefaultProfile";
+            Profile = "ToolsGuiTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
