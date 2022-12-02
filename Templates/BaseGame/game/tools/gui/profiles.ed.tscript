@@ -962,9 +962,9 @@ singleton GuiControlProfile( GuiInspectorRolloutProfile0 )
    fontType = "Arial";
    fontSize = 14;
 
-   fontColor = "32 32 32";
-   fontColorHL = "32 100 100";
-   fontColorNA = "215 215 215";
+   fontColor = "220 220 220";
+   fontColorHL = "0 0 0";
+   fontColorNA = "160 160 160";
    
    justify = "left";
    opaque = false;
@@ -977,6 +977,30 @@ singleton GuiControlProfile( GuiInspectorRolloutProfile0 )
    bitmapAsset = "ToolsModule:rollout_plusminus_header_image";
    
    textOffset = "20 0";
+   category = "Editor";
+};
+
+singleton GuiControlProfile( GuiInspectorRolloutProfile1 )
+{
+   // font
+   fontType = "Arial";
+   fontSize = 14;
+
+   fontColor = "200 200 200";
+   fontColorHL = "0 0 0";
+   fontColorNA = "160 160 160";
+   
+   justify = "left";
+   opaque = false;
+   
+   border = false;
+   borderColor   = "190 190 190";
+   borderColorHL = "156 156 156";
+   borderColorNA = "255 64 64";
+  
+   bitmapAsset = "ToolsModule:rollout_plusminus_header_darker_image";
+   
+   textOffset = "30 0";
    category = "Editor";
 };
 
