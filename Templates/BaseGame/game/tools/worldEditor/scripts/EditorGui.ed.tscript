@@ -875,9 +875,6 @@ function EditorGui::syncCameraGui( %this )
 {
    %obj = ObjectCreator.createObject( "ObjectBuilderGui.buildObject( \"PointLight\" );" );
    
-   if(isObject(%obj))
-      %obj.select();
-   
    EWorldEditor.isDirty = true;
    EditorTree.buildVisibleTree(true);
 }
@@ -885,9 +882,6 @@ function EditorGui::syncCameraGui( %this )
  function EditorGui::addSpotLight(%this)
 {
    %obj = ObjectCreator.createObject( "ObjectBuilderGui.buildObject( \"SpotLight\" );" );
-   
-   if(isObject(%obj))
-      %obj.select();
    
    EWorldEditor.isDirty = true;
    EditorTree.buildVisibleTree(true);
@@ -897,9 +891,6 @@ function EditorGui::syncCameraGui( %this )
 {
    %obj = ObjectCreator.createObject( "ObjectBuilderGui.buildObject( \"SFXEmitter\" );" );
    
-   if(isObject(%obj))
-      %obj.select();
-   
    EWorldEditor.isDirty = true;
    EditorTree.buildVisibleTree(true);
 }
@@ -907,9 +898,6 @@ function EditorGui::syncCameraGui( %this )
  function EditorGui::addTrigger(%this)
 {
    %obj = ObjectCreator.createObject( "ObjectBuilderGui.buildObject( \"Trigger\" );" );
-   
-   if(isObject(%obj))
-      %obj.select();
    
    EWorldEditor.isDirty = true;
    EditorTree.buildVisibleTree(true);
@@ -919,9 +907,6 @@ function EditorGui::syncCameraGui( %this )
 {
    %obj = ObjectCreator.createObject( "ObjectBuilderGui.buildObject( \"ParticleEmitterNode\" );" );
    
-   if(isObject(%obj))
-      %obj.select();
-   
    EWorldEditor.isDirty = true;
    EditorTree.buildVisibleTree(true);
 }
@@ -929,10 +914,7 @@ function EditorGui::syncCameraGui( %this )
  function EditorGui::addWater(%this)
 {
    %obj = ObjectCreator.createObject( "ObjectBuilderGui.buildObject( \"WaterBlock\" );" );
-   
-   if(isObject(%obj))
-      %obj.select();
-   
+
    EWorldEditor.isDirty = true;
    EditorTree.buildVisibleTree(true);
 }
@@ -1549,11 +1531,6 @@ function EWorldEditor::onWake(%this)
       %this.docked = false;
       %this.resizing = true;
       %this.dockSidePanel();
-      
-      // The fluid window doesn't want to resize properly when waking up
-      %position = %fluidWindow.position.x SPC %fluidWindow.extent.y;
-      %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y + 50;
-      %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
    }
    else
    {

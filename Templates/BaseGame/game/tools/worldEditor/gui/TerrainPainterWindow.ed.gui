@@ -25,7 +25,7 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
       VertSizing = "windowRelative";
       Position = getWord($pref::Video::mode, 0) - 360
          SPC getWord(EditorGuiToolbar.extent, 1) + 6;
-      Extent = "360 320";
+      Extent = "360 340";
       MinExtent = "300 320";
       canSave = "1";
       isDecoy = "0";
@@ -47,9 +47,9 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
       minSize = "300 160";
       closeCommand = "EPainter.parentGroup.setVisible(false);";
       EdgeSnap = "1";
-      text = "Terrain Painter Material Preview";
+      text = "Terrain Painter - Material Preview";
       
-      new GuiContainer(){
+      new GuiContainer(EPainterPreviewCont){
          Docking = "Client";
          Margin = "0 0 0 0";
          HorizSizing = "center";
@@ -99,17 +99,17 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
          HorizSizing = "center";
          VertSizing = "bottom";
          Position = "0 288";
-         Extent = "256 24";
+         Extent = "256 44";
          
          new GuiTextCtrl(TerrainTextureText) {
             canSaveDynamicFields = "0";
             Enabled = "1";
             isContainer = "0";
             Profile = "ToolsGuiTextProfile";
-            HorizSizing = "right";
+            HorizSizing = "center";
             VertSizing = "bottom";
             Position = "0 0";
-            Extent = "150 18";
+            Extent = "180 18";
             MinExtent = "8 2";
             canSave = "1";
             isDecoy = "0";
@@ -132,7 +132,7 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
             Profile = "ToolsGuiButtonProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
-            Position = "150 0";
+            Position = "150 20";
             Extent = "40 18";
             MinExtent = "8 2";
             canSave = "1";
@@ -152,7 +152,7 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
             Profile = "ToolsGuiButtonProfile";   
             HorizSizing = "right";      
             VertSizing = "bottom";      
-            Position = "196 0";    
+            Position = "196 20";    
             Extent = "60 18";    
             MinExtent = "8 2";      
             canSave = "1";
@@ -167,6 +167,98 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
             useMouseEvents = "0";      
          };  
       };
+      new GuiBitmapButtonCtrl(TerrainPainterContainer_UnDockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "TerrainPainterContainer.releaseSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Detach Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_undock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(TerrainPainterContainer_DockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "TerrainPainterContainer.dockSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Dock Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_dock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(TerrainPainterContainer_HideBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "312 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "TerrainPainterContainer.hideSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Hide Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_hide_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(TerrainPainterContainer_ShowBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "right";
+         VertSizing = "bottom";
+         Position = "4 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "TerrainPainterContainer.showSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Show Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_show_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };       
    };
    
    new GuiWindowCollapseCtrl(EPainter) {
@@ -178,7 +270,7 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
       Position = getWord($pref::Video::mode, 0) - 360
-         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(EPainterPreview.extent, 1) + 7;
+         SPC getWord(EditorGuiToolbar.extent, 1) + getWord(EPainterPreview.extent, 1) + 6;
       Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(EPainterPreview.extent, 1) - getWord(EditorGuiToolbar.extent, 1) - 66;
       MinExtent = "300 100";
       canSave = "1";
@@ -201,7 +293,7 @@ $guiContent = new GuiControl(TerrainPainterContainer,EditorGuiGroup) {
       minSize = "152 300";
       closeCommand = "EPainter.parentGroup.setVisible(false);";
       EdgeSnap = "1";
-      text = "Terrain Painter Material Selector";
+      text = "Terrain Painter - Material Selector";
       
       new GuiScrollCtrl( EPainterScroll ) {
          canSaveDynamicFields = "0";

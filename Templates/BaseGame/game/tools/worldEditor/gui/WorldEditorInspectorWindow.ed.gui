@@ -23,7 +23,7 @@ $guiContent = new GuiControl() {
       Profile = "ToolsGuiWindowProfile";
       Position = getWord($pref::Video::mode, 0) - 360
          SPC getWord(EditorGuiToolbar.extent, 1) + getWord(EWTreeWindow.extent, 1) + 6;
-      Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(EWTreeWindow.extent, 1) - getWord(EditorGuiToolbar.extent, 1) - 65;
+      Extent = "360" SPC getWord($pref::Video::mode, 1) - getWord(EWTreeWindow.extent, 1) - getWord(EditorGuiToolbar.extent, 1) + 66;
       MinExtent = "300 150";
       HorizSizing = "windowRelative";
       VertSizing = "windowRelative";
