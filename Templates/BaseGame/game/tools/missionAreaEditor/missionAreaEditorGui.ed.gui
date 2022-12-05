@@ -67,9 +67,9 @@ $guiContent = new GuiMissionAreaEditorCtrl(MissionAreaEditorGui, EditorGuiGroup)
       canMaximize = "0";
       minSize = "50 50";
       EdgeSnap = "1";
-      text = "Mission Area";
+      text = "::  Mission Area";
       
-      new GuiContainer(){
+      new GuiContainer(MissionAreaEditorTerrainPanel){
          profile = "ToolsGuiDefaultProfile";
          Position = "5 25";
          Extent = "300 300";
@@ -108,7 +108,101 @@ $guiContent = new GuiMissionAreaEditorCtrl(MissionAreaEditorGui, EditorGuiGroup)
             handleBitmapAsset = "ToolsModule:DefaultHandle_image";
          };
       };
+      // window / panel buttons
+      new GuiBitmapButtonCtrl(MissionAreaEditorGui_UnDockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "MissionAreaEditorGui.releaseSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Detach Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_undock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(MissionAreaEditorGui_DockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "MissionAreaEditorGui.dockSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Dock Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_dock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(MissionAreaEditorGui_HideBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "312 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "MissionAreaEditorGui.hideSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Hide Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_hide_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(MissionAreaEditorGui_ShowBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "right";
+         VertSizing = "bottom";
+         Position = "4 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "MissionAreaEditorGui.showSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Show Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_show_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };  
    };
+   
    new GuiWindowCollapseCtrl(MissionAreaEditorPropertiesWindow) {
       canCollapse = "0";
       internalName = "Window";
@@ -140,9 +234,9 @@ $guiContent = new GuiMissionAreaEditorCtrl(MissionAreaEditorGui, EditorGuiGroup)
       canMaximize = "0";
       minSize = "50 50";
       EdgeSnap = "1";
-      text = "Properties";
+      text = "::  Mission Area Editor - Properties";
       
-      new GuiContainer(){ //Mission Area Properties
+      new GuiContainer(MissionAreaEditorPropertiesPanel){ //Mission Area Properties
          isContainer = "1";
          Profile = "inspectorStyleRolloutDarkProfile";
          HorizSizing = "width";
@@ -153,16 +247,16 @@ $guiContent = new GuiMissionAreaEditorCtrl(MissionAreaEditorGui, EditorGuiGroup)
          Margin = "0 0 3 3";
          
          new GuiTextCtrl(){
-            Profile = "ToolsGuiDefaultProfile";
+            Profile = "EditorTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
             Extent = "121 18";
-            text = "Mission Area Properties";
+            text = "Inspector";
          };
       };
 
-      new GuiScrollCtrl() {
+      new GuiScrollCtrl(MissionAreaInspectorPanel) {
          canSaveDynamicFields = "0";
          Enabled = "1";
          isContainer = "1";
@@ -213,7 +307,7 @@ $guiContent = new GuiMissionAreaEditorCtrl(MissionAreaEditorGui, EditorGuiGroup)
             dividerMargin = "5";
          };
       };
-      new GuiContainer(){ //Mission Area Properties
+      new GuiContainer(MissionAreaFieldInfoControlPanel){ //Mission Area Properties
          isContainer = "1";
          Profile = "ToolsGuiDefaultProfile";
          HorizSizing = "width";

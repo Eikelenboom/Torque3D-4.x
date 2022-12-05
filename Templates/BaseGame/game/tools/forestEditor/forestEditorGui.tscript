@@ -20,11 +20,33 @@
 // IN THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-
 // ForestEditorGui Script Methods
 
+//-----------------------------------------------------------------------------
+
+function ForestEditorGui::onWake(%this)
+{   
+   %fixedWindow = ForestEditorPalleteWindow;
+   %fluidWindow = ForestEditorPropertiesWindow;
+   
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1)
+   {
+      // Let's dock the side panel to the right side
+      %this.docked = false;
+      %this.resizing = true;
+      %this.dockSidePanel();
+   }
+   else
+   {
+      // Let's release the side panel so it can be moved
+      %this.docked = true;
+      %this.resizing = false;
+      %this.releaseSidePanel();
+   }
+}
+
 function ForestEditorGui::maxSize(%this, %window)
-{
+{      
    // Resize the windows to the max height
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
@@ -36,7 +58,7 @@ function ForestEditorGui::maxSize(%this, %window)
       %fluidWindow = ForestEditorPropertiesWindow;
       %top = EditorGuiToolbar.extent.y + 6;
       %bottom = %top + 65 - 6;
-      %maxHeight = Canvas.extent.x - %top - %bottom;
+      %maxHeight = Canvas.extent.y - %top - %bottom;
       
       // --- Fixed window (top) ------------------------------------------------
       // put it back if it moved
@@ -63,7 +85,12 @@ function ForestEditorPalleteWindow::onMouseDragged(%this)
 {
    %parent = ForestEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -74,7 +101,12 @@ function ForestEditorPropertiesWindow::onMouseDragged(%this)
 {
    %parent = ForestEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -86,22 +118,139 @@ function ForestEditorGui::onResize(%this, %newPosition, %newExtent)
    // Window to focus on (mostly the fluid window)
    %window = ForestEditorPropertiesWindow;
    
-   if(%this.resizing == false)
+   if(%window.panelHidden == true)
+   {
+      %window.showSidePanel();
+   }
+   
+   if(%this.resizing == false && EWorldEditor.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
       %this.maxSize(%window);
    }
+}
+
+function ForestEditorGui::dockSidePanel()
+{
+   %parent = ForestEditorGui;
+   %fixedWindow = ForestEditorPalleteWindow;
+   %fluidWindow = ForestEditorPropertiesWindow;
    
-   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+   if(%parent.docked == true)
+      return;
+   
+   // Move and resize the window(s)
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+      
+   %parent.docked = true;
+   %fluidWindow.onMouseDragged();
+
+   // Lock the windows in place
+   %fixedWindow.canCollapse = "0";
+   %fixedWindow.canMove = "0";
+   
+   %fluidWindow.canCollapse = "0";
+   %fluidWindow.canMove = "0";
+   
+   ForestEditorGui_UnDockBtn.Visible = "1";
+   ForestEditorGui_DockBtn.Visible = "0";
+   
+   ForestEditorGui_showBtn.Visible = "0";
+   ForestEditorGui_hideBtn.Visible = "1";
+}
+
+function ForestEditorGui::releaseSidePanel()
+{      
+   %parent = ForestEditorGui;
+   %fixedWindow = ForestEditorPalleteWindow;
+   %fluidWindow = ForestEditorPropertiesWindow;
+   
+   if(%parent.docked == false)
+      return;
+   
+   // Unlock the windows so that be moved
+   %fixedWindow.canCollapse = "1";
+   %fixedWindow.canMove = "1";
+   
+   %fluidWindow.canCollapse = "1";
+   %fluidWindow.canMove = "1";
+   
+   ForestEditorGui_UnDockBtn.Visible = "0";
+   ForestEditorGui_DockBtn.Visible = "1";
+   
+   ForestEditorGui_showBtn.Visible = "0";
+   ForestEditorGui_hideBtn.Visible = "0";
+   
+   // Let's do a small resize so it's visually clear we're undocking
+   %position = %fixedWindow.position.x - 6 SPC %fixedWindow.position.y + 6;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  %fluidWindow.position.x - 6 SPC  %fluidWindow.position.y + 6;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y - 12;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.docked = false;
+   %parent.resizing = false;
+}
+
+function ForestEditorGui::hideSidePanel()
+{
+   %parent = ForestEditorGui;
+   %fixedWindow = ForestEditorPalleteWindow;
+   %fluidWindow = ForestEditorPropertiesWindow;
+   
+   ForestEditorGui_showBtn.Visible = "1";
+   ForestEditorGui_hideBtn.Visible = "0";
+   
+   // hide the content of the panels
+   %fixedWindow.titleText = %fixedWindow.text;
+   %fluidWindow.titleText = %fluidWindow.text;
+   
+   %fixedWindow.text = "";
+   ForestEditTabBook.Visible = "0";
+   
+   %fluidWindow.text = "";
+   ForestEditorPropertiesScroll.Visible = "0";
+   
+   // Let's do a resize so that the panel is collapsed to the side
+   %position = Canvas.extent.x - 24 SPC %fixedWindow.position.y;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  Canvas.extent.x - 24 SPC %fluidWindow.position.y;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.panelHidden = true;
+}
+
+function ForestEditorGui::showSidePanel()
+{
+   %parent = ForestEditorGui;
+   %fixedWindow = ForestEditorPalleteWindow;
+   %fluidWindow = ForestEditorPropertiesWindow;
+   
+   ForestEditorGui_showBtn.Visible = "0";
+   ForestEditorGui_hideBtn.Visible = "1";
+   
+   // show the content of the panels
+   // hide the content of the panels
+   %fixedWindow.text = %fixedWindow.titleText;
+   ForestEditTabBook.Visible = "1";
+   
+   %fluidWindow.text = %fluidWindow.titleText;
+   ForestEditorPropertiesScroll.Visible = "1";
+   
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+   
+   %parent.panelHidden = false;
 }
 
 //-----------------------------------------------------------------------------
-
-function ForestEditorGui::onWake()
-{
-   ForestEditorGui.maxSize();
-}
 
 function ForestEditorGui::setActiveTool( %this, %tool )
 {
@@ -606,7 +755,7 @@ function ForestEditorInspector::onInspectorFieldModified( %this, %object, %field
 
 function ForestEditorInspector::onFieldSelected( %this, %fieldName, %fieldTypeStr, %fieldDoc )
 {
-   //FieldInfoControl.setText( "<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " NL "<font:Arial:14>" @ %fieldDoc );
+   //FieldInfoControl.setText( "<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " @ " :   " @ "<font:Arial:14>" @ %fieldDoc );
 }
 
 function ForestBrushSizeSliderCtrlContainer::onWake(%this)

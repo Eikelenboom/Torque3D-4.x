@@ -25,7 +25,7 @@ function AssetBrowser::addToolbarButton(%this)
 		useMouseEvents = "0";
 	};
 	ToolsToolbarArray.add(%button);
-	EWToolsToolbar.setExtent((25 + 8) * (ToolsToolbarArray.getCount()) + 12 SPC "33");
+	EWToolsToolbar.setExtent((29 + 4) * (ToolsToolbarArray.getCount()) + 4 SPC "32");
 }
 //
 

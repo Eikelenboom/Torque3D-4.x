@@ -76,7 +76,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
 
             new GuiBitmapButtonCtrl(GHWorldEditor) {
                bitmapAsset = "ToolsModule:world_n_image";
-               bitmapMode = "Stretched";
+               bitmapMode = "Centered";
                autoFitExtents = "0";
                groupNum = "0";
                buttonType = "RadioButton";
@@ -98,7 +98,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
             new GuiBitmapButtonCtrl(GHGuiEditor) {
                bitmapAsset = "ToolsModule:gui_n_image";
-               bitmapMode = "Stretched";
+               bitmapMode = "Centered";
                autoFitExtents = "0";
                groupNum = "0";
                buttonType = "RadioButton";
@@ -119,7 +119,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
             new GuiBitmapButtonCtrl() {
                bitmapAsset = "ToolsModule:playbutton_n_image";
-               bitmapMode = "Stretched";
+               bitmapMode = "Centered";
                autoFitExtents = "0";
                groupNum = "0";
                buttonType = "PushButton";
@@ -141,7 +141,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
             new GuiBitmapButtonCtrl() {
                BitmapAsset = "ToolsModule:settings_n_image";
-               bitmapMode = "Stretched";
+               bitmapMode = "Centered";
                autoFitExtents = "0";
                useModifiers = "0";
                useStates = "1";
@@ -168,13 +168,14 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
             new GuiBitmapCtrl() {
                bitmapAsset = "ToolsModule:separator_h_image";
+               bitmapMode = "Centered";
                wrap = "0";
                isContainer = "0";
                profile = "ToolsGuiDefaultProfile";
                horizSizing = "right";
                vertSizing = "bottom";
                position = "130 3";
-               extent = "2 26";
+               extent = "4 26";
                minExtent = "1 1";
                canSave = "1";
                visible = "1";
@@ -182,36 +183,43 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                hovertime = "1000";
                canSaveDynamicFields = "0";
             };
+
             new GuiBitmapButtonCtrl() {
-               canSaveDynamicFields = "0";
-               internalName = AssetBrowserBtn;
-               Enabled = "1";
-               isContainer = "0";
-               Profile = "ToolsGuiButtonProfile";
-               HorizSizing = "right";
-               VertSizing = "bottom";
-               position = "98 3";
-               Extent = "29 27";
-               MinExtent = "8 2";
-               canSave = "1";
-               Visible = "1";
-               Command = "AssetBrowser.toggleDialog();";
-               tooltipprofile = "ToolsGuiToolTipProfile";
-               ToolTip = "Asset Browser";
-               hovertime = "750";
-               bitmapAsset = "ToolsModule:menuGrid_image";
-               bitmapMode = "Stretched";
-               buttonType = "PushButton";
-               groupNum = "0";
+               bitmapAsset = "ToolsModule:assetBrowser_n_image";
+               bitmapMode = "Centered";
+               autoFitExtents = "0";
+               useModifiers = "0";
+               useStates = "1";
+               masked = "0";
+               groupNum = "-1";
+               buttonType = "ToggleButton";
                useMouseEvents = "0";
-            };
+               position = "98 3";
+               Extent = "33 27";
+               minExtent = "8 8";
+               horizSizing = "right";
+               vertSizing = "bottom";
+               profile = "ToolsGuiButtonProfile";
+               visible = "1";
+               active = "1";
+               Command = "AssetBrowser.toggleDialog();";
+               tooltipProfile = "ToolsGuiToolTipProfile";
+               tooltip = "Open the Asset Browser";
+               hovertime = "1000";
+               isContainer = "0";
+               internalName = "AssetBrowserBtn";
+               canSave = "1";
+               canSaveDynamicFields = "0";
+            };            
+            
             new GuiBitmapCtrl() {
                Enabled = "1";
                Profile = "ToolsGuiDefaultProfile";
                position = "160 3";
-               Extent = "2 26";
+               Extent = "4 26";
                MinExtent = "1 1";
                bitmapAsset = "ToolsModule:separator_h_image";
+               bitmapMode = "Centered";
             };
             new GuiPopUpMenuCtrl(GuiEditorContentList) {
                maxPopupHeight = "200";
@@ -267,6 +275,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
             new GuiBitmapCtrl() {
                bitmapAsset = "ToolsModule:separator_h_image";
+               bitmapMode = "Centered";
                wrap = "0";
                isContainer = "0";
                profile = "ToolsGuiDefaultProfile";
@@ -283,7 +292,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
                new GuiBitmapButtonCtrl(GuiEditorSnapCheckBox) {
                   bitmapAsset = "ToolsModule:snap_grid_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "ToggleButton";
@@ -304,7 +313,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl(GuiEditorEdgeSnapping_btn) {
                   bitmapAsset = "ToolsModule:edgesnap_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "ToggleButton";
@@ -326,7 +335,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl(GuiEditorCenterSnapping_btn) {
                   bitmapAsset = "ToolsModule:centersnap_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "ToggleButton";
@@ -364,7 +373,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:align_left_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -386,7 +395,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:vertical_center_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -408,7 +417,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:align_right_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -430,7 +439,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:align_top_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -452,7 +461,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:horizontal_center_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -474,7 +483,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:align_bottom_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -528,7 +537,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
             };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:send_to_back_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -550,7 +559,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:bring_to_front_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -572,7 +581,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:distribute_horizontal_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";
@@ -594,7 +603,7 @@ $guiContent = new GuiControl(GuiEditorGui, EditorGuiGroup) {
                };
                new GuiBitmapButtonCtrl() {
                   bitmapAsset = "ToolsModule:distribute_vertical_n_image";
-                  bitmapMode = "Stretched";
+                  bitmapMode = "Centered";
                   autoFitExtents = "0";
                   groupNum = "-1";
                   buttonType = "PushButton";

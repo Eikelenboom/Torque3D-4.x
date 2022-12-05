@@ -250,10 +250,31 @@ function MaterialEditorGui::selectMaterialAsset(%this, %assetId)
    AssetBrowser.editAsset(%assetId);
 }
 
-//------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
+function MaterialEditorGui::onWake(%this)
+{   
+   %fixedWindow = MaterialEditorPreviewWindow;
+   %fluidWindow = MaterialEditorPropertiesWindow;
+   
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1)
+   {
+      // Let's dock the side panel to the right side
+      %this.docked = false;
+      %this.resizing = true;
+      %this.dockSidePanel();
+   }
+   else
+   {
+      // Let's release the side panel so it can be moved
+      %this.docked = true;
+      %this.resizing = false;
+      %this.releaseSidePanel();
+   }
+}
 
 function MaterialEditorGui::maxSize(%this, %window)
-{
+{      
    // Resize the windows to the max height
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
@@ -292,7 +313,12 @@ function MaterialEditorPreviewWindow::onMouseDragged(%this)
 {
    %parent = MaterialEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -303,7 +329,12 @@ function MaterialEditorPropertiesWindow::onMouseDragged(%this)
 {
    %parent = MaterialEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -315,15 +346,142 @@ function MaterialEditorGui::onResize(%this, %newPosition, %newExtent)
    // Window to focus on (mostly the fluid window)
    %window = MaterialEditorPropertiesWindow;
    
-   if(%this.resizing == false)
+   if(%window.panelHidden == true)
+   {
+      %window.showSidePanel();
+   }
+   
+   if(%this.resizing == false && EWorldEditor.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
       %this.maxSize(%window);
    }
-   
-   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
 }
+
+function MaterialEditorGui::dockSidePanel()
+{
+   %parent = MaterialEditorGui;
+   %fixedWindow = MaterialEditorPreviewWindow;
+   %fluidWindow = MaterialEditorPropertiesWindow;
+   
+   if(%parent.docked == true)
+      return;
+   
+   // Move and resize the window(s)
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+      
+   %parent.docked = true;
+   %fluidWindow.onMouseDragged();
+
+   // Lock the windows in place
+   %fixedWindow.canCollapse = "0";
+   %fixedWindow.canMove = "0";
+   
+   %fluidWindow.canCollapse = "0";
+   %fluidWindow.canMove = "0";
+   
+   MaterialEditorGui_UnDockBtn.Visible = "1";
+   MaterialEditorGui_DockBtn.Visible = "0";
+   
+   MaterialEditorGui_showBtn.Visible = "0";
+   MaterialEditorGui_hideBtn.Visible = "1";
+}
+
+function MaterialEditorGui::releaseSidePanel()
+{      
+   %parent = MaterialEditorGui;
+   %fixedWindow = MaterialEditorPreviewWindow;
+   %fluidWindow = MaterialEditorPropertiesWindow;
+   
+   if(%parent.docked == false)
+      return;
+   
+   // Unlock the windows so that be moved
+   %fixedWindow.canCollapse = "1";
+   %fixedWindow.canMove = "1";
+   
+   %fluidWindow.canCollapse = "1";
+   %fluidWindow.canMove = "1";
+   
+   MaterialEditorGui_UnDockBtn.Visible = "0";
+   MaterialEditorGui_DockBtn.Visible = "1";
+   
+   MaterialEditorGui_showBtn.Visible = "0";
+   MaterialEditorGui_hideBtn.Visible = "0";
+   
+   // Let's do a small resize so it's visually clear we're undocking
+   %position = %fixedWindow.position.x - 6 SPC %fixedWindow.position.y + 6;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  %fluidWindow.position.x - 6 SPC  %fluidWindow.position.y + 6;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y - 12;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.docked = false;
+   %parent.resizing = false;
+}
+
+function MaterialEditorGui::hideSidePanel()
+{
+   %parent = MaterialEditorGui;
+   %fixedWindow = MaterialEditorPreviewWindow;
+   %fluidWindow = MaterialEditorPropertiesWindow;
+   
+   MaterialEditorGui_showBtn.Visible = "1";
+   MaterialEditorGui_hideBtn.Visible = "0";
+   
+   // hide the content of the panels
+   %fixedWindow.titleText = %fixedWindow.text;
+   %fluidWindow.titleText = %fluidWindow.text;
+   
+   %fixedWindow.text = "";
+   matEd_previewPanel.Visible = "0";
+   matEd_quickPreview_Popup.Visible = "0";
+   
+   %fluidWindow.text = "";
+   MaterialEditorGuiContent.Visible = "0";
+   
+   // Let's do a resize so that the panel is collapsed to the side
+   %position = Canvas.extent.x - 24 SPC %fixedWindow.position.y;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  Canvas.extent.x - 24 SPC  %fluidWindow.position.y;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.panelHidden = true;
+}
+
+function MaterialEditorGui::showSidePanel()
+{
+   %parent = MaterialEditorGui;
+   %fixedWindow = MaterialEditorPreviewWindow;
+   %fluidWindow = MaterialEditorPropertiesWindow;
+   
+   MaterialEditorGui_showBtn.Visible = "0";
+   MaterialEditorGui_hideBtn.Visible = "1";
+   
+   // show the content of the panels
+   // hide the content of the panels
+   %fixedWindow.text = %fixedWindow.titleText;
+   matEd_previewPanel.Visible = "1";
+   matEd_quickPreview_Popup.Visible = "1";
+   
+   %fluidWindow.text = %fluidWindow.titleText;
+   MaterialEditorGuiContent.Visible = "1";
+   
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+   
+   %parent.panelHidden = false;
+}
+
+//-----------------------------------------------------------------------------
+
 
 //==============================================================================
 // SubMaterial(Material Target) -- Supports different ways to grab the 
@@ -598,8 +756,8 @@ function MaterialEditorGui::isMatEditorMaterial(%this, %material)
 
 function MaterialEditorGui::setMaterialNotDirty(%this)
 {
-   %propertyText = "Material Properties";
-   %previewText = "Material Preview";
+   %propertyText = "::  Material Editor - Properties";
+   %previewText = "::  Material Editor - Preview";
    MaterialEditorPropertiesWindow.text = %propertyText;
    MaterialEditorPreviewWindow.text = %previewText;
    
@@ -609,8 +767,8 @@ function MaterialEditorGui::setMaterialNotDirty(%this)
 
 function MaterialEditorGui::setMaterialDirty(%this)
 { 
-   %propertyText = "Material Properties *";
-   %previewText = "Material Preview *";
+   %propertyText = "::  Material Editor - Properties *";
+   %previewText = "::  Material Editor - Preview *";
    MaterialEditorPropertiesWindow.text = %propertyText;
    MaterialEditorPreviewWindow.text = %previewText;
    

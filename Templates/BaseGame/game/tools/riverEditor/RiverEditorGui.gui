@@ -71,7 +71,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       canMaximize = "0";
       minSize = "50 50";
       EdgeSnap = "1";
-      text = "Rivers";
+      text = "::  River Editor - Rivers";
       
       /*
       new GuiBitmapButtonCtrl() {
@@ -223,7 +223,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       canMaximize = "0";
       minSize = "50 50";
       EdgeSnap = "1";
-      text = "Properties";
+      text = "::  River Editor - Properties";
       
       new GuiContainer(){ //Node Properties
          isContainer = "1";
@@ -236,7 +236,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
          Margin = "3 3 3 3";
          
          new GuiTextCtrl(){
-            Profile = "ToolsGuiDefaultProfile";
+            Profile = "EditorTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
@@ -328,7 +328,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
          Margin = "0 0 3 3";
          
          new GuiTextCtrl(){
-            Profile = "ToolsGuiDefaultProfile";
+            Profile = "EditorTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
@@ -392,11 +392,11 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
          canSaveDynamicFields = "0";
          Enabled = "1";
          isContainer = "0";
-         position = "8" SPC getWord(RiverEditorOptionsWindow.extent, 1) - 38;
+         position = "8" SPC getWord(RiverEditorOptionsWindow.extent, 1) - 40;
          HorizSizing = "width";
          VertSizing = "top";
          Position = "1 485";
-         Extent = "202 42";
+         Extent = "330 42";
          MinExtent = "8 2";
          canSave = "1";
          Visible = "1";

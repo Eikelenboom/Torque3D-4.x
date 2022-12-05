@@ -22,8 +22,29 @@
 
 //------------------------------------------------------------------------------
 
+function MissionAreaEditorGui::onWake(%this)
+{  
+   %fixedWindow = MissionAreaEditorTerrainWindow;
+   %fluidWindow = MissionAreaEditorPropertiesWindow;   
+   
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1)
+   {
+      // Let's dock the side panel to the right side
+      %this.docked = false;
+      %this.resizing = true;
+      %this.dockSidePanel();
+   }
+   else
+   {
+      // Let's release the side panel so it can be moved
+      %this.docked = true;
+      %this.resizing = false;
+      %this.releaseSidePanel();
+   }
+}
+
 function MissionAreaEditorGui::maxSize(%this, %window)
-{
+{      
    // Resize the windows to the max height
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
@@ -62,7 +83,12 @@ function MissionAreaEditorTerrainWindow::onMouseDragged(%this)
 {
    %parent = MissionAreaEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -73,7 +99,12 @@ function MissionAreaEditorPropertiesWindow::onMouseDragged(%this)
 {
    %parent = MissionAreaEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -85,14 +116,139 @@ function MissionAreaEditorGui::onResize(%this, %newPosition, %newExtent)
    // Window to focus on (mostly the fluid window)
    %window = MissionAreaEditorPropertiesWindow;
    
-   if(%this.resizing == false)
+   if(%window.panelHidden == true)
+   {
+      %window.showSidePanel();
+   }
+   
+   if(%this.resizing == false && EWorldEditor.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
       %this.maxSize(%window);
    }
+}
+
+function MissionAreaEditorGui::dockSidePanel()
+{
+   %parent = MissionAreaEditorGui;
+   %fixedWindow = MissionAreaEditorTerrainWindow;
+   %fluidWindow = MissionAreaEditorPropertiesWindow;
    
-   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+   if(%parent.docked == true)
+      return;
+   
+   // Move and resize the window(s)
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+      
+   %parent.docked = true;
+   %fluidWindow.onMouseDragged();
+
+   // Lock the windows in place
+   %fixedWindow.canCollapse = "0";
+   %fixedWindow.canMove = "0";
+   
+   %fluidWindow.canCollapse = "0";
+   %fluidWindow.canMove = "0";
+   
+   MissionAreaEditorGui_UnDockBtn.Visible = "1";
+   MissionAreaEditorGui_DockBtn.Visible = "0";
+   
+   MissionAreaEditorGui_showBtn.Visible = "0";
+   MissionAreaEditorGui_hideBtn.Visible = "1";
+}
+
+function MissionAreaEditorGui::releaseSidePanel()
+{      
+   %parent = MissionAreaEditorGui;
+   %fixedWindow = MissionAreaEditorTerrainWindow;
+   %fluidWindow = MissionAreaEditorPropertiesWindow;
+   
+   if(%parent.docked == false)
+      return;
+   
+   // Unlock the windows so that be moved
+   %fixedWindow.canCollapse = "1";
+   %fixedWindow.canMove = "1";
+   
+   %fluidWindow.canCollapse = "1";
+   %fluidWindow.canMove = "1";
+   
+   MissionAreaEditorGui_UnDockBtn.Visible = "0";
+   MissionAreaEditorGui_DockBtn.Visible = "1";
+   
+   MissionAreaEditorGui_showBtn.Visible = "0";
+   MissionAreaEditorGui_hideBtn.Visible = "0";
+   
+   // Let's do a small resize so it's visually clear we're undocking
+   %position = %fixedWindow.position.x - 6 SPC %fixedWindow.position.y + 6;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  %fluidWindow.position.x - 6 SPC  %fluidWindow.position.y + 6;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y - 12;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.docked = false;
+   %parent.resizing = false;
+}
+
+function MissionAreaEditorGui::hideSidePanel()
+{
+   %parent = MissionAreaEditorGui;
+   %fixedWindow = MissionAreaEditorTerrainWindow;
+   %fluidWindow = MissionAreaEditorPropertiesWindow;
+   
+   MissionAreaEditorGui_showBtn.Visible = "1";
+   MissionAreaEditorGui_hideBtn.Visible = "0";
+   
+   // hide the content of the panels
+   %fixedWindow.titleText = %fixedWindow.text;
+   %fluidWindow.titleText = %fluidWindow.text;
+   
+   %fixedWindow.text = "";
+   MissionAreaEditorTerrainPanel.Visible = "0";
+   
+   %fluidWindow.text = "";
+   MissionAreaEditorPropertiesPanel.Visible = "0";
+   MissionAreaInspectorPanel.Visible = "0";
+   MissionAreaFieldInfoControlPanel.Visible = "0";
+   
+   // Let's do a resize so that the panel is collapsed to the side
+   %position = Canvas.extent.x - 24 SPC %fixedWindow.position.y;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  Canvas.extent.x - 24 SPC %fluidWindow.position.y;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.panelHidden = true;
+}
+
+function MissionAreaEditorGui::showSidePanel()
+{
+   %parent = MissionAreaEditorGui;
+   %fixedWindow = MissionAreaEditorTerrainWindow;
+   %fluidWindow = MissionAreaEditorPropertiesWindow;
+   
+   MissionAreaEditorGui_showBtn.Visible = "0";
+   MissionAreaEditorGui_hideBtn.Visible = "1";
+   
+   // show the content of the panels
+   %fixedWindow.text = %fixedWindow.titleText;
+   MissionAreaEditorTerrainPanel.Visible = "1";
+   
+   %fluidWindow.text = %fluidWindow.titleText;
+   MissionAreaEditorPropertiesPanel.Visible = "1";
+   MissionAreaInspectorPanel.Visible = "1";
+   MissionAreaFieldInfoControlPanel.Visible = "1";
+   
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+   
+   %parent.panelHidden = false;
 }
 
 //------------------------------------------------------------------------------
@@ -157,5 +313,5 @@ function MissionAreaInspector::onInspectorFieldModified( %this, %object, %fieldN
 
 function MissionAreaInspector::onFieldSelected( %this, %fieldName, %fieldTypeStr, %fieldDoc )
 {
-   MissionAreaFieldInfoControl.setText( "<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " NL "<font:Arial:14>" @ %fieldDoc );
+   MissionAreaFieldInfoControl.setText( "<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " @ " :   " @ "<font:Arial:14>" @ %fieldDoc );
 }

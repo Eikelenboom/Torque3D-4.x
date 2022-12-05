@@ -421,7 +421,7 @@ function EditorGui::addToToolsToolbar( %this, %pluginName, %internalName, %image
          useMouseEvents = "0";
       };
       ToolsToolbarArray.add(%button);
-      EWToolsToolbar.setExtent((25 + 8) * (%count + 1) + 12 SPC "33");
+      EWToolsToolbar.setExtent((29 + 4) * (%count + 1) + 4 SPC "32");
    }
 }
 
@@ -1704,9 +1704,13 @@ function EWorldEditor::hideSidePanel()
    EWorldEditor_hideBtn.Visible = "0";
    
    // hide the content of the panels
-   EWTreeWindow.text = "";
+   %fixedWindow.titleText = %fixedWindow.text;
+   %fluidWindow.titleText = %fluidWindow.text;
+   
+   %fixedWindow.text = "";
    EditorTreeTabBook.Visible = "0";
-   EWInspectorWindow.text = "";
+   
+   %fluidWindow.text = "";
    EWInspectorContainer.Visible = "0";
    
    // Let's do a resize so that the panel is collapsed to the side
@@ -1731,9 +1735,10 @@ function EWorldEditor::showSidePanel()
    EWorldEditor_hideBtn.Visible = "1";
    
    // show the content of the panels
-   EWTreeWindow.text = "Scene Tree";
+   %fixedWindow.text = %fixedWindow.titleText;
    EditorTreeTabBook.Visible = "1";
-   EWInspectorWindow.text = "Inspector";
+   
+   %fluidWindow.text = %fluidWindow.titleText;
    EWInspectorContainer.Visible = "1";
    
    %parent.resizing = true;
@@ -2764,7 +2769,7 @@ function EWToolsToolbar::reset( %this )
    EWToolsToolbar.isDynamic = 0;
       
    EWToolsToolbarDecoy.setVisible(false);
-   EWToolsToolbarDecoy.setExtent((29 + 4) * %count + 4, 31);
+   EWToolsToolbarDecoy.setExtent((29 + 4) * %count + 4, 32);
 
   %this-->resizeArrow.setBitmap( "ToolsModule:collapse_toolbar_n_image" );
 }
@@ -2794,7 +2799,7 @@ function EWToolsToolbar::toggleSize( %this, %useDynamics )
          EWToolsToolbar.isDynamic = 1;
       }
          
-      EWToolsToolbarDecoy.setExtent(35, 31);
+      EWToolsToolbarDecoy.setExtent(35, 32);
    }
    else
    {

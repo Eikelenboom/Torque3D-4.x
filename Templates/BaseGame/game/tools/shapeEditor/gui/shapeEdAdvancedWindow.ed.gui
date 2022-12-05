@@ -1,16 +1,16 @@
 // Let's check if the ShapeEdAdvancedWindow can be stacked in the side panel
-if (getWord($pref::Video::mode, 1) < 960) 
+if (getWord($pref::Video::mode, 1) > 899 && isObject(ShapeEdSelectWindow) && isObject(ShapeEdPropWindow))
 { 
-   $ShapeEdAdvancedWindowPos = getWord($pref::Video::mode, 0) - 720 SPC getWord(EditorGuiToolbar.extent, 1) + 6; 
+   $ShapeEdAdvancedWindowPos = getWord($pref::Video::mode, 0) - 360 SPC getWord(ShapeEdSelectWindow.extent, 1) + getWord(ShapeEdPropWindow.extent, 1) + getWord(EditorGuiToolbar.extent, 1) + 12;
 }
 else 
 { 
-   $ShapeEdAdvancedWindowPos = getWord($pref::Video::mode, 0) - 360 SPC getWord(ShapeEdSelectWindow.extent, 1) + getWord(ShapeEdPropWindow.extent, 1) + getWord(EditorGuiToolbar.extent, 1) + 6;
+   $ShapeEdAdvancedWindowPos = getWord($pref::Video::mode, 0) - 720 SPC getWord(EditorGuiToolbar.extent, 1) + 6; 
 }
 
 //--- OBJECT WRITE BEGIN ---
 $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
-   text = "Advanced Properties";
+   text = "::  Shape Editor - Advanced Properties";
    resizeWidth = "0";
    resizeHeight = "0";
    canMove = "1";
@@ -701,7 +701,6 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
                };
                new GuiBitmapCtrl(){
                   bitmapAsset = "ToolsModule:inactive_overlay_image";
-                  bitmap = "core/art/gui/images/inactive-overlay";
                   position = "4 18";
                   Extent = "193 68";
                   tooltip = "Imposters must be enabled, and an imposter detail level selected to edit these properties";
@@ -1494,11 +1493,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "4";
-               position = "265 47";
+               position = "320 47";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullDepthText";
             };
             new GuiTextCtrl() {
@@ -1530,11 +1529,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "30";
-               position = "265 68";
+               position = "320 68";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullMergeText";
             };
             new GuiTextCtrl() {
@@ -1566,11 +1565,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "30";
-               position = "265 89";
+               position = "320 89";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullConcaveText";
             };
             new GuiTextCtrl() {
@@ -1602,11 +1601,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "32";
-               position = "265 110";
+               position = "320 110";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullMaxVertsText";
             };
             new GuiTextCtrl() {
@@ -1638,11 +1637,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "30";
-               position = "265 131";
+               position = "320 131";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullMaxBoxErrorText";
             };
             new GuiTextCtrl() {
@@ -1674,11 +1673,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "30";
-               position = "265 152";
+               position = "320 152";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullMaxSphereErrorText";
             };
             new GuiTextCtrl() {
@@ -1710,11 +1709,11 @@ $guiContent = new GuiWindowCollapseCtrl(ShapeEdAdvancedWindow, EditorGuiGroup) {
             };
             new GuiTextCtrl() {
                text = "30";
-               position = "265 173";
+               position = "320 173";
                extent = "25 16";
                horizSizing = "right";
                vertSizing = "bottom";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                internalName = "hullMaxCapsuleErrorText";
             };
             new GuiButtonCtrl() {

@@ -69,7 +69,7 @@ $guiContent = new GuiDecalEditorCtrl(DecalEditorGui) {
       minSize = "50 50";
       closeCommand = "EditorGui.setEditor( WorldEditorInspectorPlugin );";
       EdgeSnap = "1";
-      text = "Decal Editor";
+      text = "::  Decal Editor";
          
       new GuiTabBookCtrl(DecalEditorTabBook) {
          canSaveDynamicFields = "0";
@@ -291,95 +291,198 @@ $guiContent = new GuiDecalEditorCtrl(DecalEditorGui) {
             };
          };
       };
-      // Save Button
-      new GuiBitmapButtonCtrl(SaveDecalsButton) {
-         canSaveDynamicFields = "0";
-         Enabled = "1";
-         isContainer = "0";
-         Profile = "ToolsGuiDefaultProfile";
+      
+      new GuiContainer(DecalsButtonsGroup){
          HorizSizing = "left";
          VertSizing = "bottom";
-         position = "237 26";
-         Extent = "16 16";
-         MinExtent = "8 2";
-         canSave = "1";
-         isDecoy = "0";
-         Visible = "1";
-         Command = "DecalPMan.saveDirty(); DecalInspector::removeDirty();";
-         hovertime = "1000";
-         groupNum = "-1";
-         text ="";
-         tooltip = "Save All";
-         buttonType = "PushButton";
-         useMouseEvents = "0";
-         bitmapAsset = "ToolsModule:save_icon_n_image";
-      };
+         Position = "240 0";
+         Extent = "110 55";
+         Docking = "none";
          
-      new GuiBitmapButtonCtrl(RetargetDecalButton) {
-         canSaveDynamicFields = "0";
-         Enabled = "1";
-         isContainer = "0";
-         Profile = "ToolsGuiButtonProfile";
-         HorizSizing = "left";
-         VertSizing = "bottom";
-         Position = "257 26";
-         Extent = "16 16";
-         MinExtent = "8 2";
-         canSave = "1";
-         isDecoy = "0";
-         Visible = "1";
-         tooltipprofile = "ToolsGuiToolTipProfile";
-         hovertime = "1000";
-         tooltip = "Retarget missing decals to an existing decal datablock";
-         bitmapAsset = "ToolsModule:retarget_btn_n_image";
-         buttonType = "PushButton";
-         useMouseEvents = "0";
+         // Save Button
+         new GuiBitmapButtonCtrl(SaveDecalsButton) {
+            canSaveDynamicFields = "0";
+            Enabled = "1";
+            isContainer = "0";
+            Profile = "ToolsGuiDefaultProfile";
+            HorizSizing = "right";
+            VertSizing = "bottom";
+            position = "37 24";
+            Extent = "16 16";
+            MinExtent = "8 2";
+            canSave = "1";
+            isDecoy = "0";
+            Visible = "1";
+            Command = "DecalPMan.saveDirty(); DecalInspector::removeDirty();";
+            hovertime = "1000";
+            groupNum = "-1";
+            text ="";
+            tooltip = "Save All";
+            buttonType = "PushButton";
+            useMouseEvents = "0";
+            bitmapAsset = "ToolsModule:save_icon_n_image";
+         };
+            
+         new GuiBitmapButtonCtrl(RetargetDecalButton) {
+            canSaveDynamicFields = "0";
+            Enabled = "1";
+            isContainer = "0";
+            Profile = "ToolsGuiButtonProfile";
+            HorizSizing = "right";
+            VertSizing = "bottom";
+            Position = "57 24";
+            Extent = "16 16";
+            MinExtent = "8 2";
+            canSave = "1";
+            isDecoy = "0";
+            Visible = "1";
+            tooltipprofile = "ToolsGuiToolTipProfile";
+            hovertime = "1000";
+            tooltip = "Retarget missing decals to an existing decal datablock";
+            bitmapAsset = "ToolsModule:retarget_btn_n_image";
+            buttonType = "PushButton";
+            useMouseEvents = "0";
+         };
+         
+         new GuiBitmapButtonCtrl(NewDecalButton) {
+            canSaveDynamicFields = "0";
+            Enabled = "1";
+            isContainer = "0";
+            Profile = "ToolsGuiButtonProfile";
+            HorizSizing = "right";
+            VertSizing = "bottom";
+            Position = "76 24";
+            Extent = "16 16";
+            MinExtent = "8 2";
+            canSave = "1";
+            isDecoy = "0";
+            Visible = "1";
+            tooltipprofile = "ToolsGuiToolTipProfile";
+            hovertime = "1000";
+            tooltip = "Create New Decal Template";
+            bitmapAsset = "ToolsModule:new_n_image";
+            buttonType = "PushButton";
+            useMouseEvents = "0";
+         };
+         
+         new GuiBitmapButtonCtrl(DeleteDecalButton) {
+            canSaveDynamicFields = "0";
+            Enabled = "1";
+            isContainer = "0";
+            Profile = "ToolsGuiButtonProfile";
+            HorizSizing = "right";
+            VertSizing = "bottom";
+            Position = "92 24";
+            Extent = "16 16";
+            MinExtent = "8 2";
+            canSave = "1";
+            isDecoy = "0";
+            Visible = "1";
+            tooltipprofile = "ToolsGuiToolTipProfile";
+            hovertime = "1000";
+            text = "";
+            tooltip = "Delete Selected Decal Template";
+            bitmapAsset = "ToolsModule:delete_n_image";
+            groupNum = "-1";
+            buttonType = "PushButton";
+            useMouseEvents = "0";
+            tabSelected = "0";
+         };
       };
       
-      new GuiBitmapButtonCtrl(NewDecalButton) {
+      // window / panel buttons
+      new GuiBitmapButtonCtrl(DecalEditorGui_UnDockBtn) {
          canSaveDynamicFields = "0";
+         internalName = "";
          Enabled = "1";
          isContainer = "0";
          Profile = "ToolsGuiButtonProfile";
          HorizSizing = "left";
          VertSizing = "bottom";
-         Position = "277 26";
-         Extent = "16 16";
-         MinExtent = "8 2";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
          canSave = "1";
-         isDecoy = "0";
-         Visible = "1";
+         Visible = "0";
+         Command = "DecalEditorGui.releaseSidePanel();";
          tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Detach Sidepanel";
          hovertime = "1000";
-         tooltip = "Create New Decal Template";
-         bitmapAsset = "ToolsModule:new_n_image";
-         buttonType = "PushButton";
-         useMouseEvents = "0";
-      };
-      
-      new GuiBitmapButtonCtrl(DeleteDecalButton) {
-         canSaveDynamicFields = "0";
-         Enabled = "1";
-         isContainer = "0";
-         Profile = "ToolsGuiButtonProfile";
-         HorizSizing = "left";
-         VertSizing = "bottom";
-         Position = "290 26";
-         Extent = "16 16";
-         MinExtent = "8 2";
-         canSave = "1";
-         isDecoy = "0";
-         Visible = "1";
-         tooltipprofile = "ToolsGuiToolTipProfile";
-         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_undock_n_image";
          text = "";
-         tooltip = "Delete Selected Decal Template";
-         bitmapAsset = "ToolsModule:delete_n_image";
          groupNum = "-1";
          buttonType = "PushButton";
          useMouseEvents = "0";
-         tabSelected = "0";
       };
+      new GuiBitmapButtonCtrl(DecalEditorGui_DockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "DecalEditorGui.dockSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Dock Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_dock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(DecalEditorGui_HideBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "312 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "DecalEditorGui.hideSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Hide Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_hide_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(DecalEditorGui_ShowBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "right";
+         VertSizing = "bottom";
+         Position = "4 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "DecalEditorGui.showSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Show Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_show_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };           
    }; 
 
    new GuiWindowCollapseCtrl(DecalPreviewWindow) {
@@ -414,7 +517,7 @@ $guiContent = new GuiDecalEditorCtrl(DecalEditorGui) {
       minSize = "152 235";
       closeCommand = "EPainter.parentGroup.setVisible(false);";
       EdgeSnap = "1";
-      text = "Decal Properties";
+      text = "::  Decal Properties";
       
       new GuiScrollCtrl(DecalEditorTemplateProperties){
          canSaveDynamicFields = "0";

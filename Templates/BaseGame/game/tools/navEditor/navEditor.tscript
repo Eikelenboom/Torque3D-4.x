@@ -37,8 +37,29 @@ function NavEditorGui::onEditorDeactivated(%this)
 
 //------------------------------------------------------------------------------
 
+function NavEditorGui::onWake(%this)
+{  
+   %fixedWindow = NavEditorTreeWindow;
+   %fluidWindow = NavEditorOptionsWindow;   
+   
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1)
+   {
+      // Let's dock the side panel to the right side
+      %this.docked = false;
+      %this.resizing = true;
+      %this.dockSidePanel();
+   }
+   else
+   {
+      // Let's release the side panel so it can be moved
+      %this.docked = true;
+      %this.resizing = false;
+      %this.releaseSidePanel();
+   }
+}
+
 function NavEditorGui::maxSize(%this, %window)
-{
+{      
    // Resize the windows to the max height
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
@@ -77,7 +98,12 @@ function NavEditorTreeWindow::onMouseDragged(%this)
 {
    %parent = NavEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -88,7 +114,12 @@ function NavEditorOptionsWindow::onMouseDragged(%this)
 {
    %parent = NavEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -100,14 +131,141 @@ function NavEditorGui::onResize(%this, %newPosition, %newExtent)
    // Window to focus on (mostly the fluid window)
    %window = NavEditorOptionsWindow;
    
-   if(%this.resizing == false)
+   if(%window.panelHidden == true)
+   {
+      %window.showSidePanel();
+   }
+   
+   if(%this.resizing == false && EWorldEditor.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
       %this.maxSize(%window);
    }
+}
+
+function NavEditorGui::dockSidePanel()
+{
+   %parent = NavEditorGui;
+   %fixedWindow = NavEditorTreeWindow;
+   %fluidWindow = NavEditorOptionsWindow;
    
-   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+   if(%parent.docked == true)
+      return;
+   
+   // Move and resize the window(s)
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+      
+   %parent.docked = true;
+   %fluidWindow.onMouseDragged();
+
+   // Lock the windows in place
+   %fixedWindow.canCollapse = "0";
+   %fixedWindow.canMove = "0";
+   
+   %fluidWindow.canCollapse = "0";
+   %fluidWindow.canMove = "0";
+   
+   NavEditorGui_UnDockBtn.Visible = "1";
+   NavEditorGui_DockBtn.Visible = "0";
+   
+   NavEditorGui_showBtn.Visible = "0";
+   NavEditorGui_hideBtn.Visible = "1";
+}
+
+function NavEditorGui::releaseSidePanel()
+{      
+   %parent = NavEditorGui;
+   %fixedWindow = NavEditorTreeWindow;
+   %fluidWindow = NavEditorOptionsWindow;
+   
+   if(%parent.docked == false)
+      return;
+   
+   // Unlock the windows so that be moved
+   %fixedWindow.canCollapse = "1";
+   %fixedWindow.canMove = "1";
+   
+   %fluidWindow.canCollapse = "1";
+   %fluidWindow.canMove = "1";
+   
+   NavEditorGui_UnDockBtn.Visible = "0";
+   NavEditorGui_DockBtn.Visible = "1";
+   
+   NavEditorGui_showBtn.Visible = "0";
+   NavEditorGui_hideBtn.Visible = "0";
+   
+   // Let's do a small resize so it's visually clear we're undocking
+   %position = %fixedWindow.position.x - 6 SPC %fixedWindow.position.y + 6;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  %fluidWindow.position.x - 6 SPC  %fluidWindow.position.y + 6;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y - 12;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.docked = false;
+   %parent.resizing = false;
+}
+
+function NavEditorGui::hideSidePanel()
+{
+   %parent = NavEditorGui;
+   %fixedWindow = NavEditorTreeWindow;
+   %fluidWindow = NavEditorOptionsWindow;
+   
+   NavEditorGui_showBtn.Visible = "1";
+   NavEditorGui_hideBtn.Visible = "0";
+   
+   // hide the content of the panels
+   %fixedWindow.titleText = %fixedWindow.text;
+   %fluidWindow.titleText = %fluidWindow.text;
+
+   %fixedWindow.text = "";
+   NavEditorTreePanel.Visible = "0";
+   
+   %fluidWindow.text = "";
+   NavEditorOptionsPanel.Visible = "0";
+   NavEditorInspector.Visible = "0";
+   NavEditorOptScroll.Visible = "0";
+   NavFieldInfoControl.Visible = "0";
+   
+   // Let's do a resize so that the panel is collapsed to the side
+   %position = Canvas.extent.x - 24 SPC %fixedWindow.position.y;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  Canvas.extent.x - 24 SPC %fluidWindow.position.y;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.panelHidden = true;
+}
+
+function NavEditorGui::showSidePanel()
+{
+   %parent = NavEditorGui;
+   %fixedWindow = NavEditorTreeWindow;
+   %fluidWindow = NavEditorOptionsWindow;
+   
+   NavEditorGui_showBtn.Visible = "0";
+   NavEditorGui_hideBtn.Visible = "1";
+   
+   // showthe content of the panels
+   %fixedWindow.text = %fixedWindow.titleText;
+   NavEditorTreePanel.Visible = "1";
+   
+   %fluidWindow.text = %fluidWindow.titleText;
+   NavEditorOptionsPanel.Visible = "1";
+   NavEditorInspector.Visible = "1";
+   NavEditorOptScroll.Visible = "1";
+   NavFieldInfoControl.Visible = "1";
+   
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+   
+   %parent.panelHidden = false;
 }
 
 //------------------------------------------------------------------------------
@@ -380,7 +538,7 @@ function NavInspector::onInspectorFieldModified(%this, %object, %fieldName, %arr
 
 function NavInspector::onFieldSelected(%this, %fieldName, %fieldTypeStr, %fieldDoc)
 {
-   NavFieldInfoControl.setText("<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " NL "<font:Arial:14>" @ %fieldDoc);
+   NavFieldInfoControl.setText("<font:Arial Bold:14>" @ %fieldName @ "<font:Arial Italic:14> (" @ %fieldTypeStr @ ") " @ " :   " @ "<font:Arial:14>" @ %fieldDoc);
 }
 
 function NavTreeView::onInspect(%this, %obj)

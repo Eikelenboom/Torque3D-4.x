@@ -73,7 +73,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
       canMaximize = "0";
       minSize = "50 50";
       EdgeSnap = "1";
-      text = "Roads & Paths";
+      text = "::  Decal Road Editor - Roads & Paths";
       
       /*
       new GuiBitmapButtonCtrl() {
@@ -224,7 +224,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
       canMaximize = "0";
       minSize = "50 50";
       EdgeSnap = "1";
-      text = "Properties";
+      text = "::  Decal Road Editor - Properties";
       
       new GuiContainer(RoadEditorProperties){ //Node Properties
          isContainer = "1";
@@ -237,7 +237,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
          Margin = "3 3 3 3";
          
          new GuiTextCtrl(){
-            Profile = "ToolsGuiDefaultProfile";
+            Profile = "EditorTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
@@ -293,7 +293,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
          Margin = "0 0 3 3";
          
          new GuiTextCtrl(){
-            Profile = "ToolsGuiDefaultProfile";
+            Profile = "EditorTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
@@ -368,11 +368,11 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
          canSaveDynamicFields = "0";
          Enabled = "1";
          isContainer = "0";
-         position = "8" SPC getWord(RoadEditorOptionsWindow.extent, 1) - 38;
+         position = "8" SPC getWord(RoadEditorOptionsWindow.extent, 1) - 40;
          HorizSizing = "width";
          VertSizing = "top";
          Position = "1 485";
-         Extent = "202 42";
+         Extent = "330 42";
          MinExtent = "8 2";
          canSave = "1";
          Visible = "1";

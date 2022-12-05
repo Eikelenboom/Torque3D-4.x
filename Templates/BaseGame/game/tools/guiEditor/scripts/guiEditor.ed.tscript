@@ -1113,7 +1113,7 @@ function GuiEditorGui::initSettings( %this )
       EditorSettings.endGroup();
 
       EditorSettings.beginGroup( "Help" );
-      EditorSettings.setDefaultValue( "documentationURL", "http://www.garagegames.com/products/torque-3d/documentation/user" ); //RDTODO: make this point to Gui Editor docs when available
+      EditorSettings.setDefaultValue( "documentationURL", "https://docs.torque3d.org" ); //RDTODO: make this point to Gui Editor docs when available
 
       // Create a path to the local documentation.  This is a bit of guesswork here.
       // It assumes that the project is located in a folder of the SDK root directory

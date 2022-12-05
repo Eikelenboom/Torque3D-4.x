@@ -20,15 +20,31 @@
 // IN THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
-function DecalEditorGui::onWake( %this )
-{
-   // 
-}
-
 //-----------------------------------------------------------------------------
 
+function DecalEditorGui::onWake(%this)
+{   
+   %fixedWindow = DecalEditorWindow;
+   %fluidWindow = DecalPreviewWindow;
+   
+   if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1)
+   {
+      // Let's dock the side panel to the right side
+      %this.docked = false;
+      %this.resizing = true;
+      %this.dockSidePanel();
+   }
+   else
+   {
+      // Let's release the side panel so it can be moved
+      %this.docked = true;
+      %this.resizing = false;
+      %this.releaseSidePanel();
+   }
+}
+
 function DecalEditorGui::maxSize(%this, %window)
-{
+{      
    // Resize the windows to the max height
    // and force these to the right side if set
    if(EditorSettings.value( "WorldEditor/forceSidebarToSide" ) == 1 && %this.resizing == true)
@@ -63,22 +79,32 @@ function DecalEditorGui::maxSize(%this, %window)
    }
 }
 
-function DecalPreviewWindow::onMouseDragged(%this)
+function DecalEditorWindow::onMouseDragged(%this)
 {
    %parent = DecalEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
    }
 }
 
-function DecalEditorWindow::onMouseDragged(%this)
+function DecalPreviewWindow::onMouseDragged(%this)
 {
    %parent = DecalEditorGui;
    
-   if(%parent.resizing == false)
+   if(%parent.panelHidden == true)
+   {
+      %parent.showSidePanel();
+   }
+   
+   if(%parent.resizing == false && %parent.docked == true)
    {
       %parent.resizing = true;
       %parent.maxSize(%this);
@@ -88,16 +114,140 @@ function DecalEditorWindow::onMouseDragged(%this)
 function DecalEditorGui::onResize(%this, %newPosition, %newExtent)
 {
    // Window to focus on (mostly the fluid window)
-   %window = DecalEditorWindow;
+   %window = DecalPreviewWindow;
    
-   if(%this.resizing == false)
+   if(%window.panelHidden == true)
+   {
+      %window.showSidePanel();
+   }
+   
+   if(%this.resizing == false && EWorldEditor.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
       %this.maxSize(%window);
    }
+}
+
+function DecalEditorGui::dockSidePanel()
+{
+   %parent = DecalEditorGui;
+   %fixedWindow = DecalEditorWindow;
+   %fluidWindow = DecalPreviewWindow;
    
-   FieldInfoControl.position = 5 SPC EWInspectorWindow.extent.y - 40;
+   if(%parent.docked == true)
+      return;
+   
+   // Move and resize the window(s)
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+      
+   %parent.docked = true;
+   %fluidWindow.onMouseDragged();
+
+   // Lock the windows in place
+   %fixedWindow.canCollapse = "0";
+   %fixedWindow.canMove = "0";
+   
+   %fluidWindow.canCollapse = "0";
+   %fluidWindow.canMove = "0";
+   
+   DecalEditorGui_UnDockBtn.Visible = "1";
+   DecalEditorGui_DockBtn.Visible = "0";
+   
+   DecalEditorGui_showBtn.Visible = "0";
+   DecalEditorGui_hideBtn.Visible = "1";
+}
+
+function DecalEditorGui::releaseSidePanel()
+{      
+   %parent = DecalEditorGui;
+   %fixedWindow = DecalEditorWindow;
+   %fluidWindow = DecalPreviewWindow;
+   
+   if(%parent.docked == false)
+      return;
+   
+   // Unlock the windows so that be moved
+   %fixedWindow.canCollapse = "1";
+   %fixedWindow.canMove = "1";
+   
+   %fluidWindow.canCollapse = "1";
+   %fluidWindow.canMove = "1";
+   
+   DecalEditorGui_UnDockBtn.Visible = "0";
+   DecalEditorGui_DockBtn.Visible = "1";
+   
+   DecalEditorGui_showBtn.Visible = "0";
+   DecalEditorGui_hideBtn.Visible = "0";
+   
+   // Let's do a small resize so it's visually clear we're undocking
+   %position = %fixedWindow.position.x - 6 SPC %fixedWindow.position.y + 6;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  %fluidWindow.position.x - 6 SPC  %fluidWindow.position.y + 6;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y - 12;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.docked = false;
+   %parent.resizing = false;
+}
+
+function DecalEditorGui::hideSidePanel()
+{
+   %parent = DecalEditorGui;
+   %fixedWindow = DecalEditorWindow;
+   %fluidWindow = DecalPreviewWindow;
+   
+   DecalEditorGui_showBtn.Visible = "1";
+   DecalEditorGui_hideBtn.Visible = "0";
+   
+   // hide the content of the panels
+   %fixedWindow.titleText = %fixedWindow.text;
+   %fluidWindow.titleText = %fluidWindow.text;
+   
+   %fixedWindow.text = "";
+   DecalEditorTabBook.Visible = "0";
+   
+   %fluidWindow.text = "";
+   DecalEditorTemplateProperties.Visible = "0";
+   DecalEditorLibraryProperties.Visible = "0";
+   
+   // Let's do a resize so that the panel is collapsed to the side
+   %position = Canvas.extent.x - 24 SPC %fixedWindow.position.y;
+   %extent = %fixedWindow.extent.x SPC %fixedWindow.extent.y;
+   %fixedWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+
+   %position =  Canvas.extent.x - 24 SPC  %fluidWindow.position.y;
+   %extent = %fluidWindow.extent.x SPC %fluidWindow.extent.y;
+   %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+   
+   %parent.panelHidden = true;
+}
+
+function DecalEditorGui::showSidePanel()
+{
+   %parent = DecalEditorGui;
+   %fixedWindow = DecalEditorWindow;
+   %fluidWindow = DecalPreviewWindow;
+   
+   DecalEditorGui_showBtn.Visible = "0";
+   DecalEditorGui_hideBtn.Visible = "1";
+   
+   // show the content of the panels
+   // hide the content of the panels
+   %fixedWindow.text = %fixedWindow.titleText;
+   DecalEditorTabBook.Visible = "1";
+   
+   %fluidWindow.text = %fluidWindow.titleText;
+   DecalEditorTemplateProperties.Visible = "1";
+   DecalEditorLibraryProperties.Visible = "1";
+   
+   %parent.resizing = true;
+   %parent.maxSize(%fluidWindow);
+   
+   %parent.panelHidden = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -310,7 +460,7 @@ function DecalEditorTabBook::onTabSelected( %this, %text, %idx )
 {
    if( %idx == 0)
    {
-      DecalPreviewWindow.text = "Template Properties";
+      DecalPreviewWindow.text = "::  Decal Editor - Template Properties";
       DecalEditorLibraryProperties.setVisible(true);
       DecalEditorTemplateProperties.setVisible(false);
       RetargetDecalButton.setVisible( true );
@@ -320,7 +470,7 @@ function DecalEditorTabBook::onTabSelected( %this, %text, %idx )
    }
    else
    {
-      DecalPreviewWindow.text = "Instance Properties";
+      DecalPreviewWindow.text = "::  Decal Editor - Instance Properties";
       RetargetDecalButton.setVisible( false );
       NewDecalButton.setVisible( false );
       SaveDecalsButton.setVisible( false );

@@ -71,7 +71,7 @@ new VPathEditor(EVPathEditor) {
       minSize = "50 50";
       closeCommand = "EditorGui.setEditor( WorldEditorInspectorPlugin );";
       EdgeSnap = "1";
-      text = "Verve  Path Editor";
+      text = "::  Verve Path Editor";
       
       new GuiContainer(){
          profile = GuiDefaultProfile;
@@ -163,7 +163,7 @@ new VPathEditor(EVPathEditor) {
          canSaveDynamicFields = "0";
       };
       new GuiBitmapButtonCtrl() {
-         bitmap = "core/gui/images/new";
+         bitmapAsset = "ToolsModule:new_n_image";
          groupNum = "-1";
          buttonType = "PushButton";
          useMouseEvents = "0";
@@ -218,7 +218,7 @@ new VPathEditor(EVPathEditor) {
       minSize = "50 50";
       closeCommand = "EditorGui.setEditor( WorldEditorPlugin );";
       EdgeSnap = "1";
-      text = "Verve  Path Properties";
+      text = "::  Verve Path - Properties";
 
       new GuiContainer(){ //Node Properties
          isContainer = "1";
@@ -231,7 +231,7 @@ new VPathEditor(EVPathEditor) {
          Margin = "3 3 3 3";
          
          new GuiTextCtrl(){
-            Profile = "ToolsGuiTextProfile";
+            Profile = "EditorTextProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             Position = "5 0";
@@ -405,8 +405,8 @@ new VPathEditor(EVPathEditor) {
          Profile = "GuiInspectorFieldInfoMLTextProfile";
          HorizSizing = "width";
          VertSizing = "top";
-         position = "8" SPC getWord(VPathEditorOptionsWindow.extent, 1) - 38;
-         Extent = "202 42";
+         position = "8" SPC getWord(VPathEditorOptionsWindow.extent, 1) - 40;
+         Extent = "330 42";
          MinExtent = "8 2";
          canSave = "1";
          Visible = "1";

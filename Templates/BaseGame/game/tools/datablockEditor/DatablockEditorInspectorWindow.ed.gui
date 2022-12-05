@@ -23,7 +23,7 @@ $guiContent = new GuiControl() {
       minSize = "50 50";
       closeCommand = "DatablockEditorInspectorWindow.setVisible(false);";
       EdgeSnap = "1";
-      text = "Datablock";
+      text = "::  Datablock Editor - Data";
       Margin = "8 8 8 8";
       Padding = "0 0 0 0";
       AnchorTop = "1";
@@ -45,7 +45,7 @@ $guiContent = new GuiControl() {
       internalName = "DatablockEditorInspectorWindow";
       canSaveDynamicFields = "0";
 
-      new GuiContainer() {
+      new GuiContainer(DatablockEditorInspectorPanel) {
          Docking = "Client";
          Margin = "22 41 3 3";
          Padding = "0 0 0 0";
@@ -128,8 +128,8 @@ $guiContent = new GuiControl() {
          Profile = "GuiInspectorFieldInfoMLTextProfile";
          HorizSizing = "width";
          VertSizing = "top";
-         position = "8" SPC getWord(DatablockEditorInspectorWindow.extent, 1) - 38;
-         Extent = "320 14";
+         position = "8" SPC getWord(DatablockEditorInspectorWindow.extent, 1) - 40;
+         Extent = "330 14";
          MinExtent = "8 2";
          canSave = "1";
          Visible = "1";
@@ -137,7 +137,7 @@ $guiContent = new GuiControl() {
          hovertime = "1000";
          canSaveDynamicFields = "0";
       };
-      new GuiTextEditCtrl() {
+      new GuiTextEditCtrl(DatablockFileField) {
          historySize = "0";
          password = "0";
          tabComplete = "0";
