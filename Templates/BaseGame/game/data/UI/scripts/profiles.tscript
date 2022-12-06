@@ -90,11 +90,11 @@ new GuiControlProfile( GuiMenuButtonProfile )
    fontColorNA = $TextDisabledColor;
    fontColorSEL = $TextMediumEmphasisColor;
    fillColor = "40 40 40";
-   fillColorHL = "56 56 56";
+   fillColorHL = "49 34 37";
    fillColorNA = "40 40 40";
    borderColor = "87 87 87";
    borderColorNA = "0 0 0";
-   borderColorHL = "255 255 255";
+   borderColorHL = "194 64 64";
    fixedExtent = false;
    justify = "center";
    canKeyFocus = false;
