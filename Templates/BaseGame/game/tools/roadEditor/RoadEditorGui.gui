@@ -124,7 +124,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
          useMouseEvents = "0";
       };
       */
-      new GuiContainer(){
+      new GuiContainer(RoadEditorTreeWPanel){
          profile = "ToolsGuiDefaultProfile";
          Position = "5 25";
          Extent = "200 120";
@@ -192,6 +192,99 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
             };
          };
       };
+      // window / panel buttons
+      new GuiBitmapButtonCtrl(RoadEditorGui_UnDockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "RoadEditorGui.releaseSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Detach Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_undock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(RoadEditorGui_DockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "RoadEditorGui.dockSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Dock Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_dock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(RoadEditorGui_HideBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "312 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "RoadEditorGui.hideSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Hide Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_hide_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(RoadEditorGui_ShowBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "right";
+         VertSizing = "bottom";
+         Position = "4 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "RoadEditorGui.showSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Show Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_show_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };       
    };
    new GuiWindowCollapseCtrl(RoadEditorOptionsWindow) {
       canCollapse = "0";
@@ -282,7 +375,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
             AltCommand = "RoadEditorGui.editNodeDetails();";
          };
       };
-      new GuiContainer(){ //Decal Road Properties
+      new GuiContainer(RoadEditorPropPanel){ //Decal Road Properties
          isContainer = "1";
          Profile = "inspectorStyleRolloutDarkProfile";
          HorizSizing = "width";
@@ -302,7 +395,7 @@ $guiContent = new GuiRoadEditorCtrl(RoadEditorGui) {
          };
       };
       
-      new GuiContainer(){
+      new GuiContainer(RoadEditorPropScroll){
          profile = ToolsGuiDefaultProfile;
          Position = "4 108";
          Extent = "202 377";

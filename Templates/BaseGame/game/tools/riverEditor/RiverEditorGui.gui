@@ -123,7 +123,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       };
       
       */
-      new GuiContainer(){
+      new GuiContainer(RiverEditorTreeWPanel){
          profile = "ToolsGuiDefaultProfile";
          Position = "5 25";
          Extent = "200 120";
@@ -191,6 +191,99 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
             };
          };
       };
+      // window / panel buttons
+      new GuiBitmapButtonCtrl(RiverEditorGui_UnDockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "RiverEditorGui.releaseSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Detach Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_undock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(RiverEditorGui_DockBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "330 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "0";
+         Command = "RiverEditorGui.dockSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Dock Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_dock_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(RiverEditorGui_HideBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "left";
+         VertSizing = "bottom";
+         Position = "312 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "RiverEditorGui.hideSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Hide Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_hide_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };
+      new GuiBitmapButtonCtrl(RiverEditorGui_ShowBtn) {
+         canSaveDynamicFields = "0";
+         internalName = "";
+         Enabled = "1";
+         isContainer = "0";
+         Profile = "ToolsGuiButtonProfile";
+         HorizSizing = "right";
+         VertSizing = "bottom";
+         Position = "4 1";
+         Extent = "18 18";
+         MinExtent = "8 8";
+         canSave = "1";
+         Visible = "1";
+         Command = "RiverEditorGui.showSidePanel();";
+         tooltipprofile = "ToolsGuiToolTipProfile";
+         ToolTip = "Show Sidepanel";
+         hovertime = "1000";
+         bitmapAsset = "ToolsModule:panel_show_n_image";
+         text = "";
+         groupNum = "-1";
+         buttonType = "PushButton";
+         useMouseEvents = "0";
+      };  
    };
    new GuiWindowCollapseCtrl(RiverEditorOptionsWindow) {
       canCollapse = "0";
@@ -225,7 +318,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
       EdgeSnap = "1";
       text = "::  River Editor - Properties";
       
-      new GuiContainer(){ //Node Properties
+      new GuiContainer(RiverEditorOptionsPanel){ //Node Properties
          isContainer = "1";
          Profile = "inspectorStyleRolloutDarkProfile";
          HorizSizing = "width";
@@ -317,7 +410,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
             AltCommand = "RiverEditorGui.editNodeDetails();";
          };
       };
-      new GuiContainer(){ //River Properties
+      new GuiContainer(RiverEditorPropPanel){ //River Properties
          isContainer = "1";
          Profile = "inspectorStyleRolloutDarkProfile";
          HorizSizing = "width";
@@ -337,7 +430,7 @@ $guiContent = new GuiRiverEditorCtrl(RiverEditorGui, EditorGuiGroup) {
          };
       };
 
-      new GuiScrollCtrl() {
+      new GuiScrollCtrl(RiverEditorPropScroll) {
          canSaveDynamicFields = "0";
          Enabled = "1";
          isContainer = "1";

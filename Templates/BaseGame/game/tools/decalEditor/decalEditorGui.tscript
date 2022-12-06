@@ -236,7 +236,6 @@ function DecalEditorGui::showSidePanel()
    DecalEditorGui_hideBtn.Visible = "1";
    
    // show the content of the panels
-   // hide the content of the panels
    %fixedWindow.text = %fixedWindow.titleText;
    DecalEditorTabBook.Visible = "1";
    

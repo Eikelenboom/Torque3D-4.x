@@ -2849,6 +2849,20 @@ function EditorGuiStatusBar::getInfo( %this )
 
 function EditorGuiStatusBar::setInfo( %this, %text )
 {
+   %slashPos = 0;
+   while( strpos( $Server::MissionFile, "/", %slashPos ) != -1 )
+   {
+      %slashPos = strpos( $Server::MissionFile, "/", %slashPos ) + 1;
+   }
+   %levelName = getSubStr( $Server::MissionFile , %slashPos , 99 );  
+   
+   %levelName = strreplace( %levelName, ".mis", "" );
+
+   if(%levelName !$="")
+      %text = "<font:arial bold:14><color:6897dd>" @ %levelName SPC "<font:arial:14><color:B9B9B9>  -  " SPC %text;
+   else
+      %text = "<font:arial bold:14><color:6897dd>" @ "Untitled" SPC "<font:arial:14><color:B9B9B9>  -  " SPC %text;
+      
    EWorldEditorStatusBarInfo.setText(%text);
 }
 

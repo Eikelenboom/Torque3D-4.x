@@ -452,14 +452,25 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
       hovertime = "1000";
       Docking = "Bottom";
       
-      new GuiTextCtrl(EWorldEditorStatusBarInfo) {
+      new GuiBitmapCtrl() {
+         Enabled = "1";
+         Profile = "ToolsGuiDefaultProfile";
+         HorizSizing = "right";
+         VertSizing = "bottom";
+         Position = "14 7";
+         Extent = "20 20";
+         MinExtent = "1 1";
+         bitmapAsset = "ToolsModule:mission_file_image";
+      };
+      
+      new GuiMLTextCtrl(EWorldEditorStatusBarInfo) {
          canSaveDynamicFields = "0";
          Enabled = "1";
          isContainer = "0";
-         Profile = "ToolsGuiTextProfile";
+         Profile = "ToolsGuiMLTextProfile";
          HorizSizing = "width";
          VertSizing = "bottom";
-         Position = "10 8";
+         Position = "40 10";
          Extent = "450 18";
          MinExtent = "8 8";
          canSave = "1";
@@ -471,6 +482,8 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
          AnchorRight = "0";
          text = "Current Tool";
          maxLength = "255";
+         allowColorChars = "1";
+         
       };
       
       new GuiBitmapCtrl() {
