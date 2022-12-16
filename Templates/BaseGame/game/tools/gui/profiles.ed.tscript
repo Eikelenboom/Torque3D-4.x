@@ -609,7 +609,7 @@ new GuiControlProfile( ToolsGuiPopUpMenuProfile : ToolsGuiPopUpMenuDefault )
    textOffset         = "6 4";
    bitmapAsset             = "ToolsModule:dropDown_image";
    hasBitmapArray     = true;
-   border             = 0;
+   border             = 1;
    profileForChildren = ToolsGuiPopUpMenuDefault;
    category = "Tools";
 };
