@@ -1,0 +1,31 @@
+<TorsionProjectOptions>
+<Address>127.0.0.1</Address>
+<Password>password</Password>
+<Port>6060</Port>
+<LastConfig>Debug</LastConfig>
+<Breakpoints/>
+<Bookmarks/>
+<OpenFiles>
+<File ScrollX="0" ScrollY="466">tools\decalEditor\decalEditorGui.gui</File>
+<File ScrollX="0" ScrollY="351">tools\riverEditor\RiverEditorGui.gui</File>
+<File ScrollX="0" ScrollY="14">tools\riverEditor\riverEditorGui.tscript</File>
+<File ScrollX="0" ScrollY="181">tools\roadEditor\roadEditorGui.tscript</File>
+<File ScrollX="0" ScrollY="118">tools\roadEditor\RoadEditorGui.gui</File>
+<File ScrollX="0" ScrollY="137">tools\VPathEditor\GUI\VPathEditor.gui</File>
+<File ScrollX="0" ScrollY="447">tools\worldEditor\gui\EditorGui.ed.gui</File>
+<File ScrollX="0" ScrollY="2833">tools\worldEditor\scripts\EditorGui.ed.tscript</File>
+<File ScrollX="0" ScrollY="380">tools\worldEditor\gui\CameraSettingsTab.ed.gui</File>
+<File ScrollX="86" ScrollY="411">tools\meshRoadEditor\meshRoadEditorGui.tscript</File>
+<File ScrollX="0" ScrollY="15">data\UI\guis\loadingGui.gui</File>
+<File ScrollX="0" ScrollY="27">data\UI\guis\startupGui.tscript</File>
+<File ScrollX="0" ScrollY="0">data\UI\guis\mainMenu.gui</File>
+<File ScrollX="0" ScrollY="0">data\UI\images\Torque_3D_logo_image.asset.taml</File>
+<File ScrollX="0" ScrollY="0">data\UI\images\Torque_3D_logo_shortcut_image.asset.taml</File>
+<File ScrollX="0" ScrollY="0">data\UI\images\Torque_3D_logo_w_image.asset.taml</File>
+<File ScrollX="0" ScrollY="0">main.tscript.in</File>
+<File ScrollX="0" ScrollY="33">core\rendering\Core_Rendering.tscript</File>
+<File ScrollX="0" ScrollY="445">tools\gui\editorSettingsWindow.ed.tscript</File>
+<File ScrollX="0" ScrollY="888">tools\projectImporter\importers\pre40\T3Dpre4ProjectImporter.tscript</File>
+<File ScrollX="0" ScrollY="86" Active="true">data\UI\scripts\profiles.tscript</File>
+</OpenFiles>
+</TorsionProjectOptions>
