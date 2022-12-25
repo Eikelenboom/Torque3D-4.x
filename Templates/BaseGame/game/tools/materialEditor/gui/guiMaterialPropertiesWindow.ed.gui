@@ -945,6 +945,7 @@ $guiContent = new GuiControl(MaterialEditorGui,EditorGuiGroup) {
                   HorizSizing = "width";
                   bitmapAsset ="ToolsModule:separator_v_image"; 
                };
+               new GuiContainer() {
 					  margin = "0 0 0 0";
 					  padding = "0 0 0 0";
 					  anchorTop = "1";

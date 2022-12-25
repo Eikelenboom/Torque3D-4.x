@@ -2872,7 +2872,7 @@ class GuiEditorRuler : public GuiControl
       
       void onRender(Point2I offset, const RectI &updateRect)
       {
-         GFX->getDrawUtil()->drawRectFill(updateRect, ColorI::WHITE);
+         GFX->getDrawUtil()->drawRectFill(updateRect, ColorI::DARK);
          
          Point2I choffset(0,0);
          if( mRefCtrl != NULL )

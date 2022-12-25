@@ -150,7 +150,7 @@ if( !isObject( ToolsGuiFrameSetProfile ) )
 new GuiControlProfile (ToolsGuiFrameSetProfile)
 {
    fillColor = EditorSettings.value("Theme/windowBackgroundColor");
-   borderColor = "246 245 244";
+   borderColor = "64 64 64";
    border = 1;
    opaque = true;
    border = true;
@@ -175,6 +175,19 @@ new GuiControlProfile (ToolsGuiWindowProfile)
    textOffset = "10 4";
    hasBitmapArray = true;
    justify = "left";
+   category = "Tools";
+};
+
+if( !isObject( ToolsGuiPaneProfile ) )
+new GuiControlProfile (ToolsGuiPaneProfile)
+{
+   opaque = false;
+   border = 1;
+   fillColor = EditorSettings.value("Theme/windowBackgroundColor");
+   fillColorHL = EditorSettings.value("Theme/windowBackgroundColor");
+   fillColorSEL = EditorSettings.value("Theme/windowBackgroundColor");
+   fillColorNA = EditorSettings.value("Theme/windowBackgroundColor");
+   borderColor = EditorSettings.value("Theme/windowBackgroundColor");
    category = "Tools";
 };
 

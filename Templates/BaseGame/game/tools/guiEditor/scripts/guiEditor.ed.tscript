@@ -913,7 +913,7 @@ function GuiEditorTabBook::onTabSelected( %this, %text, %index )
          %sidebar-->button3.setVisible( true );
          %sidebar-->button4.setVisible( true );
          
-         %sidebar-->button4.setBitmap( "ToolsModule:iconDelete_image" );
+         %sidebar-->button4.setBitmap( "ToolsModule:delete_n_image" );
          %sidebar-->button4.command = "GuiEditor.deleteSelection();";
          %sidebar-->button4.tooltip = "Delete Selected Control(s)";
          
@@ -928,11 +928,11 @@ function GuiEditorTabBook::onTabSelected( %this, %text, %index )
          %sidebar-->button3.setVisible( true );
          %sidebar-->button4.setVisible( true );
       
-         %sidebar-->button4.setBitmap( "ToolsModule:iconDelete_image" );
+         %sidebar-->button4.setBitmap( "ToolsModule:delete_n_image" );
          %sidebar-->button4.command = "GuiEditor.showDeleteProfileDialog( GuiEditorProfilesTree.getSelectedProfile() );";
          %sidebar-->button4.tooltip = "Delete Selected Profile";
       
-         %sidebar-->button3.setBitmap( "ToolsModule:new_n_image" );
+         %sidebar-->button3.setBitmap( "ToolsModule:iconNew_image" );
          %sidebar-->button3.command = "GuiEditor.createNewProfile( \"Unnamed\" );";
          %sidebar-->button3.tooltip = "Create New Profile with Default Values";
          
