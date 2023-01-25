@@ -514,6 +514,8 @@ function EditorGui::setEditor( %this, %newEditor, %dontActivate )
       %gui.setOrthoFOV( %this.currentOrthoFOV );
       EditorGui.syncCameraGui();
    }
+   
+   EditorGui.updateSideBar();
 }
 
 function EditorGui::syncEditor( %this, %newEditor, %newEditorFailed )
@@ -620,6 +622,64 @@ function EditorGui::onSleep( %this )
             
    if(isObject($Server::CurrentScene))
       $Server::CurrentScene.open();
+}
+
+function EditorGui::updateSideBar(%this)
+{   
+   if(GuiEditorIsActive())
+   {
+      if(isObject(AssetBrowserWindow) && isObject(GuiEditorSidebar))
+      {
+         if(AssetBrowserWindow.docked == true)
+         {
+            // The width is relative to the sidepanel
+            %browserWidth = Canvas.extent.x - GuiEditorSidebar.extent.x;
+            %browserHeight = AssetBrowserWindow.extent.y;
+            %browserPosY = Canvas.extent.y - AssetBrowserWindow.extent.y - 33;
+            AssetBrowserWindow.resize(0, %browserPosY, %browserWidth, %browserHeight);
+         }
+      }
+      return;
+   }
+   
+   // Update the current sidebar with a mouse event
+   // Each editor script will do the rest of the work
+   if(isObject(EditorGui.currentEditor))
+   {
+      switch$(EditorGui.currentEditor)
+      {
+         case "ConvexEditorPlugin":
+            ConvexEditorOptionsWindow.onMouseDragged();
+         case "DatablockEditorPlugin":
+            DatablockEditorTreeWindow.onMouseDragged();
+         case "DecalEditorPlugin":
+            DecalEditorWindow.onMouseDragged();
+         case "ForestEditorPlugin ":
+            ForestEditorPalleteWindow.onMouseDragged();
+         case "MaterialEditorPlugin":
+            MaterialEditorPreviewWindow.onMouseDragged();
+         case "MeshRoadEditorPlugin":
+            MeshRoadEditorTreeWindow.onMouseDragged();
+         case "MissionAreaEditorPlugin":
+            MissionAreaEditorTerrainWindow.onMouseDragged();
+         case "NavEditorPlugin":
+            NavEditorTreeWindow.onMouseDragged();
+         case "ParticleEditorPlugin":
+            PE_Window.onMouseDragged();
+         case "RiverEditorPlugin":
+            RiverEditorTreeWindow.onMouseDragged();
+         case "RoadEditorPlugin":
+            RoadEditorTreeWindow.onMouseDragged();
+         case "ShapeEditorPlugin":
+            // Todo
+         case "VPathEditorPlugin":
+            VPathEditorTreeWindow.onMouseDragged();
+         case "WorldEditorInspectorPlugin":
+            EWTreeWindow.onMouseDragged();
+         case "TerrainEditorPlugin":
+            EPainterPreview.onMouseDragged();
+      }
+   }
 }
 
 function EditorGui::onNewLevelLoaded( %this, %levelName )
@@ -1574,6 +1634,33 @@ function EWorldEditor::maxSize(%this, %window)
       %position = %fixedWindow.position.x SPC %fixedWindow.extent.y + %top;
       %extent = %window.extent.x SPC Canvas.extent.y - %fixedWindow.extent.y - %bottom;
       %fluidWindow.resize(%position.x, %position.y, %extent.x, %extent.y);
+      
+      // --- AssetBrowser window  ----------------------------------------------
+      if(isObject(AssetBrowserWindow))
+      {
+         // Only resize the AssetBrowser if it's docked
+         if(AssetBrowserWindow.docked == true)
+         {
+            // The width is relative to the sidepanel
+            %browserWidth = Canvas.extent.x - %extent.x;
+            %browserHeight = AssetBrowserWindow.extent.y;
+            %browserPosY = Canvas.extent.y - AssetBrowserWindow.extent.y - 33;
+            AssetBrowserWindow.resize(0, %browserPosY, %browserWidth, %browserHeight);
+         }
+      }
+      // --- Windowed Console --------------------------------------------------
+      if(isObject(windowConsoleControl))
+      {
+         // Only resize the AssetBrowser if it's docked
+         if(windowConsoleControl.docked == true)
+         {
+            // The width is relative to the sidepanel
+            %consoleWidth = Canvas.extent.x - %extent.x;
+            %consoleHeight = windowConsoleControl.extent.y;
+            %consolePosY = Canvas.extent.y - windowConsoleControl.extent.y - 33;
+            windowConsoleControl.resize(0, %consolePosY, %consoleWidth, %consoleHeight);
+         }
+      }
    }
 }
 
@@ -1619,7 +1706,7 @@ function EWorldEditor::onResize(%this, %newPosition, %newExtent)
       %window.showSidePanel();
    }
    
-   if(%this.resizing == false && EWorldEditor.docked == true)
+   if(%this.resizing == false && %this.docked == true)
    {  
       // Only resize once
       %this.resizing = true;
@@ -2859,9 +2946,9 @@ function EditorGuiStatusBar::setInfo( %this, %text )
    %levelName = strreplace( %levelName, ".mis", "" );
 
    if(%levelName !$="")
-      %text = "<font:arial bold:14><color:6897dd>" @ %levelName SPC "<font:arial:14><color:B9B9B9>  -  " SPC %text;
+      %text = "<font:" @ $Gui::fontTypeBold @ ":16><color:cc6666>" @ %levelName SPC "<font:" @ $Gui::fontTypeRegular @ ":16><color:B9B9B9>  -  " SPC %text;
    else
-      %text = "<font:arial bold:14><color:6897dd>" @ "Untitled" SPC "<font:arial:14><color:B9B9B9>  -  " SPC %text;
+      %text = "<font:" @ $Gui::fontTypeBold @ ":16><color:cc6666>" @ "Untitled" SPC "<font:" @ $Gui::fontTypeRegular @ ":16><color:B9B9B9>  -  " SPC %text;
       
    EWorldEditorStatusBarInfo.setText(%text);
 }

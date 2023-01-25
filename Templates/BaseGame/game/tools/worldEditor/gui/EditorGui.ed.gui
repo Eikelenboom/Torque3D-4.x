@@ -80,6 +80,50 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
          isContainer = "1";
          canSave = "1";
          canSaveDynamicFields = "0";
+         
+         new GuiBitmapCtrl() {
+            Enabled = "1";
+            Profile = "ToolsGuiDefaultProfile";
+            position = "0 3";
+            Extent = "9 26";
+            MinExtent = "1 1";
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
+         };         
+         
+         new GuiBitmapButtonCtrl(WorldSaveBtn) {
+            canSaveDynamicFields = "0";
+            Enabled = "1";
+            isContainer = "0";
+            Profile = "ToolsGuiButtonProfile";
+            HorizSizing = "right";
+            VertSizing = "bottom";
+            Position = "4 3";
+            Extent = "29 27";
+            MinExtent = "8 8";
+            canSave = "1";
+            Visible = "1";
+            Command = "EditorSaveMissionMenu();";
+            tooltipprofile = "ToolsGuiToolTipProfile";
+            ToolTip = "Save the Level";
+            hovertime = "1000";
+            bitmapAsset = "ToolsModule:save_n_image";
+            groupNum = "0";
+            buttonType = "PushButton";
+            useMouseEvents = "0";
+         };
+         
+         new GuiBitmapCtrl() {
+            Enabled = "1";
+            Profile = "ToolsGuiDefaultProfile";
+            position = "0 3";
+            Extent = "2 26";
+            MinExtent = "1 1";
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
+         };
         
          new GuiBitmapButtonCtrl(EHWorldEditor) {
             canSaveDynamicFields = "0";
@@ -125,6 +169,64 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
             useMouseEvents = "0";
          };
          
+         new GuiBitmapCtrl() {
+            Enabled = "1";
+            Profile = "ToolsGuiDefaultProfile";
+            position = "0 0";
+            Extent = "9 26";
+            MinExtent = "1 1";
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
+         };
+         
+         new GuiBitmapButtonCtrl(AssetBrowserBtn) {
+            canSaveDynamicFields = "0";
+            Enabled = "1";
+            isContainer = "0";
+            Profile = "ToolsGuiButtonProfile";
+            HorizSizing = "right";
+            VertSizing = "bottom";
+            position = "0 0";
+            Extent = "29 27";
+            MinExtent = "8 2";
+            canSave = "1";
+            Visible = "1";
+            active = "1";
+            Command = "AssetBrowser.toggleDialog();";
+            tooltipprofile = "ToolsGuiToolTipProfile";
+            tooltip = "Open the Asset Browser";
+            hovertime = "750";
+            bitmapAsset = "ToolsModule:assetBrowser_n_image";
+            buttonType = "PushButton";
+            useStates = "1";
+            groupNum = "0";
+            useMouseEvents = "0";
+            internalName = "AssetBrowserBtn";
+         };
+         
+         new GuiBitmapCtrl() {
+            Enabled = "1";
+            Profile = "ToolsGuiDefaultProfile";
+            position = "0 3";
+            Extent = "9 26";
+            MinExtent = "1 1";
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
+         };
+         
+         new GuiBitmapCtrl() {
+            Enabled = "1";
+            Profile = "ToolsGuiDefaultProfile";
+            position = "0 3";
+            Extent = "2 26";
+            MinExtent = "1 1";
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
+         };
+         
          new GuiBitmapButtonCtrl() {
             canSaveDynamicFields = "0";
             Enabled = "1";
@@ -132,7 +234,7 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
             Profile = "ToolsGuiButtonProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
-            Position = "64 3";
+            Position = "0 3";
             Extent = "29 27";
             MinExtent = "8 8";
             canSave = "1";
@@ -150,11 +252,13 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
          new GuiBitmapCtrl() {
             Enabled = "1";
             Profile = "ToolsGuiDefaultProfile";
-            position = "96 3";
-            Extent = "2 26";
+            position = "0 3";
+            Extent = "9 26";
             MinExtent = "1 1";
-            bitmapAsset = "ToolsModule:separator_h_image";
-         };    
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
+         }; 
            
          new GuiBitmapButtonCtrl() {
             BitmapAsset = "ToolsModule:settings_n_image";
@@ -183,49 +287,40 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
             canSaveDynamicFields = "0";
          };
          
-         new GuiBitmapCtrl() {
-            Enabled = "1";
-            Profile = "ToolsGuiDefaultProfile";
-            position = "98 3";
-            Extent = "2 26";
-            MinExtent = "1 1";
-            bitmapAsset = "ToolsModule:separator_h_image";
-            VertSizing = "bottom";
-         };
-         
-         new GuiBitmapButtonCtrl() {
+         new GuiBitmapButtonCtrl(windowConsoleBtn) {
             canSaveDynamicFields = "0";
             Enabled = "1";
             isContainer = "0";
             Profile = "ToolsGuiButtonProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
-            position = "183 0";
+            position = "0 0";
             Extent = "29 27";
             MinExtent = "8 2";
             canSave = "1";
             Visible = "1";
             active = "1";
-            Command = "AssetBrowser.toggleDialog();";
+            Command = "windowConsoleDlg.showWindow();";
             tooltipprofile = "ToolsGuiToolTipProfile";
-            tooltip = "Open the Asset Browser";
+            tooltip = "Open the Console in a window";
             hovertime = "750";
-            bitmapAsset = "ToolsModule:assetBrowser_n_image";
-            buttonType = "ToggleButton";
+            bitmapAsset = "ToolsModule:console_n_image";
+            buttonType = "PushButton";
             useStates = "1";
             groupNum = "0";
             useMouseEvents = "0";
-            internalName = "AssetBrowserBtn";
+            internalName = "windowConsoleBtn";
          };
          
          new GuiBitmapCtrl() {
             Enabled = "1";
             Profile = "ToolsGuiDefaultProfile";
-            position = "98 3";
-            Extent = "2 26";
+            position = "0 3";
+            Extent = "9 26";
             MinExtent = "1 1";
-            bitmapAsset = "ToolsModule:separator_h_image";
-            VertSizing = "bottom";
+            bitmapAsset = "ToolsModule:separator_xt_h_image";
+            horizSizing = "right";
+            vertSizing = "bottom";
          };
          
          new GuiBitmapButtonCtrl(EWorldEditorToggleCamera) {
@@ -276,11 +371,11 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
                canSaveDynamicFields = "0";
                Enabled = "1";
                isContainer = "0";
-               Profile = "ToolsGuiTextProfile";
+               Profile = "ToolsGuiTextRightProfile";
                HorizSizing = "right";
                VertSizing = "bottom";
                position = "0 6";
-               Extent = "78 10";
+               Extent = "72 10";
                MinExtent = "8 2";
                canSave = "1";
                Visible = "1";
@@ -291,7 +386,7 @@ $guiContent = new GuiContainer(EditorGui,EditorGuiGroup) {
                AnchorBottom = "0";
                AnchorLeft = "1";
                AnchorRight = "0";
-               text = "Camera Speed";
+               text = "Cam Speed:  ";
                maxLength = "1024";
             };
             
