@@ -986,7 +986,7 @@ $guiContent = new GuiControl(MaterialEditorGui,EditorGuiGroup) {
 						 canSaveDynamicFields = "0";
 					  };
 					  new GuiTextCtrl() {
-						 text = "ao";
+						 text = "AO Map";
 						 maxLength = "1024";
 						 margin = "0 0 0 0";
 						 padding = "0 0 0 0";
@@ -1223,7 +1223,7 @@ $guiContent = new GuiControl(MaterialEditorGui,EditorGuiGroup) {
 						 canSaveDynamicFields = "0";
 					  };
 					  new GuiTextCtrl() {
-						 text = "Roughness";
+						 text = "Roughness Map";
 						 maxLength = "1024";
 						 margin = "0 0 0 0";
 						 padding = "0 0 0 0";
