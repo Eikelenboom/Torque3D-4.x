@@ -27,6 +27,54 @@ function execEditorProfilesCS()
 
 $Gui::clipboardFile = expandFilename("./clipboard.gui");
 
+if($platform $= "macos")
+{
+   $Gui::fontTypeRegular = "Open Sans";
+   $Gui::fontTypeLight = "Open Sans Light";
+   $Gui::fontTypeMedium = "Open Sans Medium";
+   $Gui::fontTypeBold = "Open Sans Bold";
+   $Gui::fontTypeItalic = "Open Sans Italic";
+   $Gui::fontTypeMono = "Monaco";
+   
+   $GUI::fontSize[12] = 12;
+   $GUI::fontSize[14] = 14;
+   $GUI::fontSize[16] = 16;
+   $GUI::fontSize[18] = 18;
+   $GUI::fontSize[24] = 24;
+   $GUI::fontSize[36] = 36;
+}
+else if($platform $= "linux")
+{
+   $Gui::fontTypeRegular = "Open Sans";
+   $Gui::fontTypeLight = "Open Sans Light";
+   $Gui::fontTypeMedium = "Open Sans Medium";
+   $Gui::fontTypeBold = "Open Sans Bold";
+   $Gui::fontTypeItalic = "Open Sans Italic";
+   $Gui::fontTypeMono = "Nimbus Sans Mono";
+   
+   $GUI::fontSize[12] = 12;
+   $GUI::fontSize[14] = 14;
+   $GUI::fontSize[16] = 16;
+   $GUI::fontSize[18] = 18;
+   $GUI::fontSize[24] = 24;
+   $GUI::fontSize[36] = 36;
+}
+else
+{
+   $Gui::fontTypeRegular = "Open Sans";
+   $Gui::fontTypeLight = "Open Sans Light";
+   $Gui::fontTypeMedium = "Open Sans Medium";
+   $Gui::fontTypeBold = "Open Sans Bold";
+   $Gui::fontTypeItalic = "Open Sans Italic";
+   $Gui::fontTypeMono = "Lucida Console";
+
+   $GUI::fontSize[12] = 12;
+   $GUI::fontSize[14] = 14;
+   $GUI::fontSize[16] = 16;
+   $GUI::fontSize[18] = 18;
+   $GUI::fontSize[24] = 24;
+   $GUI::fontSize[36] = 36;
+}
 
 if( !isObject( ToolsGuiDefaultProfile ) )
 new GuiControlProfile (ToolsGuiDefaultProfile)
@@ -50,8 +98,8 @@ new GuiControlProfile (ToolsGuiDefaultProfile)
    borderColorNA = EditorSettings.value("Theme/dividerLightColor"); 
 
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fontCharset = ANSI;
 
    fontColor = EditorSettings.value("Theme/fieldTextColor");
@@ -122,6 +170,12 @@ new GuiControlProfile( ToolsGuiTabBorderProfile )
    category = "Tools";
 };
 
+if( !isObject( ToolsGuiDefaultIconBtnProfile ) )
+new GuiControlProfile (ToolsGuiDefaultIconBtnProfile : ToolsGuiDefaultProfile)
+{
+   fontSize = $GUI::fontSize[16];
+};
+
 if( !isObject( ToolsGuiToolTipProfile ) )
 new GuiControlProfile (ToolsGuiToolTipProfile)
 {
@@ -132,8 +186,8 @@ new GuiControlProfile (ToolsGuiToolTipProfile)
    borderColor   = EditorSettings.value("Theme/tooltipDivColor");
 
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[18];
    fontColor = EditorSettings.value("Theme/tooltipTextColor");
 
    category = "Tools";
@@ -172,10 +226,12 @@ new GuiControlProfile (ToolsGuiWindowProfile)
    bevelColorLL = "0 0 0";
    text = "untitled";
    bitmapAsset = "ToolsModule:window_image";
-   textOffset = "10 4";
+   textOffset = "10 0";
    hasBitmapArray = true;
    justify = "left";
    category = "Tools";
+   fontType = $Gui::fontTypeMedium;
+   fontSize = $GUI::fontSize[18];
 };
 
 if( !isObject( ToolsGuiPaneProfile ) )
@@ -189,6 +245,8 @@ new GuiControlProfile (ToolsGuiPaneProfile)
    fillColorNA = EditorSettings.value("Theme/windowBackgroundColor");
    borderColor = EditorSettings.value("Theme/windowBackgroundColor");
    category = "Tools";
+   fontType = $Gui::fontTypeMedium;
+   fontSize = $GUI::fontSize[18];
 };
 
 if( !isObject( ToolsGuiToolbarWindowProfile ) )
@@ -208,6 +266,8 @@ new GuiControlProfile (ToolsGuiWindowCollapseProfile : ToolsGuiWindowProfile)
 if( !isObject( ToolsGuiTextProfile ) )
 new GuiControlProfile (ToolsGuiTextProfile)
 {
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    opaque = true;
    justify = "left";
    fontColor = EditorSettings.value("Theme/headerTextColor");
@@ -217,15 +277,14 @@ new GuiControlProfile (ToolsGuiTextProfile)
 if( !isObject( ToolsGuiTextBoldProfile ) )
 new GuiControlProfile (ToolsGuiTextBoldProfile : ToolsGuiTextProfile)
 {
-   fontType = "Arial Bold";
+   fontType = $Gui::fontTypeBold;
 };
 
 if( !isObject( ToolsGuiTextBoldCenterProfile ) )
 new GuiControlProfile (ToolsGuiTextBoldCenterProfile : ToolsGuiTextProfile)
 {
    fontColor = EditorSettings.value("Theme/headerTextColor");
-   fontType = "Arial Bold";
-   fontSize = 16;
+   fontType = $Gui::fontTypeBold;
    justify = "center";
    category = "Tools";
 };
@@ -240,8 +299,7 @@ new GuiControlProfile (ToolsGuiTextRightProfile : ToolsGuiTextProfile)
 if( !isObject( ToolsGuiTextBoldRightProfile ) )
 new GuiControlProfile (ToolsGuiTextBoldRightProfile : ToolsGuiTextRightProfile)
 {
-   fontType = "Arial Bold";
-   fontSize = 16;
+   fontType = $Gui::fontTypeBold;
 };
 
 if( !isObject( ToolsGuiTextCenterProfile ) )
@@ -254,6 +312,7 @@ new GuiControlProfile (ToolsGuiTextCenterProfile : ToolsGuiTextProfile)
 if( !isObject( ToolsGuiInspectorTitleTextProfile ) )
 new GuiControlProfile (ToolsGuiInspectorTitleTextProfile)
 {
+   fontType = $Gui::fontTypeBold;
    fontColor = EditorSettings.value("Theme/headerTextColor");
    category = "Tools";
 };
@@ -261,6 +320,8 @@ new GuiControlProfile (ToolsGuiInspectorTitleTextProfile)
 if( !isObject( ToolsGuiAutoSizeTextProfile ) )
 new GuiControlProfile (ToolsGuiAutoSizeTextProfile)
 {
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fontColor = "215 215 215";
    autoSizeWidth = true;
    autoSizeHeight = true;   
@@ -270,6 +331,8 @@ new GuiControlProfile (ToolsGuiAutoSizeTextProfile)
 if( !isObject( ToolsGuiMLTextProfile ) )
 new GuiControlProfile( ToolsGuiMLTextProfile )
 {
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
    fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
@@ -322,7 +385,8 @@ new GuiControlProfile( ToolsGuiTextEditProfile )
    fillColorHL = "75 75 75 255";
    fillColorSEL = EditorSettings.value("Theme/fieldBGSELColor");
    
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorSEL = EditorSettings.value("Theme/fieldBGSELColor");
    //fontColorSEL = EditorSettings.value("Theme/dividerMidColor");
@@ -363,8 +427,8 @@ new GuiControlProfile( ToolsGuiRLProgressBitmapProfile )
 if( !isObject( ToolsGuiProgressTextProfile ) )
 new GuiControlProfile( ToolsGuiProgressTextProfile )
 {
-   fontSize = "14";
-	fontType = "Arial";
+   fontSize = $GUI::fontSize[18];
+	fontType = $Gui::fontTypeRegular;
    fontColor = "215 215 215";
    justify = "center";
    category = "Tools";   
@@ -388,6 +452,8 @@ new GuiControlProfile( ToolsGuiButtonProfile )
    canKeyFocus = false;
    hasBitmapArray = false;
    category = "Tools";
+   fontSize = $GUI::fontSize[16];
+	fontType = $Gui::fontTypeRegular;
 };
 
 if( !isObject( ToolsGuiThumbHighlightButtonProfile ) )
@@ -418,6 +484,8 @@ new GuiControlProfile( ToolsGuiIconButtonSmallProfile : ToolsGuiIconButtonProfil
 {
    bitmapAsset = "ToolsModule:iconbuttonsmall_image";
    category = "Tools";
+   fontSize = $GUI::fontSize[16];
+	fontType = $Gui::fontTypeRegular;
 };
 
 if( !isObject( ToolsGuiIconButtonLargeProfile ) )
@@ -425,11 +493,15 @@ new GuiControlProfile( ToolsGuiIconButtonLargeProfile : ToolsGuiIconButtonProfil
 {
    bitmapAsset = "ToolsModule:iconbuttonlarge_image";
    category = "Tools";
+   fontSize = $GUI::fontSize[18];
+	fontType = $Gui::fontTypeMedium;
 };
 
 if( !isObject( ToolsGuiEditorTabPage ) )
 new GuiControlProfile(ToolsGuiEditorTabPage)
 {
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    opaque = true;
    border = false;
    fillColor = EditorSettings.value("Theme/tabsColor");
@@ -444,14 +516,35 @@ new GuiControlProfile(ToolsGuiEditorTabPage)
    category = "Tools";
 };
 
+if( !isObject( ToolsGuiEditorTabButton ) )
+new GuiControlProfile(ToolsGuiEditorTabButton)
+{
+   fontType = $Gui::fontTypeMedium;
+   fontSize = $GUI::fontSize[16];
+   opaque = true;
+   border = false;
+   fillColor = EditorSettings.value("Theme/tabsColor");
+   fontColor = EditorSettings.value("Theme/fieldTextColor");
+   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+   fontColorNA = EditorSettings.value("Theme/fieldTextHLColor");
+   borderColor = EditorSettings.value("Theme/dividerDarkColor");
+   fixedExtent = false;
+   justify = "center";
+   canKeyFocus = false;
+   bitmapAsset = "ToolsModule:buttontab_image";
+   hasBitmapArray = true;
+   category = "Tools";
+};
+
 if( !isObject( ToolsGuiCheckBoxProfile ) )
 new GuiControlProfile( ToolsGuiCheckBoxProfile )
 {
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    opaque = false;
    fillColor = EditorSettings.value("Theme/fieldBGColor");
    border = false;
    borderColor = EditorSettings.value("Theme/dividerDarkColor");
-   fontSize = 14;
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
 	fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
@@ -460,6 +553,24 @@ new GuiControlProfile( ToolsGuiCheckBoxProfile )
    bitmapAsset = "ToolsModule:checkbox_image";
    hasBitmapArray = true;
    category = "Tools";
+};
+
+if( !isObject( ToolsGuiCheckBoxErrorProfile ) )
+new GuiControlProfile( ToolsGuiCheckBoxErrorProfile : ToolsGuiCheckBoxProfile)
+{
+   fontColor = "240 64 64";
+};
+
+if( !isObject( ToolsGuiCheckBoxWarnProfile ) )
+new GuiControlProfile( ToolsGuiCheckBoxWarnProfile : ToolsGuiCheckBoxProfile)
+{
+   fontColor = "240 192 64";
+};
+
+if( !isObject( ToolsGuiCheckBoxMsgProfile ) )
+new GuiControlProfile( ToolsGuiCheckBoxMsgProfile : ToolsGuiCheckBoxProfile)
+{
+   fontColor = "240 240 240";
 };
 
 if( !isObject( ToolsGuiCheckBoxListProfile ) )
@@ -485,7 +596,8 @@ new GuiControlProfile( ToolsGuiInspectorCheckBoxTitleProfile : ToolsGuiCheckBoxP
 if( !isObject( ToolsGuiRadioProfile ) )
 new GuiControlProfile( ToolsGuiRadioProfile )
 {
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fillColor = EditorSettings.value("Theme/fieldBGColor");
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -499,7 +611,8 @@ new GuiControlProfile( ToolsGuiRadioProfile )
 if( !isObject( ToolsGuiRadioRedProfile ) )
 new GuiControlProfile( ToolsGuiRadioRedProfile )
 {
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fillColor = EditorSettings.value("Theme/fieldBGColor");
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -513,7 +626,8 @@ new GuiControlProfile( ToolsGuiRadioRedProfile )
 if( !isObject( ToolsGuiRadioGreenProfile ) )
 new GuiControlProfile( ToolsGuiRadioGreenProfile )
 {
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fillColor = EditorSettings.value("Theme/fieldBGColor");
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -527,7 +641,8 @@ new GuiControlProfile( ToolsGuiRadioGreenProfile )
 if( !isObject( ToolsGuiRadioBlueProfile ) )
 new GuiControlProfile( ToolsGuiRadioBlueProfile )
 {
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fillColor = EditorSettings.value("Theme/fieldBGColor");
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -593,6 +708,8 @@ new GuiControlProfile( ToolsGuiPopupMenuItemBorder : ToolsGuiButtonProfile )
 if( !isObject( ToolsGuiPopUpMenuDefault ) )
 new GuiControlProfile( ToolsGuiPopUpMenuDefault : ToolsGuiDefaultProfile )
 {
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    opaque = true;
    mouseOverSelected = true;
    textOffset = "3 3";
@@ -619,36 +736,36 @@ new GuiControlProfile( ToolsGuiPopUpMenuDefault : ToolsGuiDefaultProfile )
 if( !isObject( ToolsGuiPopUpMenuProfile ) )
 new GuiControlProfile( ToolsGuiPopUpMenuProfile : ToolsGuiPopUpMenuDefault )
 {
-   textOffset         = "6 4";
-   bitmapAsset             = "ToolsModule:dropDown_image";
+   textOffset         = "6 3";
+   bitmapAsset        = "ToolsModule:dropDown_image";
    hasBitmapArray     = true;
    border             = 1;
    profileForChildren = ToolsGuiPopUpMenuDefault;
-   category = "Tools";
+   category           = "Tools";
 };
 
 if( !isObject( ToolsGuiPopUpMenuTabProfile ) )
 new GuiControlProfile( ToolsGuiPopUpMenuTabProfile : ToolsGuiPopUpMenuDefault )
 {
-   bitmapAsset             = "ToolsModule:dropDown_tab_image";
-   textOffset         = "6 4";
+   bitmapAsset        = "ToolsModule:dropDown_tab_image";
+   textOffset         = "6 3";
    canKeyFocus        = true;
    hasBitmapArray     = true;
    border             = 1;
    profileForChildren = ToolsGuiPopUpMenuDefault;
-   category = "Tools";
+   category           = "Tools";
 };
 
 if( !isObject( ToolsGuiPopUpMenuEditProfile ) )
 new GuiControlProfile( ToolsGuiPopUpMenuEditProfile : ToolsGuiPopUpMenuDefault )
 {
-   textOffset         = "6 4";
+   textOffset         = "6 3";
    canKeyFocus        = true;
-   bitmapAsset             = "ToolsModule:dropDown_image";
+   bitmapAsset        = "ToolsModule:dropDown_image";
    hasBitmapArray     = true;
    border             = 1;
    profileForChildren = ToolsGuiPopUpMenuDefault;
-   category = "Tools";
+   category           = "Tools";
 };
 
 if( !isObject( ToolsGuiListBoxProfile ) )
@@ -659,6 +776,9 @@ new GuiControlProfile( ToolsGuiListBoxProfile )
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
+   
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[18];
    
    tab = true;
    canKeyFocus = true;
@@ -673,15 +793,15 @@ new GuiControlProfile( ToolsGuiTabBookProfile )
    fontColor = EditorSettings.value("Theme/headerTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    justify = "center";
    bitmapAsset = "ToolsModule:tab_image";
    tabWidth = 65;
    tabHeight = 25;
    tabPosition = "Top";
    tabRotation = "Horizontal";
-   textOffset = "10 0";
+   textOffset = "10 1";
    tab = true;
    cankeyfocus = true;
    category = "Tools";
@@ -697,8 +817,8 @@ new GuiControlProfile( ToolsGuiTabBookNoBitmapProfile : ToolsGuiTabBookProfile )
 if( !isObject( ToolsGuiTabPageProfile ) )
 new GuiControlProfile( ToolsGuiTabPageProfile : ToolsGuiDefaultProfile )
 {
-   fontType = "Arial";
-   fontSize = 10;
+   fontType = $Gui::fontTypeBold;
+   fontSize = $GUI::fontSize[16];
    justify = "center";
    bitmapAsset = "ToolsModule:tab_image";
    opaque = false;
@@ -722,7 +842,8 @@ new GuiControlProfile( ToolsGuiTreeViewProfile )
    fontColorNA = "150 150 150";
    borderColor = "34 34 34";
    borderColorHL = "34 34 34";
-   fontSize = 14;   
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];  
    opaque = false;
    border = false;
    category = "Tools";
@@ -733,8 +854,8 @@ new GuiControlProfile( ToolsGuiTreeViewProfile )
 if( !isObject( ToolsGuiTextPadProfile ) )
 new GuiControlProfile( ToolsGuiTextPadProfile )
 {
-   fontType = ($platform $= "macos") ? "Monaco" : "Lucida Console";
-   fontSize = ($platform $= "macos") ? 13 : 12;
+   fontType = $Gui::fontTypeMono;
+   fontSize = $GUI::fontSize[16];
    tab = true;
    canKeyFocus = true;
    
@@ -774,8 +895,8 @@ singleton GuiControlProfile( GuiBackFillProfile )
    fillColor = "0 94 94";
    border = true;
    borderColor = "255 128 128";
-   fontType = "Arial";
-   fontSize = 12;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    fontColor = "215 215 215";
    fontColorHL = "50 50 50";
    fixedExtent = true;
@@ -842,8 +963,8 @@ singleton GuiControlProfile( GuiInspectorTextEditProfile )
    canKeyFocus = true;
 
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
 
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorSEL = EditorSettings.value("Theme/fieldBGSELColor");
@@ -865,8 +986,7 @@ singleton GuiControlProfile( GuiInspectorTextEditRightProfile : GuiInspectorText
 //Scene Tree GUI Inspector Dropdown menus
 singleton GuiControlProfile( GuiInspectorGroupProfile )
 {
-   fontType = "Arial";
-   fontSize = "14";
+   fontType = $Gui::fontTypeRegular;
    
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -902,8 +1022,8 @@ singleton GuiControlProfile( GuiInspectorFieldProfile)
    //bevelColorLL = "0 0 0";
 
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
 
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -943,8 +1063,8 @@ singleton GuiControlProfile( GuiInspectorDynamicFieldProfile : GuiInspectorField
    canKeyFocus = true;
 
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
 
    fontColor = EditorSettings.value("Theme/headerTextColor");
    fontColorSEL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -972,8 +1092,8 @@ singleton GuiControlProfile( GuiRolloutProfile )
 singleton GuiControlProfile( GuiInspectorRolloutProfile0 )
 {
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
 
    fontColor = "220 220 220";
    fontColorHL = "0 0 0";
@@ -996,8 +1116,8 @@ singleton GuiControlProfile( GuiInspectorRolloutProfile0 )
 singleton GuiControlProfile( GuiInspectorRolloutProfile1 )
 {
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
 
    fontColor = "200 200 200";
    fontColorHL = "0 0 0";
@@ -1070,8 +1190,8 @@ singleton GuiControlProfile( GuiInspectorTypeFileNameProfile )
    canKeyFocus = true;
 
    // font
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    
    // Center text
    justify = "center";
@@ -1134,8 +1254,8 @@ singleton GuiControlProfile( GuiDirectoryTreeProfile : ToolsGuiTreeViewProfile )
    fontColorSEL= EditorSettings.value("Theme/fieldTextSELColor"); 
    fillColorHL = EditorSettings.value("Theme/fieldBGColor");
    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    category = "Editor";
 };
 
@@ -1145,8 +1265,8 @@ singleton GuiControlProfile( GuiDirectoryFileListProfile )
    fontColorSEL= EditorSettings.value("Theme/fieldTextSELColor"); 
    fillColorHL = EditorSettings.value("Theme/fieldBGColor");
    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeRegular;
+   fontSize = $GUI::fontSize[16];
    category = "Editor";
 };
 
@@ -1198,8 +1318,8 @@ singleton GuiControlProfile( GuiCreatorIconButtonProfile )
    //tab = true;
    //canKeyFocus = true;
 
-   fontType = "Arial";
-   fontSize = 14;
+   fontType = $Gui::fontTypeBold;
+   fontSize = $GUI::fontSize[18];
 
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
@@ -1232,6 +1352,8 @@ singleton GuiControlProfile( ToolsGuiMenuBarProfile )
    mouseOverSelected = true;
    category = "Editor";
    bitmapAsset = "ToolsModule:checkbox_menubar_image";
+   fontSize = $GUI::fontSize[18];
+   fontType = $Gui::fontTypeRegular;
 };
 
 singleton GuiControlProfile( ToolsMenubarProfile : ToolsGuiDefaultProfile ) 
@@ -1261,6 +1383,7 @@ singleton GuiControlProfile (menubarProfile)
    fontColor = EditorSettings.value("Theme/headerTextColor");
    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
    borderColor = EditorSettings.value("Theme/dividerDarkColor");
+   fontSize = 15;
 };
 
 singleton GuiControlProfile (editorMenubarProfile) 
@@ -1351,3 +1474,84 @@ singleton GuiControlProfile (GuiDisabledTextEditProfile)
    canKeyFocus = false;   
    category = "Editor";
 };
+
+// -----------------------------------------------------------------------------
+
+if(!isObject(ToolsGuiConsoleProfile))
+new GuiControlProfile(ToolsGuiConsoleProfile)
+{ 
+   border = 0;
+   borderColor = EditorSettings.value("Theme/tabsColor");
+   fontType = $Gui::fontTypeMono;
+   fontSize = $GUI::fontSize[12];
+   fillColor = "24 24 24";
+   fontColor = "240 240 240";
+   fontColorHL = "240 192 64";
+   fontColorNA = "240 64 64";
+   fontColors[6] = "100 100 100";
+   fontColors[7] = "100 100 0";
+   fontColors[8] = "0 0 100";
+   fontColors[9] = "0 100 0";
+   category = "Tools";
+};
+
+if(!isObject(ToolsGuiConsoleTinyProfile))
+new GuiControlProfile(ToolsGuiConsoleTinyProfile : ToolsGuiConsoleProfile)
+{
+   fontSize = $GUI::fontSize[9];
+};
+
+if(!isObject(ToolsGuiConsoleSmallProfile))
+new GuiControlProfile(ToolsGuiConsoleSmallProfile : ToolsGuiConsoleProfile)
+{
+   fontSize = $GUI::fontSize[10];
+};
+
+if(!isObject(ToolsGuiConsoleMediumProfile))
+new GuiControlProfile(ToolsGuiConsoleMediumProfile : ToolsGuiConsoleProfile)
+{
+   fontSize = $GUI::fontSize[14];
+};
+
+if(!isObject(ToolsGuiConsoleLargeProfile))
+new GuiControlProfile(ToolsGuiConsoleLargeProfile : ToolsGuiConsoleProfile)
+{
+   fontSize = $GUI::fontSize[16];
+};
+
+if(!isObject(ToolsGuiConsoleTextProfile))
+new GuiControlProfile(ToolsGuiConsoleTextProfile)
+{   
+   fontColor = "0 0 0";
+   autoSizeWidth = true;
+   autoSizeHeight = true;   
+   textOffset = "2 2";
+   opaque = true;   
+   fillColor = "255 255 255";
+   border = true;
+   borderThickness = 1;
+   borderColor = "0 0 0";
+   category = "Tools";
+};
+
+if(!isObject(ToolsConsoleScrollProfile))
+new GuiControlProfile(ToolsConsoleScrollProfile : ToolsGuiScrollProfile)
+{
+	opaque = true;
+	fillColor = "30 30 30";
+	border = 1;
+	borderThickness = 1;
+	borderColor = "0 0 0";
+   category = "Tools";
+};
+
+if(!isObject(ToolsConsoleTextEditProfile))
+new GuiControlProfile(ToolsConsoleTextEditProfile : ToolsGuiTextEditProfile)
+{
+   fontType = $Gui::fontTypeMono;
+   fontSize = $GUI::fontSize[12];
+   cursorColor = "255 255 255";  
+   category = "Tools";
+};
+
+// -----------------------------------------------------------------------------

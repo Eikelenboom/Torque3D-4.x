@@ -4,7 +4,7 @@ $TextDisabledColor = "108 108 108";
 
 new GuiGameListMenuProfile(DefaultListMenuProfile)
 {
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontSize = 20;
    fontColor = $TextMediumEmphasisColor;
    fontColorSEL = $TextMediumEmphasisColor;
@@ -33,7 +33,7 @@ new GuiControlProfile(GamepadDefaultProfile)
 
 new GuiControlProfile(GamepadButtonTextLeft)
 {
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontSize = 20;
    fontColor = "255 255 255";
    justify = "left";
@@ -46,7 +46,7 @@ new GuiControlProfile(GamepadButtonTextRight : GamepadButtonTextLeft)
 
 new GuiControlProfile(MenuHeaderText)
 {
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontSize = 30;
    fontColor = $TextHighEmphasisColor;
    justify = "left";
@@ -54,7 +54,7 @@ new GuiControlProfile(MenuHeaderText)
 
 new GuiControlProfile(MenuHeaderTextCenter)
 {
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontSize = 30;
    fontColor = $TextHighEmphasisColor;
    justify = "center";
@@ -62,7 +62,7 @@ new GuiControlProfile(MenuHeaderTextCenter)
 
 new GuiControlProfile(MenuSubHeaderText)
 {
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontSize = 20;
    fontColor = $TextMediumEmphasisColor;
    justify = "left";
@@ -70,7 +70,7 @@ new GuiControlProfile(MenuSubHeaderText)
 
 new GuiControlProfile(MenuMLSubHeaderText)
 {
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontSize = 20;
    fontColor = $TextMediumEmphasisColor;
    justify = "left";
@@ -84,7 +84,7 @@ new GuiControlProfile( GuiMenuButtonProfile )
    opaque = true;
    border = true;
    fontSize = 18;
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontColor = $TextMediumEmphasisColor;
    fontColorHL = $TextMediumEmphasisColor;
    fontColorNA = $TextDisabledColor;
@@ -111,7 +111,7 @@ new GuiControlProfile( GuiHighlightMenuButtonProfile )
    opaque = true;
    border = false;
    fontSize = 18;
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontColor = "240 240 240";
    fontColorHL = "0 0 0";
    fontColorNA = "125 125 125";
@@ -130,7 +130,7 @@ new GuiControlProfile( GuiBlankMenuButtonProfile )
    opaque = true;
    border = false;
    fontSize = 18;
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontColor = "220 220 220";
    fontColorHL = "255 255 255";
    fontColorNA = "200 200 200";
@@ -157,7 +157,7 @@ new GuiControlProfile( GuiMenuTextProfile )
    opaque = true;
    border = false;
    fontSize = 18;
-   fontType = "Arial Bold";
+   fontType = "Segoe UI Bold";
    fontColor = "240 240 240";
    fontColorHL = "0 0 0";
    fontColorNA = "125 125 125";
@@ -394,7 +394,7 @@ new GuiControlProfile( GuiTabBookProfile )
    fontColor = "30 30 30";
    fontColorHL = "0 0 0";
    fontColorNA = "50 50 50";
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontSize = 14;
    justify = "center";
    bitmapAsset = "UI:tab_image";
@@ -411,7 +411,7 @@ new GuiControlProfile( GuiTabBookProfile )
 if( !isObject( GuiTabPageProfile ) )
 new GuiControlProfile( GuiTabPageProfile : GuiDefaultProfile )
 {
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontSize = 10;
    justify = "center";
    bitmapAsset = "UI:tab_image";
@@ -490,7 +490,7 @@ if( !isObject( CenterPrintTextProfile ) )
 new GuiControlProfile ( CenterPrintTextProfile )
 {
    opaque = false;
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontSize = 12;
    fontColor = "0 255 0";
    category = "Core";
