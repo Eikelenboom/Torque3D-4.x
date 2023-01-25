@@ -14,15 +14,15 @@ $guiContent = new GuiControl(simViewDlg, EditorGuiGroup) {
    new GuiWindowCtrl() {
       canSaveDynamicFields = "0";
       Profile = "ToolsGuiWindowProfile";
-      HorizSizing = "center";
+      HorizSizing = "right";
       VertSizing = "center";
-      position = "70 43";
+      position = "180 0";
       Extent = "685 489";
       MinExtent = "602 440";
       canSave = "1";
       Visible = "1";
       hovertime = "1000";
-      text = "Torque SimView";
+      text = "::  Torque SimView";
       maxLength = "1024";
       resizeWidth = "1";
       resizeHeight = "1";
@@ -143,7 +143,7 @@ $guiContent = new GuiControl(simViewDlg, EditorGuiGroup) {
          };
          new GuiTextCtrl() {
             canSaveDynamicFields = "0";
-            Profile = "EditorTextHLRight";
+            Profile = "ToolsGuiTextBoldProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             position = "217 35";
@@ -157,7 +157,7 @@ $guiContent = new GuiControl(simViewDlg, EditorGuiGroup) {
          };
          new GuiTextCtrl() {
             canSaveDynamicFields = "0";
-            Profile = "EditorTextHLRight";
+            Profile = "ToolsGuiTextBoldProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             position = "10 35";
@@ -190,7 +190,7 @@ $guiContent = new GuiControl(simViewDlg, EditorGuiGroup) {
          };
          new GuiTextCtrl() {
             canSaveDynamicFields = "0";
-            Profile = "EditorTextHLBoldRight";
+            Profile = "ToolsGuiTextBoldProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             position = "10 8";
@@ -225,7 +225,7 @@ $guiContent = new GuiControl(simViewDlg, EditorGuiGroup) {
          };
          new GuiTextCtrl(InspectObjectSimID) {
             canSaveDynamicFields = "0";
-            Profile = "EditorTextHLBoldCenter";
+            Profile = "ToolsGuiTextBoldProfile";
             HorizSizing = "right";
             VertSizing = "bottom";
             position = "265 35";
