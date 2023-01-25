@@ -89,7 +89,8 @@ GuiWindowCtrl::GuiWindowCtrl()
       mCollapseGroup(-1),
       mCollapseGroupNum(-1),
       mIsCollapsed(false),
-      mIsMouseResizing(false)
+      mIsMouseResizing(false),
+      mButtonOffset(0, 3)
 {
    // mTitleHeight will change in instanciation most likely...
    mTitleHeight = 24;
@@ -155,6 +156,8 @@ void GuiWindowCtrl::initPersistFields()
          "Script code to execute when the window is closed." );
       addField( "edgeSnap",          TypeBool,         Offset( mEdgeSnap,GuiWindowCtrl ),
          "If true, the window will snap to the edges of other windows when moved close to them." );
+      addField( "buttonOffset",      TypePoint2I,       Offset (mButtonOffset, GuiWindowCtrl),
+         "Margin between window edge and the button(s).");
          
    endGroup( "Window" );
 
@@ -1413,7 +1416,7 @@ void GuiWindowCtrl::onRender(Point2I offset, const RectI &updateRect)
       }
 
       drawUtil->clearBitmapModulation();
-      drawUtil->drawBitmapSR(mTextureObject, offset + mCloseButton.point, mBitmapBounds[bmp]);
+      drawUtil->drawBitmapSR(mTextureObject, mButtonOffset + offset + mCloseButton.point, mBitmapBounds[bmp]);
    }
 
    // Draw the maximize button
@@ -1432,7 +1435,7 @@ void GuiWindowCtrl::onRender(Point2I offset, const RectI &updateRect)
       }
 
       drawUtil->clearBitmapModulation();
-      drawUtil->drawBitmapSR( mTextureObject, offset + mMaximizeButton.point, mBitmapBounds[bmp] );
+      drawUtil->drawBitmapSR( mTextureObject, mButtonOffset + offset + mMaximizeButton.point, mBitmapBounds[bmp] );
    }
 
    // Draw the minimize button
@@ -1451,7 +1454,7 @@ void GuiWindowCtrl::onRender(Point2I offset, const RectI &updateRect)
       }
 
       drawUtil->clearBitmapModulation();
-      drawUtil->drawBitmapSR( mTextureObject, offset + mMinimizeButton.point, mBitmapBounds[bmp] );
+      drawUtil->drawBitmapSR( mTextureObject, mButtonOffset + offset + mMinimizeButton.point, mBitmapBounds[bmp] );
    }
 
    if( !mMinimized )

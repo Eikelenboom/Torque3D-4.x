@@ -124,6 +124,8 @@ class GuiWindowCtrl : public GuiContainer
       
       bool mCanDock; ///< Show a docking button on the title bar?
       bool mEdgeSnap; ///< Should this window snap to other windows edges?
+
+      Point2I mButtonOffset;
             
       /// @}
       
