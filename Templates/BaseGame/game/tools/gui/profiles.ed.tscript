@@ -456,6 +456,59 @@ new GuiControlProfile( ToolsGuiButtonProfile )
 	fontType = $Gui::fontTypeRegular;
 };
 
+if( !isObject( ToolsGuiButtonGreenProfile ) )
+new GuiControlProfile( ToolsGuiButtonGreenProfile : ToolsGuiButtonProfile )
+{
+   fillColor = "88 212 88";
+   fillColorHL = "128 212 128";
+   fontColor = "0 0 0";
+   fontColorHL = "22 22 22";
+   fontType = $Gui::fontTypeBold;
+};
+
+if( !isObject( ToolsGuiButtonRedProfile ) )
+new GuiControlProfile( ToolsGuiButtonRedProfile : ToolsGuiButtonProfile )
+{
+   fillColor = "194 64 64";
+   fillColorHL = "201 101 101";
+   fontColor = "220 220 220";
+   fontColorHL = "255 255 255";
+   fontType = $Gui::fontTypeBold;
+};
+
+if( !isObject( ToolsGuiButtonHLRedProfile ) )
+new GuiControlProfile( ToolsGuiButtonHLRedProfile : ToolsGuiButtonProfile )
+{
+   fillColorHL = "194 64 64";
+   fontColorHL = "255 255 255";
+};
+
+if( !isObject( ToolsGuiButtonHLYellowProfile ) )
+new GuiControlProfile( ToolsGuiButtonHLYellowProfile : ToolsGuiButtonProfile )
+{
+   fillColorHL = "240 192 64";
+   fontColorHL = "0 0 0";
+};
+
+if( !isObject( ToolsGuiButtonActiveProfile ) )
+new GuiControlProfile( ToolsGuiButtonActiveProfile : ToolsGuiButtonProfile )
+{
+   fillColor = "22 22 22";
+};
+
+if( !isObject( ToolsGuiButtonLTextProfile ) )
+new GuiControlProfile( ToolsGuiButtonLTextProfile : ToolsGuiButtonProfile )
+{
+   fontSize = $GUI::fontSize[18];
+   fontType = $Gui::fontTypeBold;
+};
+
+if( !isObject( ToolsGuiButtonSTextProfile ) )
+new GuiControlProfile( ToolsGuiButtonSTextProfile : ToolsGuiButtonProfile )
+{
+   fontSize = $GUI::fontSize[14];
+};
+
 if( !isObject( ToolsGuiThumbHighlightButtonProfile ) )
 new GuiControlProfile( ToolsGuiThumbHighlightButtonProfile : ToolsGuiButtonProfile )
 {

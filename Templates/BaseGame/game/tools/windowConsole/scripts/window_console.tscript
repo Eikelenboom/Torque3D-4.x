@@ -20,6 +20,32 @@
 // IN THE SOFTWARE.
 //-----------------------------------------------------------------------------
 
+// Start the timer when initializing the console
+$Con::useTimestamp = "1";
+// but hide the timestamp until requested
+$Con::useTimestamp = "0";
+
+function windowConsoleDlg::onWake(%this)
+{
+   windowConsoleDlgErrorFilterBtn.setStateOn(windowConsoleMessageLogView.getErrorFilter());
+   windowConsoleDlgWarnFilterBtn.setStateOn(windowConsoleMessageLogView.getWarnFilter());
+   windowConsoleDlgNormalFilterBtn.setStateOn(windowConsoleMessageLogView.getNormalFilter());
+   
+   windowConsoleMessageLogView.setProfile(ToolsGuiConsoleProfile);
+   $Con::font = 12;
+   
+   windowConsoleMessageLogView.refresh();
+   
+   // Make the window fit next to the side panel
+   // We do a simple resize so that we don't have to redo the whole GUI layout
+   %newWidth = getWord($pref::Video::mode, 0) - 360;
+   %vertPos = getWord($pref::Video::mode, 1) - 360 - 35;
+   windowConsoleControl.resize("0", %vertPos, %newWidth, "360");
+   windowConsoleControl.dockPanel();
+}
+
+//-----------------------------------------------------------------------------
+
 function windowConsoleEntry::eval()
 {
    %text = trim(windowConsoleEntry.getValue());
@@ -64,6 +90,8 @@ function windowConsoleEntry::repeatLast(%this)
    if($Con::lastCommand !$="")
       windowConsoleEntry.setText($Con::lastCommand);
 }
+
+//-----------------------------------------------------------------------------
 
 function windowConsoleDlg::hideWindow(%this)
 {
@@ -114,6 +142,8 @@ function windowConsoleDlg::showWindow(%this)
    }
 }
 
+//-----------------------------------------------------------------------------
+
 function windowConsoleControl::setTab(%this, %tab, %text, %command)
 {
    if(isObject(%tab))
@@ -135,24 +165,7 @@ function windowConsoleControl::putToFront(%this)
    %this.selectWindow();
 }
 
-function windowConsoleDlg::onWake(%this)
-{
-   windowConsoleDlgErrorFilterBtn.setStateOn(windowConsoleMessageLogView.getErrorFilter());
-   windowConsoleDlgWarnFilterBtn.setStateOn(windowConsoleMessageLogView.getWarnFilter());
-   windowConsoleDlgNormalFilterBtn.setStateOn(windowConsoleMessageLogView.getNormalFilter());
-   
-   windowConsoleMessageLogView.setProfile(ToolsGuiConsoleProfile);
-   $Con::font = 12;
-   
-   windowConsoleMessageLogView.refresh();
-   
-   // Make the window fit next to the side panel
-   // We do a simple resize so that we don't have to redo the whole GUI layout
-   %newWidth = getWord($pref::Video::mode, 0) - 360;
-   %vertPos = getWord($pref::Video::mode, 1) - 360 - 35;
-   windowConsoleControl.resize("0", %vertPos, %newWidth, "360");
-   windowConsoleControl.dockPanel();
-}
+//-----------------------------------------------------------------------------
 
 function windowConsoleDlgErrorFilterBtn::onClick(%this)
 {
@@ -176,6 +189,8 @@ function windowConsoleMessageLogView::onNewMessage(%this, %errorCount, %warnCoun
    windowConsoleDlgNormalFilterBtn.setText(" Messages  ( " @ %normalCount @ " )");
 }
 
+//-----------------------------------------------------------------------------
+
 function windowConsoleDlg::timeStamp(%this)
 {
    %state = windowConsoleTimestampBtn.getValue();
@@ -183,17 +198,27 @@ function windowConsoleDlg::timeStamp(%this)
    if(%state)
    {
       %label = "Time: On";
+      %profile = "ToolsGuiButtonActiveProfile";
+      %toolTip = "Hide the time stamp to console messages";
       $Con::useTimestamp = "1";
-      echo("Console Time Stamp turned on");
    }
    else
    {
       %label = "Time: Off";
+      %profile = "ToolsGuiButtonProfile";
+      %toolTip = "Show the time stamp to console messages";
       $Con::useTimestamp = "0";
-      echo("Console Time Stamp turned off");
    }
    
    windowConsoleTimestampBtn.setText(%label);
+   windowConsoleTimestampBtn.setProfile(%profile);
+   windowConsoleTimestampBtn.ToolTip = %toolTip;
+}
+
+function windowConsoleDlg::timeStampReset(%this)
+{
+   resetTimeStamp();
+   echo(">>>> Resetting timestamp");
 }
 
 function windowConsoleDlg::profilerDump(%this)
@@ -205,20 +230,28 @@ function windowConsoleDlg::profilerDump(%this)
       echo(">>>> Start profiler ---------------------------------------------");
       profilerEnable(true);
       %label = "Profiler: On";
-      %toolTip = "Turn the profiler off";
-      profilerDump();
+      %toolTip = "Turn the profiler off and show the results";
+      %profile = "ToolsGuiButtonGreenProfile";
    }
    else
    {
+      
       profilerDump();
       %label = "Profiler: Off";
-      %toolTip = "Turn the profiler on and dump the results";
-      profilerEnable(false);
-      echo(">>>> Stop profiler ----------------------------------------------");
+      %toolTip = "Turn the profiler on";
+      %profile = "ToolsGuiButtonProfile";
+      %this.schedule(1000, stopProfiler);
    }
    
+   windowConsoleDumpBtn.setProfile(%profile);
    windowConsoleDumpBtn.setText(%label);
    windowConsoleDumpBtn.ToolTip = %toolTip;
+}
+
+function windowConsoleDlg::stopProfiler(%this)
+{
+   profilerEnable(false);
+   echo(">>>> Stop profiler ----------------------------------------------");
 }
 
 function windowConsoleDlg::infoDump(%this)
@@ -267,6 +300,8 @@ function windowConsoleDlg::decFont()
    }
 }
 
+//-----------------------------------------------------------------------------
+
 function windowConsoleControl::dockPanel(%this)
 {
    if(%this.docked == true)
@@ -309,6 +344,7 @@ function windowConsoleControl::releasePanel(%this)
    EditorGui.updateSideBar();
 }
 
+//-----------------------------------------------------------------------------
 
 function windowConsoleDlg::addToolbarButton(%this)
 {
