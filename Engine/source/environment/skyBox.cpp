@@ -114,6 +114,7 @@ void SkyBox::onRemove()
 
 void SkyBox::initPersistFields()
 {
+   docsURL;
    addGroup( "Sky Box" );	
 
    INITPERSISTFIELD_MATERIALASSET(Material, SkyBox, "The name of a cubemap material for the sky box.");
@@ -572,7 +573,7 @@ void SkyBox::_initRender()
    mFogBandMat->mTranslucent = true;   
    mFogBandMat->mVertColor[0] = true;
    mFogBandMat->mDoubleSided = true;
-   mFogBandMat->mEmissive[0] = true;
+   mFogBandMat->mReceiveShadows[0] = false;
 
    FeatureSet features = MATMGR->getDefaultFeatures();
    features.addFeature(MFT_isBackground);
@@ -610,6 +611,7 @@ void SkyBox::_initMaterial()
    FeatureSet features = MATMGR->getDefaultFeatures();
    features.removeFeature( MFT_RTLighting );
    features.removeFeature( MFT_Visibility );
+   features.removeFeature(MFT_ReflectionProbes);
    features.addFeature(MFT_isBackground);   
    features.addFeature(MFT_SkyBox);
 

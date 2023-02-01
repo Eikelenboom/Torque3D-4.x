@@ -113,6 +113,7 @@ void SkySphere::onRemove()
 
 void SkySphere::initPersistFields()
 {
+   docsURL;
    addGroup("Sky Sphere");
 
    INITPERSISTFIELD_MATERIALASSET(Material, SkySphere, "The name of a cubemap material for the sky box.");
@@ -570,7 +571,7 @@ void SkySphere::_initRender()
    mFogBandMat->mTranslucent = true;
    mFogBandMat->mVertColor[0] = true;
    mFogBandMat->mDoubleSided = true;
-   mFogBandMat->mEmissive[0] = true;
+   mFogBandMat->mReceiveShadows[0] = false;
 
    FeatureSet features = MATMGR->getDefaultFeatures();
    features.addFeature(MFT_isBackground);
@@ -608,6 +609,7 @@ void SkySphere::_initMaterial()
    FeatureSet features = MATMGR->getDefaultFeatures();
    features.removeFeature(MFT_RTLighting);
    features.removeFeature(MFT_Visibility);
+   features.removeFeature(MFT_ReflectionProbes);
    features.addFeature(MFT_isBackground);
 
    // Now initialize the material.

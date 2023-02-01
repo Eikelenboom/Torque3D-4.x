@@ -142,6 +142,7 @@ void ModuleManager::onRemove()
 
 void ModuleManager::initPersistFields()
 {
+   docsURL;
     // Call parent.
     Parent::initPersistFields();
 
@@ -385,6 +386,8 @@ bool ModuleManager::loadModuleGroup( const char* pModuleGroup )
         // Create a scope set.
         SimSet* pScopeSet = new SimSet;
         pScopeSet->registerObject( pLoadReadyModuleDefinition->getModuleId() );
+        pScopeSet->setClassNamespace("ModuleRoot");
+
         pReadyEntry->mpModuleDefinition->mScopeSet = pScopeSet->getId();
 
         // Increase load count.
@@ -773,6 +776,8 @@ bool ModuleManager::loadModuleExplicit( const char* pModuleId, const U32 version
         // Create a scope set.
         SimSet* pScopeSet = new SimSet;
         pScopeSet->registerObject( pLoadReadyModuleDefinition->getModuleId() );
+        pScopeSet->setClassNamespace("ModuleRoot");
+
         pReadyEntry->mpModuleDefinition->mScopeSet = pScopeSet->getId();
 
         // Increase load count.

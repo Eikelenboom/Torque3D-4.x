@@ -282,7 +282,6 @@ IMPLEMENT_CALLBACK( PlayerData, onLeaveMissionArea, void, ( Player* obj ), ( obj
 
 PlayerData::PlayerData()
 {
-   shadowEnable = true;
    shadowSize = 256;
    shadowProjectionDistance = 14.0f;
 
@@ -423,7 +422,7 @@ PlayerData::PlayerData()
    boxHeadFrontPercentage = 1;
 
    for (S32 i = 0; i < MaxSounds; i++)
-      INIT_ASSET_ARRAY(PlayerSound, i);
+      INIT_SOUNDASSET_ARRAY(PlayerSound, i);
 
    footPuffEmitter = NULL;
    footPuffID = 0;
@@ -469,17 +468,17 @@ bool PlayerData::preload(bool server, String &errorStr)
 {
    if(!Parent::preload(server, errorStr))
       return false;
-
-   for (U32 i = 0; i < MaxSounds; ++i)
-   {
-      _setPlayerSound(getPlayerSound(i), i);
-      if (getPlayerSound(i) != StringTable->EmptyString())
+   if (!server) {
+      for (U32 i = 0; i < MaxSounds; ++i)
       {
-         if (!getPlayerSoundProfile(i))
-            Con::errorf("PlayerData::Preload() - unable to find sfxProfile for asset %d %s", i, mPlayerSoundAssetId[i]);
+         _setPlayerSound(getPlayerSound(i), i);
+         if (getPlayerSound(i) != StringTable->EmptyString())
+         {
+            if (!getPlayerSoundProfile(i))
+               Con::errorf("PlayerData::Preload() - unable to find sfxProfile for asset %d %s", i, mPlayerSoundAssetId[i]);
+         }
       }
    }
-
    //
    runSurfaceCos = mCos(mDegToRad(runSurfaceAngle));
    jumpSurfaceCos = mCos(mDegToRad(jumpSurfaceAngle));
@@ -705,6 +704,9 @@ bool PlayerData::isJumpAction(U32 action)
 
 void PlayerData::initPersistFields()
 {
+   docsURL;
+   Parent::initPersistFields();
+
    addField( "pickupRadius", TypeF32, Offset(pickupRadius, PlayerData),
       "@brief Radius around the player to collide with Items in the scene (on server).\n\n"
       "Internally the pickupRadius is added to the larger side of the initial bounding box "
@@ -1163,8 +1165,6 @@ void PlayerData::initPersistFields()
          "need to.\n");
 
    endGroup( "Third Person" );
-
-   Parent::initPersistFields();
 }
 
 void PlayerData::packData(BitStream* stream)
@@ -1271,7 +1271,7 @@ void PlayerData::packData(BitStream* stream)
    stream->write(minLateralImpactSpeed);
 
    for (U32 i = 0; i < MaxSounds; i++)
-      PACKDATA_ASSET_ARRAY(PlayerSound, i);
+      PACKDATA_SOUNDASSET_ARRAY(PlayerSound, i);
 
    mathWrite(*stream, boxSize);
    mathWrite(*stream, crouchBoxSize);
@@ -1452,7 +1452,7 @@ void PlayerData::unpackData(BitStream* stream)
    stream->read(&minLateralImpactSpeed);
 
    for (U32 i = 0; i < MaxSounds; i++)
-      UNPACKDATA_ASSET_ARRAY(PlayerSound, i);
+      UNPACKDATA_SOUNDASSET_ARRAY(PlayerSound, i);
 
    mathRead(*stream, &boxSize);
    mathRead(*stream, &crouchBoxSize);

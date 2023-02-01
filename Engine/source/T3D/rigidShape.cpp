@@ -61,7 +61,6 @@ ConsoleDocClass( RigidShapeData,
 	"	   category = \"RigidShape\";\n"
 	"\n"		
 	"	   shapeFile = \"~/data/shapes/boulder/boulder.dts\";\n"
-	"	   emap = true;\n"
 	"\n"
 	"	   // Rigid Body\n"
 	"	   mass = 500;\n"
@@ -112,7 +111,6 @@ ConsoleDocClass( RigidShape,
 	"	   category = \"RigidShape\";\n"
 	"\n"		
 	"	   shapeFile = \"~/data/shapes/boulder/boulder.dts\";\n"
-	"	   emap = true;\n"
 	"\n"
 	"	   // Rigid Body\n"
 	"	   mass = 500;\n"
@@ -207,12 +205,31 @@ TriggerObjectType  |
 CorpseObjectType;
 
 
+typedef RigidShapeData::Body::Sounds bodySounds;
+DefineEnumType(bodySounds);
+
+ImplementEnumType(bodySounds, "enum types.\n"
+   "@ingroup VehicleData\n\n")
+   { bodySounds::SoftImpactSound, "SoftImpactSound", "..." },
+   { bodySounds::HardImpactSound,  "HardImpactSound", "..." },
+EndImplementEnumType;
+
+typedef RigidShapeData::Sounds waterSounds;
+DefineEnumType(waterSounds);
+
+ImplementEnumType(waterSounds, "enum types.\n"
+   "@ingroup RigidShapeData\n\n")
+   { waterSounds::ExitWater, "ExitWater", "..." },
+   { waterSounds::ImpactSoft,    "ImpactSoft", "..." },
+   { waterSounds::ImpactMedium,  "ImpactMedium", "..." },
+   { waterSounds::ImpactHard,    "ImpactHard", "..." },
+   { waterSounds::Wake,          "Wake", "..." },
+EndImplementEnumType;
+
 //----------------------------------------------------------------------------
 
 RigidShapeData::RigidShapeData()
 {
-   shadowEnable = true;
-
    body.friction = 0;
    body.restitution = 1;
 
@@ -238,7 +255,7 @@ RigidShapeData::RigidShapeData()
    density = 4;
 
    for (S32 i = 0; i < Body::MaxSounds; i++)
-      INIT_ASSET_ARRAY(BodySounds, i);
+      INIT_SOUNDASSET_ARRAY(BodySounds, i);
 
    dustEmitter = NULL;
    dustID = 0;
@@ -257,7 +274,7 @@ RigidShapeData::RigidShapeData()
    enablePhysicsRep = true;
 
    for (S32 i = 0; i < Sounds::MaxSounds; i++)
-      INIT_ASSET_ARRAY(WaterSounds, i);
+      INIT_SOUNDASSET_ARRAY(WaterSounds, i);
 
    dragForce            = 0;
    vertFactor           = 0.25;
@@ -301,7 +318,7 @@ bool RigidShapeData::preload(bool server, String &errorStr)
    if (!server) {
       for (S32 i = 0; i < Body::MaxSounds; i++)
       {
-         if (mBodySounds[i])
+         if (getBodySounds(i) != StringTable->EmptyString())
          {
             _setBodySounds(getBodySounds(i), i);
          }
@@ -309,7 +326,7 @@ bool RigidShapeData::preload(bool server, String &errorStr)
 
       for (S32 j = 0; j < Sounds::MaxSounds; j++)
       {
-         if (mWaterSounds[j])
+         if (getWaterSounds(j) != StringTable->EmptyString())
          {
             _setWaterSounds(getWaterSounds(j), j);
          }
@@ -371,7 +388,7 @@ void RigidShapeData::packData(BitStream* stream)
    stream->write(body.friction);
    for (U32 i = 0; i < Body::MaxSounds; ++i)
    {
-      PACKDATA_ASSET_ARRAY(BodySounds, i);
+      PACKDATA_SOUNDASSET_ARRAY(BodySounds, i);
    }
 
    stream->write(minImpactSpeed);
@@ -391,8 +408,9 @@ void RigidShapeData::packData(BitStream* stream)
    stream->write(cameraLag);
    stream->write(cameraDecay);
    stream->write(cameraOffset);
-
-   stream->write( dustHeight );
+   
+   stream->write(triggerDustHeight);
+   stream->write(dustHeight);
 
    stream->write(exitSplashSoundVel);
    stream->write(softSplashSoundVel);
@@ -403,7 +421,7 @@ void RigidShapeData::packData(BitStream* stream)
    // write the water sound profiles
    for (U32 i = 0; i < Sounds::MaxSounds; ++i)
    {
-      PACKDATA_ASSET_ARRAY(WaterSounds, i);
+      PACKDATA_SOUNDASSET_ARRAY(WaterSounds, i);
    }
 
    if (stream->writeFlag( dustEmitter ))
@@ -434,7 +452,7 @@ void RigidShapeData::unpackData(BitStream* stream)
 
    for (U32 i = 0; i < Body::Sounds::MaxSounds; i++)
    {
-      UNPACKDATA_ASSET_ARRAY(BodySounds, i);
+      UNPACKDATA_SOUNDASSET_ARRAY(BodySounds, i);
    }
 
    stream->read(&minImpactSpeed);
@@ -455,6 +473,7 @@ void RigidShapeData::unpackData(BitStream* stream)
    stream->read(&cameraDecay);
    stream->read(&cameraOffset);
 
+   stream->read(&triggerDustHeight);
    stream->read( &dustHeight );
 
    stream->read(&exitSplashSoundVel);
@@ -466,7 +485,7 @@ void RigidShapeData::unpackData(BitStream* stream)
    // write the water sound profiles
    for (U32 i = 0; i < Sounds::MaxSounds; ++i)
    {
-      UNPACKDATA_ASSET_ARRAY(WaterSounds, i);
+      UNPACKDATA_SOUNDASSET_ARRAY(WaterSounds, i);
    }
 
    if( stream->readFlag() )
@@ -493,73 +512,57 @@ void RigidShapeData::unpackData(BitStream* stream)
 
 void RigidShapeData::initPersistFields()
 {
-   addGroup("Physics");
-   addField("enablePhysicsRep", TypeBool, Offset(enablePhysicsRep, RigidShapeData),
-      "@brief Creates a representation of the object in the physics plugin.\n");
-   endGroup("Physics");
+   docsURL;
+   Parent::initPersistFields();
 
-   addField("massCenter", TypePoint3F, Offset(massCenter, RigidShapeData), "Center of mass for rigid body.");
-   addField("massBox", TypePoint3F, Offset(massBox, RigidShapeData), "Size of inertial box.");
-   addField("bodyRestitution", TypeF32, Offset(body.restitution, RigidShapeData), "The percentage of kinetic energy kept by this object in a collision.");
-   addField("bodyFriction", TypeF32, Offset(body.friction, RigidShapeData), "How much friction this object has. Lower values will cause the object to appear to be more slippery.");
-
-   addField("minImpactSpeed", TypeF32, Offset(minImpactSpeed, RigidShapeData),
-      "Minimum collision speed to classify collision as impact (triggers onImpact on server object)." );
-   addField("softImpactSpeed", TypeF32, Offset(softImpactSpeed, RigidShapeData), "Minimum speed at which this object must be travelling for the soft impact sound to be played.");
-   addField("hardImpactSpeed", TypeF32, Offset(hardImpactSpeed, RigidShapeData), "Minimum speed at which the object must be travelling for the hard impact sound to be played.");
-   addField("minRollSpeed", TypeF32, Offset(minRollSpeed, RigidShapeData));
-
-   addField("maxDrag", TypeF32, Offset(maxDrag, RigidShapeData), "Maximum drag available to this object.");
-   addField("minDrag", TypeF32, Offset(minDrag, RigidShapeData), "Minimum drag available to this object.");
-   addField("integration", TypeS32, Offset(integration, RigidShapeData), "Number of physics steps to process per tick.");
-   addField("collisionTol", TypeF32, Offset(collisionTol, RigidShapeData), "Collision distance tolerance.");
-   addField("contactTol", TypeF32, Offset(contactTol, RigidShapeData), "Contact velocity tolerance.");
-   
-   addGroup( "Forces" );
-
-      addField("dragForce",            TypeF32, Offset(dragForce,            RigidShapeData), "Used to simulate the constant drag acting on the object");
-      addField("vertFactor",           TypeF32, Offset(vertFactor,           RigidShapeData), "The scalar applied to the vertical portion of the velocity drag acting on a object.");
-   
-   endGroup( "Forces" );
-   
    addGroup( "Particle Effects" );
-
       addField("dustEmitter",       TYPEID< ParticleEmitterData >(),   Offset(dustEmitter,        RigidShapeData), "Array of pointers to ParticleEmitterData datablocks which will be used to emit particles at object/terrain contact point.\n");
       addField("triggerDustHeight", TypeF32,                      Offset(triggerDustHeight,  RigidShapeData), "Maximum height from the ground at which the object will generate dust.\n");
       addField("dustHeight",        TypeF32,                      Offset(dustHeight,         RigidShapeData), "Height of dust effects.\n");
-
       addField("dustTrailEmitter",     TYPEID< ParticleEmitterData >(),   Offset(dustTrailEmitter,   RigidShapeData), "Particle emitter used to create a dust trail for the moving object.\n");
-
       addField("splashEmitter",        TYPEID< ParticleEmitterData >(),   Offset(splashEmitterList,     RigidShapeData), VC_NUM_SPLASH_EMITTERS, "Array of pointers to ParticleEmitterData datablocks which will generate splash effects.\n");
-
       addField("splashFreqMod",  TypeF32,                Offset(splashFreqMod,   RigidShapeData), "The simulated frequency modulation of a splash generated by this object. Multiplied along with speed and time elapsed when determining splash emition rate.\n");
-      addField("splashVelEpsilon", TypeF32,              Offset(splashVelEpsilon, RigidShapeData), "The threshold speed at which we consider the object's movement to have stopped when updating splash effects.\n");
-      
+      addField("splashVelEpsilon", TypeF32,              Offset(splashVelEpsilon, RigidShapeData), "The threshold speed at which we consider the object's movement to have stopped when updating splash effects.\n");  
    endGroup( "Particle Effects" );
    
    addGroup( "Sounds" );
+      INITPERSISTFIELD_SOUNDASSET_ENUMED(BodySounds, bodySounds, Body::Sounds::MaxSounds, RigidShapeData, "Sounds for body.");      INITPERSISTFIELD_SOUNDASSET_ENUMED(WaterSounds, waterSounds, Sounds::MaxSounds, RigidShapeData, "Sounds for interacting with water.");
+   endGroup( "Sounds" );
 
-      INITPERSISTFIELD_SOUNDASSET_ARRAY(BodySounds, Body::Sounds::MaxSounds, RigidShapeData, "Sounds for body.");
+   addGroup("Physics");
+      addField("enablePhysicsRep", TypeBool, Offset(enablePhysicsRep, RigidShapeData),
+         "@brief Creates a representation of the object in the physics plugin.\n");
+         ("massCenter", TypePoint3F, Offset(massCenter, RigidShapeData), "Center of mass for rigid body.");
+      addField("massBox", TypePoint3F, Offset(massBox, RigidShapeData), "Size of inertial box.");
+      addField("bodyRestitution", TypeF32, Offset(body.restitution, RigidShapeData), "The percentage of kinetic energy kept by this object in a collision.");
+      addField("bodyFriction", TypeF32, Offset(body.friction, RigidShapeData), "How much friction this object has. Lower values will cause the object to appear to be more slippery.");
+      addField("maxDrag", TypeF32, Offset(maxDrag, RigidShapeData), "Maximum drag available to this object.");
+      addField("minDrag", TypeF32, Offset(minDrag, RigidShapeData), "Minimum drag available to this object.");
+      addField("integration", TypeS32, Offset(integration, RigidShapeData), "Number of physics steps to process per tick.");
+      addField("collisionTol", TypeF32, Offset(collisionTol, RigidShapeData), "Collision distance tolerance.");
+      addField("contactTol", TypeF32, Offset(contactTol, RigidShapeData), "Contact velocity tolerance.");
+      addField("dragForce",            TypeF32, Offset(dragForce,            RigidShapeData), "Used to simulate the constant drag acting on the object");
+      addField("vertFactor",           TypeF32, Offset(vertFactor,           RigidShapeData), "The scalar applied to the vertical portion of the velocity drag acting on a object.");
+   endGroup("Physics");
 
+   addGroup("Collision");
+      addField("minImpactSpeed", TypeF32, Offset(minImpactSpeed, RigidShapeData),
+      "Minimum collision speed to classify collision as impact (triggers onImpact on server object)." );
+      addField("softImpactSpeed", TypeF32, Offset(softImpactSpeed, RigidShapeData), "Minimum speed at which this object must be travelling for the soft impact sound to be played.");
+      addField("hardImpactSpeed", TypeF32, Offset(hardImpactSpeed, RigidShapeData), "Minimum speed at which the object must be travelling for the hard impact sound to be played.");
+      addField("minRollSpeed", TypeF32, Offset(minRollSpeed, RigidShapeData));
       addField("exitSplashSoundVelocity", TypeF32,       Offset(exitSplashSoundVel, RigidShapeData), "The minimum velocity at which the exit splash sound will be played when emerging from water.\n");
       addField("softSplashSoundVelocity", TypeF32,       Offset(softSplashSoundVel, RigidShapeData),"The minimum velocity at which the soft splash sound will be played when impacting water.\n");
       addField("mediumSplashSoundVelocity", TypeF32,     Offset(medSplashSoundVel, RigidShapeData), "The minimum velocity at which the medium splash sound will be played when impacting water.\n");
       addField("hardSplashSoundVelocity", TypeF32,       Offset(hardSplashSoundVel, RigidShapeData), "The minimum velocity at which the hard splash sound will be played when impacting water.\n");
-      
-      INITPERSISTFIELD_SOUNDASSET_ARRAY(WaterSounds, Sounds::MaxSounds, RigidShapeData, "Sounds for interacting with water.");
-
-   endGroup( "Sounds" );
+   endGroup("Collision");   
    
    addGroup( "Camera" );
-
       addField("cameraRoll",     TypeBool,       Offset(cameraRoll,     RigidShapeData), "Specifies whether the camera's rotation matrix, and the render eye transform are multiplied during camera updates.\n");
       addField("cameraLag",      TypeF32,        Offset(cameraLag,      RigidShapeData), "Scalar amount by which the third person camera lags the object, relative to the object's linear velocity.\n");
       addField("cameraDecay",  TypeF32,        Offset(cameraDecay,  RigidShapeData), "Scalar rate at which the third person camera offset decays, per tick.\n");
       addField("cameraOffset",   TypeF32,        Offset(cameraOffset,   RigidShapeData), "The vertical offset of the object's camera.\n");
-      
    endGroup( "Camera" );
-
-   Parent::initPersistFields();
 }   
 
 
@@ -1683,6 +1686,7 @@ void RigidShape::consoleInit()
 
 void RigidShape::initPersistFields()
 {
+   docsURL;
    Parent::initPersistFields();
 }
 

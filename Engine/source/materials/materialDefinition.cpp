@@ -161,7 +161,7 @@ Material::Material()
       mVertColor[i] = false;
 
       mGlow[i] = false;
-      mEmissive[i] = false;
+      mReceiveShadows[i] = true;
 
       mDetailScale[i].set(2.0f, 2.0f);
 
@@ -245,6 +245,7 @@ Material::Material()
 
 void Material::initPersistFields()
 {
+   docsURL;
    addField("mapTo", TypeRealString, Offset(mMapTo, Material),
       "Used to map this material to the material name used by TSShape.");
 
@@ -345,7 +346,7 @@ void Material::initPersistFields()
    addField("subSurfaceRolloff", TypeF32, Offset(mSubSurfaceRolloff, Material), MAX_STAGES,
       "The 0 to 1 rolloff factor used in the subsurface scattering approximation.");
 
-   addField("emissive", TypeBool, Offset(mEmissive, Material), MAX_STAGES,
+   addField("receiveShadows", TypeBool, Offset(mReceiveShadows, Material), MAX_STAGES,
       "Enables emissive lighting for the material.");
 
    addField("doubleSided", TypeBool, Offset(mDoubleSided, Material),

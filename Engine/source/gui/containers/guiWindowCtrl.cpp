@@ -134,6 +134,7 @@ GuiWindowCtrl::GuiWindowCtrl()
 
 void GuiWindowCtrl::initPersistFields()
 {
+   docsURL;
    addGroup( "Window" );
    
       addField( "text",              TypeRealString,   Offset( mText, GuiWindowCtrl ),

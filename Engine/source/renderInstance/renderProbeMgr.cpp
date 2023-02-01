@@ -258,6 +258,7 @@ void RenderProbeMgr::onRemove()
 
 void RenderProbeMgr::initPersistFields()
 {
+   docsURL;
    Parent::initPersistFields();
 }
 
@@ -560,8 +561,8 @@ void RenderProbeMgr::bakeProbe(ReflectionProbe* probe)
    ReflectorDesc reflDesc;
    reflDesc.texSize = resolution;
    reflDesc.farDist = farPlane;
-   reflDesc.detailAdjust = 1;
-   reflDesc.objectTypeMask = probe->mProbeShapeType == ReflectionProbe::ProbeInfo::Skylight ? SKYLIGHT_CAPTURE_TYPEMASK : REFLECTION_PROBE_CAPTURE_TYPEMASK;
+   reflDesc.detailAdjust = (F32)resolution;
+   reflDesc.objectTypeMask = probe->mCaptureMask;
 
    CubeReflector cubeRefl;
    cubeRefl.registerReflector(probe, &reflDesc);
