@@ -644,6 +644,7 @@ if( !isObject( ToolsGuiInspectorCheckBoxTitleProfile ) )
 new GuiControlProfile( ToolsGuiInspectorCheckBoxTitleProfile : ToolsGuiCheckBoxProfile ){
    fontColor = EditorSettings.value("Theme/fieldTextColor");
    category = "Tools";
+   fontType = $Gui::fontTypeBold;
 };
 
 if( !isObject( ToolsGuiRadioProfile ) )
