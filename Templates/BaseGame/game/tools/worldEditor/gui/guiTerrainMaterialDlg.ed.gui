@@ -18,7 +18,7 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
       anchorTop = "0"; 
       anchorLeft = "0"; 
       position = "224 59"; 
-      extent = "466 639"; 
+      extent = "466 700"; 
       minExtent = "358 452"; 
       horizSizing = "center"; 
       vertSizing = "center"; 
@@ -29,14 +29,14 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
          splitPoint = "182 80"; 
          fixedSize = "80"; 
          position = "3 27"; 
-         extent = "459 579"; 
+         extent = "459 650"; 
          horizSizing = "width"; 
          profile = "ToolsGuiDefaultProfile"; 
          tooltipProfile = "GuiToolTipProfile"; 
   
          new GuiPanel() { 
             docking = "Client"; 
-            extent = "180 579"; 
+            extent = "180 650"; 
             profile = "ToolsGuiSolidDefaultProfile"; 
             tooltipProfile = "GuiToolTipProfile"; 
             internalName = "Panel1"; 
@@ -78,7 +78,7 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
             }; 
             new GuiControl() { 
                position = "6 26"; 
-               extent = "187 545"; 
+               extent = "187 600"; 
                horizSizing = "width"; 
                vertSizing = "height"; 
                profile = "ToolsGuiDefaultProfile"; 
@@ -88,7 +88,7 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                new GuiScrollCtrl() { 
                   hScrollBar = "dynamic"; 
                   vScrollBar = "dynamic"; 
-                  extent = "171 549"; 
+                  extent = "171 600"; 
                   horizSizing = "width"; 
                   vertSizing = "height"; 
                   profile = "ToolsGuiScrollProfile"; 
@@ -118,14 +118,14 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
          new GuiPanel() { 
             docking = "Client"; 
             position = "184 0"; 
-            extent = "275 579"; 
+            extent = "275 585"; 
             profile = "ToolsGuiSolidDefaultProfile"; 
             tooltipProfile = "GuiToolTipProfile"; 
             internalName = "panel2"; 
   
             new GuiContainer() { 
                position = "1 0"; 
-               extent = "274 577"; 
+               extent = "274 585"; 
                horizSizing = "width"; 
                vertSizing = "height"; 
                profile = "inspectorStyleRolloutProfile"; 
@@ -396,7 +396,7 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                }; 
                new GuiContainer(NormalMapContainer) { 
                   position = "6 213"; 
-                  extent = "261 100"; 
+                  extent = "261 120"; 
                   horizSizing = "width"; 
                   profile = "ToolsGuiDefaultProfile"; 
                   tooltipProfile = "ToolsGuiToolTipProfile"; 
@@ -528,18 +528,46 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                      tooltipProfile = "ToolsGuiToolTipProfile"; 
                      isContainer = "0"; 
                      internalName = "blendHeightContrastTextEditCtrl"; 
-                  }; 
-               }; 
+                  };
+                  new GuiTextEditCtrl(TerrainMaterialDlgBlendHeightHardnessTextEdit) {
+                     text = "0";
+                     anchorTop = "0";
+                     anchorLeft = "0";
+                     position = "1 99";
+                     extent = "35 18";
+                     profile = "ToolsGuiTextEditProfile";
+                     tooltipProfile = "ToolsGuiToolTipProfile";
+                     isContainer = "0";
+                     internalName = "blendHeightHardnessTextEditCtrl";
+                  };
+                  new GuiTextCtrl() {
+                     text = "Blend Hardness";
+                     position = "115 101";
+                     extent = "76 15";
+                     profile = "ToolsGuiTextProfile";
+                     tooltipProfile = "ToolsGuiToolTipProfile";
+                  };
+                  new GuiSliderCtrl(TerrainMaterialDlgBlendHeightHardnessSlider) {
+                     range = "0 0.999";
+                     ticks = "0";
+                     value = "0";
+                     position = "39 101";
+                     extent = "70 14";
+                     profile = "ToolsGuiSliderProfile";
+                     tooltipProfile = "ToolsGuiToolTipProfile";
+                     internalName = "blendHeightHardnessSliderCtrl";
+                  };
+               };               
                new GuiBitmapCtrl() { 
                   BitmapAsset = "ToolsModule:separator_v_image"; 
-                  position = "6 320"; 
+                  position = "6 340"; 
                   extent = "266 2"; 
                   horizSizing = "width"; 
                   profile = "ToolsGuiDefaultProfile"; 
                   tooltipProfile = "ToolsGuiToolTipProfile"; 
                }; 
                new GuiContainer(ORMConfigMapContainer) { 
-                  position = "6 325"; 
+                  position = "6 345"; 
                   extent = "261 64"; 
                   horizSizing = "width"; 
                   profile = "ToolsGuiDefaultProfile"; 
@@ -617,14 +645,14 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                }; 
                new GuiBitmapCtrl() { 
                   BitmapAsset = "ToolsModule:separator_v_image"; 
-                  position = "6 392"; 
+                  position = "6 420"; 
                   extent = "266 2"; 
                   horizSizing = "width"; 
                   profile = "ToolsGuiDefaultProfile"; 
                   tooltipProfile = "ToolsGuiToolTipProfile"; 
                }; 
                new GuiContainer(MacroMapContainer) { 
-                  position = "6 397"; 
+                  position = "6 425"; 
                   extent = "261 80"; 
                   horizSizing = "width"; 
                   profile = "ToolsGuiDefaultProfile"; 
@@ -748,7 +776,7 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                   }; 
                }; 
                new GuiContainer(TerrainEffectsContainer) { 
-                  position = "6 477"; 
+                  position = "6 510"; 
                   extent = "265 97"; 
                   horizSizing = "width"; 
                   profile = "ToolsGuiDefaultProfile"; 
@@ -761,6 +789,14 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                      horizSizing = "width"; 
                      profile = "GuiDefaultProfile"; 
                      tooltipProfile = "GuiToolTipProfile"; 
+                  }; 
+                  new GuiTextCtrl() { 
+                     text = "Effects"; 
+                     position = "2 4"; 
+                     extent = "38 18"; 
+                     profile = "EditorTextProfile"; 
+                     tooltipProfile = "ToolsGuiToolTipProfile"; 
+                     isContainer = "0"; 
                   }; 
                   new GuiTextCtrl() { 
                      text = "Effect Colors [0:1]"; 
@@ -835,21 +871,13 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
                      isContainer = "0"; 
                      internalName = "impactSoundPopup"; 
                   }; 
-                  new GuiTextCtrl() { 
-                     text = "Effects"; 
-                     position = "2 4"; 
-                     extent = "38 18"; 
-                     profile = "EditorTextProfile"; 
-                     tooltipProfile = "ToolsGuiToolTipProfile"; 
-                     isContainer = "0"; 
-                  }; 
                }; 
             }; 
          }; 
       }; 
       new GuiButtonCtrl() { 
          text = "Apply + Select"; 
-         position = "269 611"; 
+         position = "269 650"; 
          extent = "105 22"; 
          horizSizing = "left"; 
          vertSizing = "top"; 
@@ -859,7 +887,7 @@ $guiContent = new GuiControl(TerrainMaterialDlg,EditorGuiGroup) {
       }; 
       new GuiButtonCtrl() { 
          text = "Cancel"; 
-         position = "384 611"; 
+         position = "384 650"; 
          extent = "74 22"; 
          horizSizing = "left"; 
          vertSizing = "top"; 

@@ -517,11 +517,9 @@ bool afxMagicMissileData::preload(bool server, String &errorStr)
             Con::errorf(ConsoleLogEntry::General, "ProjectileData::preload: Invalid packet, bad datablockId(decal): %d", decalId);
       */
 
-      _setProjectileSound(getProjectileSound());
-      if (getProjectileSound() != StringTable->EmptyString())
+      if (!isProjectileSoundValid())
       {
-         if (!getProjectileSoundProfile())
-            Con::errorf(ConsoleLogEntry::General, "afxMagicMissileData::preload: Cant get an sfxProfile for afxMagicMissileData.");
+         //return false; -TODO: trigger asset download
       }
 
       if (!lightDesc && lightDescId != 0)

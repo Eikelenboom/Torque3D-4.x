@@ -471,11 +471,9 @@ bool PlayerData::preload(bool server, String &errorStr)
    if (!server) {
       for (U32 i = 0; i < MaxSounds; ++i)
       {
-         _setPlayerSound(getPlayerSound(i), i);
-         if (getPlayerSound(i) != StringTable->EmptyString())
+         if (!isPlayerSoundValid(i))
          {
-            if (!getPlayerSoundProfile(i))
-               Con::errorf("PlayerData::Preload() - unable to find sfxProfile for asset %d %s", i, mPlayerSoundAssetId[i]);
+            //return false; -TODO: trigger asset download
          }
       }
    }

@@ -297,19 +297,15 @@ bool LightningData::preload(bool server, String &errorStr)
    {
       for (S32 i = 0; i < MaxThunders; i++)
       {
-         _setThunderSound(getThunderSound(i), i);
-         if (isThunderSoundValid(i) && !getThunderSoundProfile(i))
+         if (!isThunderSoundValid(i))
          {
-               Con::errorf(ConsoleLogEntry::General, "LightningData::preload: Cant get an sfxProfile for thunder.");
-
+            //return false; -TODO: trigger asset download
          }
 
       }
-
-      _setStrikeSound(getStrikeSound());
-      if (isStrikeSoundValid() && !getStrikeSoundProfile())
+      if (!isStrikeSoundValid())
       {
-            Con::errorf(ConsoleLogEntry::General, "LightningData::preload: can't get sfxProfile from strike sound.");
+         //return false; -TODO: trigger asset download
       }
 
       mNumStrikeTextures = 0;
