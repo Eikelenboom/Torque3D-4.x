@@ -152,16 +152,50 @@ Resource<GFont> GFont::create(const String &faceName, U32 size, const char *cach
       return ret;
 #endif
 
-      // Couldn't load the requested font.  This probably will be common
-      // since many unix boxes don't have arial or lucida console installed.
-      // Attempt to map the font name into a font we're pretty sure exist
-      // Lucida Console is a common code & console font on windows, and
-      // Monaco is the recommended code & console font on mac.
-      if (faceName.equal("arial", String::NoCase))
-         fontName = "Helvetica";
+// MacOS and Linux added here for future use!
+// Last research to common used & system fonts done in Jan 2023 (Nils)
+
+#ifdef _MACOSX_
+      // Couldn't load the requested font on a Mac:
+      // "Open Sans" is a (widely used) font from Google and not a default MacOS/iOS system font.
+      // "Lucida Grande" is an Apple system font and safe to use as a fallback
+      if (faceName.equal("open sans", String::NoCase))
+         fontName = "Lucida Grande";
       else if (faceName.equal("lucida console", String::NoCase))
          fontName = "Monaco";
       else if (faceName.equal("monaco", String::NoCase))
+         fontName = "Courier";
+      else
+         return ret;
+
+      return create(fontName, size, cacheDirectory, charset);
+#endif
+
+#ifdef _LINUX_
+      // Couldn't load the requested font on Linux:
+      // "Open Sans" is a (widely used) font from Google and not a common Linux system font.
+      // "Nimbus" is found in most Linux distributions so fairly safe to use as 2nd option. 
+      if (faceName.equal("open sans", String::NoCase))
+         fontName = "Nimbus Sans L";
+      else if (faceName.equal("lucida console", String::NoCase))
+         fontName = "Nimbus Sans Mono";
+      else if (faceName.equal("monaco", String::NoCase))
+         fontName = "Courier";
+      else
+         return ret;
+
+      return create(fontName, size, cacheDirectory, charset);
+#endif
+
+      // Couldn't load the requested font on Windows:
+      // "Open Sans" is a (widely used) font from Google and not a default Windows system font.
+      // "Segoe UI" has been a system font since Windows 7.
+      // Since T3D is a 64 bit app these days, is it safe to use as a fallback 
+      if (faceName.equal("open sans", String::NoCase))
+         fontName = "Segoe UI";
+      else if (faceName.equal("consolas", String::NoCase))
+         fontName = "Lucida Console";
+      else if (faceName.equal("lucida console", String::NoCase))
          fontName = "Courier";
       else
          return ret;

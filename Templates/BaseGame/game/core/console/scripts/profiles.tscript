@@ -70,7 +70,7 @@ new GuiControlProfile(ConsoleTextEditProfile : GuiTextEditProfile)
 {
    opaque = true;
    border =false;
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontSize = 16;
    fontColor = "255 255 255";
    fillColorHL = "30 30 30 255";  

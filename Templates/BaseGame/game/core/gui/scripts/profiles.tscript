@@ -57,7 +57,7 @@ new GuiControlProfile (GuiDefaultProfile)
    borderColorNA = "75 75 75"; 
 
    // font
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontSize = 14;
    fontCharset = ANSI;
 
@@ -97,7 +97,7 @@ new GuiControlProfile (GuiToolTipProfile)
    borderColor   = "87 87 87";
 
    // font
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontSize = 14;
    fontColor = "200 200 200";
 
@@ -165,6 +165,7 @@ new GuiControlProfile(GuiMenuScrollProfile)
    bitmapAsset = "Core_GUI:scrollBar_image";
    hasBitmapArray = true;
    category = "Core";
+   fontSize = 15;
 };
 
 if(!isObject(GuiOverlayProfile))
@@ -185,7 +186,7 @@ new GuiControlProfile(GuiCheckBoxProfile)
    border = false;
    borderColor = "100 100 100";
    fontSize = 14;
-   fontType  = "Arial"; 
+   fontType  = "Segoe UI Regular"; 
    fontColor = "215 215 215";
    fontColorHL = "80 80 80";
    fontColorNA = "200 200 200";
@@ -219,7 +220,7 @@ if( !isObject( GuiProgressTextProfile ) )
 new GuiControlProfile( GuiProgressTextProfile )
 {
    fontSize = "14";
-   fontType = "Arial";
+   fontType = "Segoe UI Regular";
    fontColor = "0 0 0";
    justify = "center";
    category = "Core";   
