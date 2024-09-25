@@ -535,6 +535,12 @@ new GuiControlProfile( ToolsGuiIconButtonLargeProfile : ToolsGuiIconButtonProfil
 	fontType = $Gui::fontTypeMedium;
 };
 
+if( !isObject( InspectorTypeButtonProfile ) )
+new GuiControlProfile( InspectorTypeButtonProfile : ToolsGuiButtonProfile )
+{
+   category = "Tools";
+};
+
 if( !isObject( ToolsGuiEditorTabPage ) )
 new GuiControlProfile(ToolsGuiEditorTabPage)
 {
