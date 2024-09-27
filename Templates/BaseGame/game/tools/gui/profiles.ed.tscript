@@ -27,19 +27,88 @@ function execEditorProfilesCS()
 
 $Gui::clipboardFile = expandFilename("./clipboard.gui");
 
+$Gui::editorFont = EditorSettings.value("Theme/editorFont");
+$Gui::codeFont = EditorSettings.value("Theme/codeFont");
+
+// Get user's fonts location (later Windows versions)
+$Gui::localFontsPath = getEnvironment("LOCALAPPDATA") @ "/Microsoft/Windows/Fonts/";
+$Gui::winFontsPath = getEnvironment("SystemRoot") @ "/Fonts/";
+
+// Default editor font settings
 $Gui::fontTypeRegular = "Arial";
 $Gui::fontTypeLight = "Arial Light";
 $Gui::fontTypeMedium = "Arial Medium";
 $Gui::fontTypeBold = "Arial Bold";
 $Gui::fontTypeItalic = "Arial Italic";
-$Gui::fontTypeMono = "Arial";
 
+// Default codefont settings
+$Gui::fontTypeMono = "Lucida Console"; // Standard provided with Windows 7 to 11
+
+// Standard font sizes
 $GUI::fontSize[12] = 12;
 $GUI::fontSize[14] = 14;
 $GUI::fontSize[16] = 16;
 $GUI::fontSize[18] = 17;
 $GUI::fontSize[24] = 24;
 $GUI::fontSize[36] = 36;
+
+// Override with Open Sans (if available)
+if ($Gui::editorFont $= "Open Sans")
+{
+   if(isFile($Gui::localFontsPath @ "OpenSans-Regular.ttf") || isFile($Gui::winFontsPath @ "OpenSans-Regular.ttf")) 
+   {
+       $Gui::fontTypeRegular = "Open Sans";
+       $Gui::fontTypeLight = "Open Sans Light";
+       $Gui::fontTypeMedium = "Open Sans Medium";
+       $Gui::fontTypeBold = "Open Sans Bold";
+       $Gui::fontTypeItalic = "Open Sans Italic";
+       $GUI::fontSize[12] = 12;
+       $GUI::fontSize[14] = 14;
+       $GUI::fontSize[16] = 16;
+       $GUI::fontSize[18] = 18;
+       $GUI::fontSize[24] = 24;
+       $GUI::fontSize[36] = 36;
+   }
+}
+
+// Override with Sego UI (if available)
+if ($Gui::editorFont $= "Segoe UI") 
+{
+   if(isFile($Gui::localFontsPath @ "segoeui.ttf") || isFile($Gui::winFontsPath @ "segoeui.ttf"))
+   {
+       $Gui::fontTypeRegular = "Segoe UI";
+       $Gui::fontTypeLight = "Segoe UI Semilight";
+       $Gui::fontTypeMedium = "Segoe UI Regular";
+       $Gui::fontTypeBold = "Segoe UI Bold";
+       $Gui::fontTypeItalic = "Segoe UI Italic";
+       $GUI::fontSize[12] = 12;
+       $GUI::fontSize[14] = 14;
+       $GUI::fontSize[16] = 16;
+       $GUI::fontSize[18] = 18;
+       $GUI::fontSize[24] = 24;
+       $GUI::fontSize[36] = 36;
+   }
+}
+
+// Override with Cascadia Code (if available)
+if ($Gui::codeFont $= "Cascadia Code")
+{
+   if(isFile($Gui::localFontsPath @ "CascadiaCode.ttf") || isFile($Gui::winFontsPath @ "CascadiaCode.ttf")) 
+   {
+      // This font is provided with Visual Studio and Visual Studio Code.
+      $Gui::fontTypeMono = "Cascadia Code";
+   }
+}
+
+// Override with Cascadia Code (if available)
+if ($Gui::codeFont $= "Consolas")
+{
+   if(isFile($Gui::localFontsPath @ "consola.ttf") || isFile($Gui::winFontsPath @ "consola.ttf")) 
+   {
+      // This font is standard provided with Windows 7 to 11
+      $Gui::fontTypeMono = "Consolas";
+   }
+}
 
 if( !isObject( ToolsGuiDefaultProfile ) )
 new GuiControlProfile (ToolsGuiDefaultProfile)
@@ -934,6 +1003,7 @@ new GuiControlProfile( ToolsGuiFormProfile : ToolsGuiTextProfile )
 
 // ----------------------------------------------------------------------------
 
+if( !isObject( GuiBackFillProfile ) )
 singleton GuiControlProfile( GuiBackFillProfile )
 {
    opaque = true;
@@ -949,6 +1019,7 @@ singleton GuiControlProfile( GuiBackFillProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiDarkFillProfile ) )
 singleton GuiControlProfile( GuiDarkFillProfile )
 {
    opaque = true;
@@ -957,6 +1028,7 @@ singleton GuiControlProfile( GuiDarkFillProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiShaderEditorProfile ) )
 singleton GuiControlProfile(GuiShaderEditorProfile : ToolsGuiDefaultProfile)
 {
    opaque = true;
@@ -967,6 +1039,7 @@ singleton GuiControlProfile(GuiShaderEditorProfile : ToolsGuiDefaultProfile)
    borderColorSEL = "128 0 128 128";
 };
 
+if( !isObject( GuiControlListPopupProfile ) )
 singleton GuiControlProfile( GuiControlListPopupProfile )
 {
    opaque = true;
@@ -987,6 +1060,7 @@ singleton GuiControlProfile( GuiControlListPopupProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiSceneGraphEditProfile ) )
 singleton GuiControlProfile( GuiSceneGraphEditProfile )
 {
    canKeyFocus = true;
@@ -994,6 +1068,7 @@ singleton GuiControlProfile( GuiSceneGraphEditProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorButtonProfile ) )
 singleton GuiControlProfile( GuiInspectorButtonProfile : ToolsGuiButtonProfile )
 {
    //border = 1;
@@ -1001,6 +1076,7 @@ singleton GuiControlProfile( GuiInspectorButtonProfile : ToolsGuiButtonProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorSwatchButtonProfile ) )
 singleton GuiControlProfile( GuiInspectorSwatchButtonProfile )
 {
    borderColor = EditorSettings.value("Theme/dividerDarkColor");
@@ -1010,6 +1086,7 @@ singleton GuiControlProfile( GuiInspectorSwatchButtonProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorTextEditProfile ) )
 singleton GuiControlProfile( GuiInspectorTextEditProfile )
 {
    // Transparent Background
@@ -1035,11 +1112,15 @@ singleton GuiControlProfile( GuiInspectorTextEditProfile )
    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
    category = "Editor";
 };
+
+if( !isObject( GuiDropdownTextEditProfile ) )
 singleton GuiControlProfile( GuiDropdownTextEditProfile :  ToolsGuiTextEditProfile )
 {
    bitmapAsset = "ToolsModule:dropdown_textEdit_image";
    category = "Editor";
 };
+
+if( !isObject( GuiInspectorTextEditRightProfile ) )
 singleton GuiControlProfile( GuiInspectorTextEditRightProfile : GuiInspectorTextEditProfile )
 {
    justify = "right";
@@ -1047,6 +1128,7 @@ singleton GuiControlProfile( GuiInspectorTextEditRightProfile : GuiInspectorText
 };
 
 //Scene Tree GUI Inspector Dropdown menus
+if( !isObject( GuiInspectorGroupProfile ) )
 singleton GuiControlProfile( GuiInspectorGroupProfile )
 {
    fontType = $Gui::fontTypeRegular;
@@ -1066,6 +1148,7 @@ singleton GuiControlProfile( GuiInspectorGroupProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorFieldProfile ) )
 singleton GuiControlProfile( GuiInspectorFieldProfile)
 {
    // fill color
@@ -1106,12 +1189,14 @@ singleton GuiControlProfile( GuiInspectorMultiFieldProfile : GuiInspectorFieldPr
 };
 */
 
+if( !isObject( GuiInspectorMultiFieldDifferentProfile ) )
 singleton GuiControlProfile( GuiInspectorMultiFieldDifferentProfile : GuiInspectorFieldProfile )
 {
    border = true;
    borderColor = EditorSettings.value("Theme/dividerMidColor");
 };
 
+if( !isObject( GuiInspectorDynamicFieldProfile ) )
 singleton GuiControlProfile( GuiInspectorDynamicFieldProfile : GuiInspectorFieldProfile )
 {
    // Transparent Background
@@ -1136,6 +1221,7 @@ singleton GuiControlProfile( GuiInspectorDynamicFieldProfile : GuiInspectorField
    category = "Editor";
 };
 
+if( !isObject( GuiRolloutProfile ) )
 singleton GuiControlProfile( GuiRolloutProfile )
 {
    border = 0;
@@ -1152,6 +1238,7 @@ singleton GuiControlProfile( GuiRolloutProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorRolloutProfile0 ) )
 singleton GuiControlProfile( GuiInspectorRolloutProfile0 )
 {
    // font
@@ -1176,6 +1263,7 @@ singleton GuiControlProfile( GuiInspectorRolloutProfile0 )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorRolloutProfile1 ) )
 singleton GuiControlProfile( GuiInspectorRolloutProfile1 )
 {
    // font
@@ -1200,6 +1288,7 @@ singleton GuiControlProfile( GuiInspectorRolloutProfile1 )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorStackProfile  ) )
 singleton GuiControlProfile( GuiInspectorStackProfile )
 {
    opaque = false;
@@ -1214,6 +1303,7 @@ singleton GuiControlProfile( GuiInspectorStackProfile )
    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
 };
 
+if( !isObject( GuiInspectorProfile  ) )
 singleton GuiControlProfile( GuiInspectorProfile  : GuiInspectorFieldProfile )
 {
    opaque = true;
@@ -1223,6 +1313,8 @@ singleton GuiControlProfile( GuiInspectorProfile  : GuiInspectorFieldProfile )
    tab = true;
    category = "Editor";
 };
+
+if( !isObject( GuiInspectorInfoProfile ) )
 singleton GuiControlProfile( GuiInspectorInfoProfile  : GuiInspectorFieldProfile )
 {
    opaque = true;
@@ -1233,6 +1325,7 @@ singleton GuiControlProfile( GuiInspectorInfoProfile  : GuiInspectorFieldProfile
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorBackgroundProfile ) )
 singleton GuiControlProfile( GuiInspectorBackgroundProfile : GuiInspectorFieldProfile )
 {
    border = 0;
@@ -1241,6 +1334,7 @@ singleton GuiControlProfile( GuiInspectorBackgroundProfile : GuiInspectorFieldPr
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorTypeFileNameProfile ) )
 singleton GuiControlProfile( GuiInspectorTypeFileNameProfile )
 {
    // Transparent Background
@@ -1273,6 +1367,7 @@ singleton GuiControlProfile( GuiInspectorTypeFileNameProfile )
    category = "Editor";
 };
 
+if( !isObject( GuiInspectorColumnCtrlProfile) )
 singleton GuiControlProfile( GuiInspectorColumnCtrlProfile : GuiInspectorFieldProfile )
 {
    opaque = true;
@@ -1281,6 +1376,7 @@ singleton GuiControlProfile( GuiInspectorColumnCtrlProfile : GuiInspectorFieldPr
    category = "Editor";
 };
 
+if( !isObject( InspectorTypeEnumProfile) )
 singleton GuiControlProfile( InspectorTypeEnumProfile : GuiInspectorFieldProfile )
 {
    mouseOverSelected = true;
@@ -1292,6 +1388,7 @@ singleton GuiControlProfile( InspectorTypeEnumProfile : GuiInspectorFieldProfile
    category = "Editor";
 };
 
+if( !isObject( InspectorTypeCheckboxProfile ) )
 singleton GuiControlProfile( InspectorTypeCheckboxProfile : GuiInspectorFieldProfile )
 {
    bitmapAsset = "ToolsModule:checkBox_image";
@@ -1302,241 +1399,223 @@ singleton GuiControlProfile( InspectorTypeCheckboxProfile : GuiInspectorFieldPro
    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiToolboxButtonProfile : ToolsGuiButtonProfile )
-{
-   justify = "center";
-   fontColor = EditorSettings.value("Theme/fieldTextColor");
-   border = 0;
-   textOffset = "0 0";   
-   category = "Editor";
+if (!isObject(GuiToolboxButtonProfile))
+singleton GuiControlProfile(GuiToolboxButtonProfile : ToolsGuiButtonProfile) {
+    justify = "center";
+    fontColor = EditorSettings.value("Theme/fieldTextColor");
+    border = 0;
+    textOffset = "0 0";
+    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiDirectoryTreeProfile : ToolsGuiTreeViewProfile )
-{
-   fontColor = EditorSettings.value("Theme/fieldTextColor");
-   fontColorSEL= EditorSettings.value("Theme/fieldTextSELColor"); 
-   fillColorHL = EditorSettings.value("Theme/fieldBGColor");
-   fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
-   fontType = $Gui::fontTypeRegular;
-   fontSize = $GUI::fontSize[16];
-   category = "Editor";
+if (!isObject(GuiDirectoryTreeProfile))
+singleton GuiControlProfile(GuiDirectoryTreeProfile : ToolsGuiTreeViewProfile) {
+    fontColor = EditorSettings.value("Theme/fieldTextColor");
+    fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
+    fillColorHL = EditorSettings.value("Theme/fieldBGColor");
+    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
+    fontType = $Gui::fontTypeRegular;
+    fontSize = $GUI::fontSize[16];
+    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiDirectoryFileListProfile )
-{
-   fontColor = EditorSettings.value("Theme/fieldTextColor");
-   fontColorSEL= EditorSettings.value("Theme/fieldTextSELColor"); 
-   fillColorHL = EditorSettings.value("Theme/fieldBGColor");
-   fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
-   fontType = $Gui::fontTypeRegular;
-   fontSize = $GUI::fontSize[16];
-   category = "Editor";
+if (!isObject(GuiDirectoryFileListProfile))
+singleton GuiControlProfile(GuiDirectoryFileListProfile) {
+    fontColor = EditorSettings.value("Theme/fieldTextColor");
+    fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
+    fillColorHL = EditorSettings.value("Theme/fieldBGColor");
+    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
+    fontType = $Gui::fontTypeRegular;
+    fontSize = $GUI::fontSize[16];
+    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiDragAndDropProfile )
-{
-   category = "Editor";
+if (!isObject(GuiDragAndDropProfile))
+singleton GuiControlProfile(GuiDragAndDropProfile) {
+    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiInspectorFieldInfoPaneProfile )
-{
-   opaque = false;
-   fillcolor = GuiInspectorBackgroundProfile.fillColor;
-   borderColor = ToolsGuiDefaultProfile.borderColor;
-   border = 1;
-   category = "Editor";
+if (!isObject(GuiInspectorFieldInfoPaneProfile))
+singleton GuiControlProfile(GuiInspectorFieldInfoPaneProfile) {
+    opaque = false;
+    fillcolor = GuiInspectorBackgroundProfile.fillColor;
+    borderColor = ToolsGuiDefaultProfile.borderColor;
+    border = 1;
+    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiInspectorFieldInfoMLTextProfile : ToolsGuiMLTextProfile )
-{
-   opaque = false;   
-   border = 0;   
-   textOffset = "5 0";
-   category = "Editor";
-   
-   fontColor = EditorSettings.value("Theme/fieldTextColor");
-   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
-   fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
+if (!isObject(GuiInspectorFieldInfoMLTextProfile))
+singleton GuiControlProfile(GuiInspectorFieldInfoMLTextProfile : ToolsGuiMLTextProfile) {
+    opaque = false;
+    border = 0;
+    textOffset = "5 0";
+    category = "Editor";
+    fontColor = EditorSettings.value("Theme/fieldTextColor");
+    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+    fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
 };
 
-singleton GuiControlProfile( GuiEditorScrollProfile )
-{
-   opaque = true;
-   fillcolor = EditorSettings.value("Theme/windowBackgroundColor");
-   borderColor = EditorSettings.value("Theme/dividerDarkColor");
-   border = 1;
-   bitmapAsset = "ToolsModule:scrollBar_image";
-   hasBitmapArray = true;
-   category = "Editor";
+if (!isObject(GuiEditorScrollProfile))
+singleton GuiControlProfile(GuiEditorScrollProfile) {
+    opaque = true;
+    fillcolor = EditorSettings.value("Theme/windowBackgroundColor");
+    borderColor = EditorSettings.value("Theme/dividerDarkColor");
+    border = 1;
+    bitmapAsset = "ToolsModule:scrollBar_image";
+    hasBitmapArray = true;
+    category = "Editor";
 };
 
-singleton GuiControlProfile( GuiCreatorIconButtonProfile )
-{
-   opaque = true;       
-   fillColor = EditorSettings.value("Theme/tabsColor");
-   fillColorHL = EditorSettings.value("Theme/tabsHLColor");
-   fillColorSEL = EditorSettings.value("Theme/tabsSELColor");
-   fillColorNA = EditorSettings.value("Theme/tabsSELColor");
-      
-   //tab = true;
-   //canKeyFocus = true;
-
-   fontType = $Gui::fontTypeBold;
-   fontSize = $GUI::fontSize[18];
-
-   fontColor = EditorSettings.value("Theme/fieldTextColor");
-   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
-   fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
-   fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
-   
-   border = 1;
-   borderColor   = EditorSettings.value("Theme/dividerMidColor");
-   borderColorHL = EditorSettings.value("Theme/dividerLightColor");
-   borderColorNA = EditorSettings.value("Theme/dividerDarkColor");
-   
-   //bevelColorHL = "255 255 255";
-   //bevelColorLL = "0 0 0";
-   category = "Editor";
+if (!isObject(GuiCreatorIconButtonProfile))
+singleton GuiControlProfile(GuiCreatorIconButtonProfile) {
+    opaque = true;
+    fillColor = EditorSettings.value("Theme/tabsColor");
+    fillColorHL = EditorSettings.value("Theme/tabsHLColor");
+    fillColorSEL = EditorSettings.value("Theme/tabsSELColor");
+    fillColorNA = EditorSettings.value("Theme/tabsSELColor");
+    fontType = $Gui::fontTypeBold;
+    fontSize = $GUI::fontSize[18];
+    fontColor = EditorSettings.value("Theme/fieldTextColor");
+    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+    fontColorNA = EditorSettings.value("Theme/fieldTextSELColor");
+    fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
+    border = 1;
+    borderColor = EditorSettings.value("Theme/dividerMidColor");
+    borderColorHL = EditorSettings.value("Theme/dividerLightColor");
+    borderColorNA = EditorSettings.value("Theme/dividerDarkColor");
+    category = "Editor";
 };
 
-singleton GuiControlProfile( ToolsGuiMenuBarProfile )
-{
-   fillColor = EditorSettings.value("Theme/headerColor");
-   fillcolorHL = EditorSettings.value("Theme/tabsSELColor");
-   borderColor = EditorSettings.value("Theme/dividerDarkColor");
-   borderColorHL = EditorSettings.value("Theme/dividerMidColor");
-   fontColor = EditorSettings.value("Theme/headerTextColor");
-   fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
-   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
-   fontColorNA = EditorSettings.value("Theme/fieldTextNAColor");
-   border = 1;
-   borderThickness = 1;
-   opaque = true;
-   mouseOverSelected = true;
-   category = "Editor";
-   bitmapAsset = "ToolsModule:checkbox_menubar_image";
-   fontSize = $GUI::fontSize[18];
-   fontType = $Gui::fontTypeRegular;
+if (!isObject(ToolsGuiMenuBarProfile))
+singleton GuiControlProfile(ToolsGuiMenuBarProfile) {
+    fillColor = EditorSettings.value("Theme/headerColor");
+    fillcolorHL = EditorSettings.value("Theme/tabsSELColor");
+    borderColor = EditorSettings.value("Theme/dividerDarkColor");
+    borderColorHL = EditorSettings.value("Theme/dividerMidColor");
+    fontColor = EditorSettings.value("Theme/headerTextColor");
+    fontColorSEL = EditorSettings.value("Theme/fieldTextSELColor");
+    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+    fontColorNA = EditorSettings.value("Theme/fieldTextNAColor");
+    border = 1;
+    borderThickness = 1;
+    opaque = true;
+    mouseOverSelected = true;
+    category = "Editor";
+    bitmapAsset = "ToolsModule:checkbox_menubar_image";
+    fontSize = $GUI::fontSize[18];
+    fontType = $Gui::fontTypeRegular;
 };
 
-singleton GuiControlProfile( ToolsMenubarProfile : ToolsGuiDefaultProfile ) 
-{
-   bitmap = "./menubar";
-   category = "Editor";
-   
-   opaque = true;
-   border = false;
-   
-   fillColor = EditorSettings.value("Theme/headerColor");
-   fontColor = EditorSettings.value("Theme/headerTextColor");
-   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
-   borderColor = EditorSettings.value("Theme/dividerDarkColor");
+if (!isObject(ToolsMenubarProfile))
+singleton GuiControlProfile(ToolsMenubarProfile : ToolsGuiDefaultProfile) {
+    bitmap = "./menubar";
+    category = "Editor";
+    opaque = true;
+    border = false;
+    fillColor = EditorSettings.value("Theme/headerColor");
+    fontColor = EditorSettings.value("Theme/headerTextColor");
+    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+    borderColor = EditorSettings.value("Theme/dividerDarkColor");
 };
 
-singleton GuiControlProfile (menubarProfile) 
-{
-   opaque = false;
-   border = -2;
-   category = "Editor";
-   
-   bitmap = "./menubar";
-   category = "Editor";
-   
-   fillColor = EditorSettings.value("Theme/windowBackgroundColor");
-   fontColor = EditorSettings.value("Theme/headerTextColor");
-   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
-   borderColor = EditorSettings.value("Theme/dividerDarkColor");
-   fontSize = 15;
+if (!isObject(menubarProfile))
+singleton GuiControlProfile(menubarProfile) {
+    opaque = false;
+    border = -2;
+    category = "Editor";
+    bitmap = "./menubar";
+    fillColor = EditorSettings.value("Theme/windowBackgroundColor");
+    fontColor = EditorSettings.value("Theme/headerTextColor");
+    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+    borderColor = EditorSettings.value("Theme/dividerDarkColor");
+    fontSize = 15;
 };
 
-singleton GuiControlProfile (editorMenubarProfile) 
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./editor-menubar";
-   category = "Editor";
-};
-singleton GuiControlProfile (editorMenu_wBorderProfile) 
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./menu-fullborder";
-   category = "Editor";
-};
-singleton GuiControlProfile (inspectorStyleRolloutProfile) 
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./inspector-style-rollout";
-   category = "Editor";
-};
-singleton GuiControlProfile (inspectorStyleRolloutListProfile) 
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./inspector-style-rollout-list";
-   category = "Editor";
-};
-singleton GuiControlProfile (inspectorStyleRolloutDarkProfile) 
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./inspector-style-rollout-dark";
-   
-   fillColor = EditorSettings.value("Theme/windowBackgroundColor");
-   fontColor = EditorSettings.value("Theme/headerTextColor");
-   fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
-   borderColor = EditorSettings.value("Theme/dividerDarkColor");
-};
-singleton GuiControlProfile (inspectorStyleRolloutInnerProfile) 
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./inspector-style-rollout_inner";
-   category = "Editor";
-};
-singleton GuiControlProfile (inspectorStyleRolloutNoHeaderProfile)
-{
-   border = -2;
-   category = "Editor";
-   bitmap = "./inspector-style-rollout-noheader";
-   category = "Editor";
-};
-singleton GuiControlProfile (IconDropdownProfile) 
-{
-   border = -2;
-   opaque = true;
-   border = true;
-   category = "Editor";
-   //bitmap = "./icon-dropdownbar";
-   
-   fillColor = EditorSettings.value("Theme/headerColor");
+if (!isObject(editorMenubarProfile))
+singleton GuiControlProfile(editorMenubarProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./editor-menubar";
 };
 
-//
-singleton GuiControlProfile (GuiSimpleBorderProfile)
-{
-   opaque = false;   
-   border = 1;   
-   category = "Editor";
+if (!isObject(editorMenu_wBorderProfile))
+singleton GuiControlProfile(editorMenu_wBorderProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./menu-fullborder";
 };
 
-singleton GuiControlProfile (GuiDisabledTextEditProfile)
-{
-   opaque = false;   
-   border = 0;
-   bitmapAsset = "ToolsModule:textEdit_image";
-   borderColor = "255 255 255 200";
-   fontColor = "0 0 0";
-   fontColorHL = "255 255 255";
-   fontColorNA = "128 128 128";
-   textOffset = "4 2";
-   autoSizeWidth = false;
-   autoSizeHeight = false;
-   tab = false;
-   canKeyFocus = false;   
-   category = "Editor";
+if (!isObject(inspectorStyleRolloutProfile))
+singleton GuiControlProfile(inspectorStyleRolloutProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./inspector-style-rollout";
 };
+
+if (!isObject(inspectorStyleRolloutListProfile))
+singleton GuiControlProfile(inspectorStyleRolloutListProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./inspector-style-rollout-list";
+};
+
+if (!isObject(inspectorStyleRolloutDarkProfile))
+singleton GuiControlProfile(inspectorStyleRolloutDarkProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./inspector-style-rollout-dark";
+    fillColor = EditorSettings.value("Theme/windowBackgroundColor");
+    fontColor = EditorSettings.value("Theme/headerTextColor");
+    fontColorHL = EditorSettings.value("Theme/fieldTextHLColor");
+    borderColor = EditorSettings.value("Theme/dividerDarkColor");
+};
+
+if (!isObject(inspectorStyleRolloutInnerProfile))
+singleton GuiControlProfile(inspectorStyleRolloutInnerProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./inspector-style-rollout_inner";
+};
+
+if (!isObject(inspectorStyleRolloutNoHeaderProfile))
+singleton GuiControlProfile(inspectorStyleRolloutNoHeaderProfile) {
+    border = -2;
+    category = "Editor";
+    bitmap = "./inspector-style-rollout-noheader";
+};
+
+if (!isObject(IconDropdownProfile))
+singleton GuiControlProfile(IconDropdownProfile) {
+    border = true;
+    opaque = true;
+    category = "Editor";
+    fillColor = EditorSettings.value("Theme/headerColor");
+};
+
+if (!isObject(GuiSimpleBorderProfile))
+singleton GuiControlProfile(GuiSimpleBorderProfile) {
+    opaque = false;
+    border = 1;
+    category = "Editor";
+};
+
+if (!isObject(GuiDisabledTextEditProfile))
+singleton GuiControlProfile(GuiDisabledTextEditProfile) {
+    opaque = false;
+    border = 0;
+    bitmapAsset = "ToolsModule:textEdit_image";
+    borderColor = "255 255 255 200";
+    fontColor = "0 0 0";
+    fontColorHL = "255 255 255";
+    fontColorNA = "128 128 128";
+    textOffset = "4 2";
+    autoSizeWidth = false;
+    autoSizeHeight = false;
+    tab = false;
+    canKeyFocus = false;
+    category = "Editor";
+};
+
 // -----------------------------------------------------------------------------
 if(!isObject(ToolsGuiConsoleProfile))
 new GuiControlProfile(ToolsGuiConsoleProfile)
@@ -1612,4 +1691,5 @@ new GuiControlProfile(ToolsConsoleTextEditProfile : ToolsGuiTextEditProfile)
    cursorColor = "255 255 255";  
    category = "Tools";
 };
+
 // -----------------------------------------------------------------------------
