@@ -35,11 +35,12 @@ $Gui::localFontsPath = getEnvironment("LOCALAPPDATA") @ "/Microsoft/Windows/Font
 $Gui::winFontsPath = getEnvironment("SystemRoot") @ "/Fonts/";
 
 // Default editor font settings
-$Gui::fontTypeRegular = "Arial";
-$Gui::fontTypeLight = "Arial Light";
-$Gui::fontTypeMedium = "Arial Medium";
-$Gui::fontTypeBold = "Arial Bold";
-$Gui::fontTypeItalic = "Arial Italic";
+// Segoe is standard provided with Windows Vista to 11
+$Gui::fontTypeRegular = "Segoe UI";
+$Gui::fontTypeLight = "Segoe UI Semilight";
+$Gui::fontTypeMedium = "Segoe UI Regular";
+$Gui::fontTypeBold = "Segoe UI Bold";
+$Gui::fontTypeItalic = "Segoe UI Italic";
 
 // Default codefont settings
 $Gui::fontTypeMono = "Lucida Console"; // Standard provided with Windows 7 to 11
@@ -53,6 +54,7 @@ $GUI::fontSize[24] = 24;
 $GUI::fontSize[36] = 36;
 
 // Override with Open Sans (if available)
+// Open Sans is an Open Source UI font with Apache License
 if ($Gui::editorFont $= "Open Sans")
 {
    if(isFile($Gui::localFontsPath @ "OpenSans-Regular.ttf") || isFile($Gui::winFontsPath @ "OpenSans-Regular.ttf")) 
@@ -71,16 +73,16 @@ if ($Gui::editorFont $= "Open Sans")
    }
 }
 
-// Override with Sego UI (if available)
-if ($Gui::editorFont $= "Segoe UI") 
+// Override with Arial (if available)
+if ($Gui::editorFont $= "Arial") 
 {
-   if(isFile($Gui::localFontsPath @ "segoeui.ttf") || isFile($Gui::winFontsPath @ "segoeui.ttf"))
+   if(isFile($Gui::localFontsPath @ "Arial.ttf") || isFile($Gui::winFontsPath @ "Arial.ttf"))
    {
-       $Gui::fontTypeRegular = "Segoe UI";
-       $Gui::fontTypeLight = "Segoe UI Semilight";
-       $Gui::fontTypeMedium = "Segoe UI Regular";
-       $Gui::fontTypeBold = "Segoe UI Bold";
-       $Gui::fontTypeItalic = "Segoe UI Italic";
+       $Gui::fontTypeRegular = "Arial";
+       $Gui::fontTypeLight = "Arial";
+       $Gui::fontTypeMedium = "Arial";
+       $Gui::fontTypeBold = "Arial Bold";
+       $Gui::fontTypeItalic = "Arial Italic";
        $GUI::fontSize[12] = 12;
        $GUI::fontSize[14] = 14;
        $GUI::fontSize[16] = 16;
@@ -100,7 +102,7 @@ if ($Gui::codeFont $= "Cascadia Code")
    }
 }
 
-// Override with Cascadia Code (if available)
+// Override with Consolas Code (if available)
 if ($Gui::codeFont $= "Consolas")
 {
    if(isFile($Gui::localFontsPath @ "consola.ttf") || isFile($Gui::winFontsPath @ "consola.ttf")) 
@@ -109,6 +111,7 @@ if ($Gui::codeFont $= "Consolas")
       $Gui::fontTypeMono = "Consolas";
    }
 }
+
 
 if( !isObject( ToolsGuiDefaultProfile ) )
 new GuiControlProfile (ToolsGuiDefaultProfile)
